@@ -30,13 +30,13 @@ namespace UnitsNet
         /// <param name="amount">The amount of substance unit (N).</param>
         /// <param name="luminousIntensity">The luminous intensity unit (J).</param>
         public BaseUnits(
-            LengthUnit? length = null,
-            MassUnit? mass = null,
-            DurationUnit? time = null,
-            ElectricCurrentUnit? current = null,
-            TemperatureUnit? temperature = null,
-            AmountOfSubstanceUnit? amount = null,
-            LuminousIntensityUnit? luminousIntensity = null)
+            Enum? length = null,
+            Enum? mass = null,
+            Enum? time = null,
+            Enum? current = null,
+            Enum? temperature = null,
+            Enum? amount = null,
+            Enum? luminousIntensity = null)
         {
             Length = length;
             Mass = mass;
@@ -71,13 +71,13 @@ namespace UnitsNet
             if (other is null)
                 return false;
 
-            return Length == other.Length &&
-                Mass == other.Mass &&
-                Time == other.Time &&
-                Current == other.Current &&
-                Temperature == other.Temperature &&
-                Amount == other.Amount &&
-                LuminousIntensity == other.LuminousIntensity;
+            return Equals(Length, other.Length) &&
+                Equals(Mass, other.Mass) &&
+                Equals(Time, other.Time) &&
+                Equals(Current, other.Current) &&
+                Equals(Temperature, other.Temperature) &&
+                Equals(Amount, other.Amount) &&
+                Equals(LuminousIntensity, other.LuminousIntensity);
         }
 
         /// <summary>
@@ -95,13 +95,13 @@ namespace UnitsNet
             if (Equals(Undefined))
                 return other.Equals(Undefined);
 
-            return (Length == null || Length == other.Length) &&
-                (Mass == null || Mass == other.Mass) &&
-                (Time == null || Time == other.Time) &&
-                (Current == null || Current == other.Current) &&
-                (Temperature == null || Temperature == other.Temperature) &&
-                (Amount == null || Amount == other.Amount) &&
-                (LuminousIntensity == null || LuminousIntensity == other.LuminousIntensity);
+            return (Length == null || Equals(Length, other.Length)) &&
+                (Mass == null || Equals(Mass, other.Mass)) &&
+                (Time == null || Equals(Time, other.Time)) &&
+                (Current == null || Equals(Current, other.Current)) &&
+                (Temperature == null || Equals(Temperature, other.Temperature)) &&
+                (Amount == null || Equals(Amount, other.Amount)) &&
+                (LuminousIntensity == null || Equals(LuminousIntensity, other.LuminousIntensity));
         }
 
         /// <inheritdoc />
@@ -139,7 +139,7 @@ namespace UnitsNet
         {
             var sb = new StringBuilder();
 
-            string GetDefaultAbbreviation<TUnitType>(TUnitType? unitOrNull) where TUnitType : struct, Enum => unitOrNull is { } unit
+            string GetDefaultAbbreviation(Enum? unitOrNull) => unitOrNull is { } unit
                 ? UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit)
                 : "N/A";
 
@@ -157,37 +157,37 @@ namespace UnitsNet
         /// <summary>
         /// Gets the length unit (L).
         /// </summary>
-        public LengthUnit? Length { get; }
+        public Enum? Length { get; }
 
         /// <summary>
         /// Gets the mass unit (M).
         /// </summary>
-        public MassUnit? Mass{ get; }
+        public Enum? Mass{ get; }
 
         /// <summary>
         /// Gets the time unit (T).
         /// </summary>
-        public DurationUnit? Time{ get; }
+        public Enum? Time{ get; }
 
         /// <summary>
         /// Gets the electric current unit (I).
         /// </summary>
-        public ElectricCurrentUnit? Current{ get; }
+        public Enum? Current{ get; }
 
         /// <summary>
         /// Gets the temperature unit (Θ).
         /// </summary>
-        public TemperatureUnit? Temperature{ get; }
+        public Enum? Temperature{ get; }
 
         /// <summary>
         /// Gets the amount of substance unit (N).
         /// </summary>
-        public AmountOfSubstanceUnit? Amount{ get; }
+        public Enum? Amount{ get; }
 
         /// <summary>
         /// Gets the luminous intensity unit (J).
         /// </summary>
-        public LuminousIntensityUnit? LuminousIntensity{ get; }
+        public Enum? LuminousIntensity{ get; }
 
         /// <summary>
         /// Gets whether or not all of the base units are defined.

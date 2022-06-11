@@ -46,6 +46,10 @@ EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitsNet.Core", "UnitsNet.Core\UnitsNet.Core.csproj", "{BAB52BC4-D90E-4FFB-98F9-3BDB5BF83B99}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitsNet.Length", "UnitsNet\UnitsNet.Length\UnitsNet.Length.csproj", "{6F9F6816-D724-4ADA-AAB2-AF9A3B993342}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitsNet.Duration", "UnitsNet\UnitsNet.Duration\UnitsNet.Duration.csproj", "{7111F808-4468-453F-92F8-B5753922536D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -92,6 +96,14 @@ Global
 		{BAB52BC4-D90E-4FFB-98F9-3BDB5BF83B99}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BAB52BC4-D90E-4FFB-98F9-3BDB5BF83B99}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BAB52BC4-D90E-4FFB-98F9-3BDB5BF83B99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F9F6816-D724-4ADA-AAB2-AF9A3B993342}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F9F6816-D724-4ADA-AAB2-AF9A3B993342}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F9F6816-D724-4ADA-AAB2-AF9A3B993342}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F9F6816-D724-4ADA-AAB2-AF9A3B993342}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7111F808-4468-453F-92F8-B5753922536D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7111F808-4468-453F-92F8-B5753922536D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7111F808-4468-453F-92F8-B5753922536D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7111F808-4468-453F-92F8-B5753922536D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
