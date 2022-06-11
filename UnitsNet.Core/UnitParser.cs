@@ -4,7 +4,6 @@
 using System;
 using System.Globalization;
 using System.Linq;
-using UnitsNet.Units;
 
 // ReSharper disable once CheckNamespace
 namespace UnitsNet
@@ -56,12 +55,12 @@ namespace UnitsNet
         ///     <paramref name="unitType" />.
         /// </summary>
         /// <param name="unitAbbreviation">
-        ///     Unit abbreviation, such as "kg" or "m" for <see cref="MassUnit.Kilogram" /> and
-        ///     <see cref="LengthUnit.Meter" /> respectively.
+        ///     Unit abbreviation, such as "kg" or "m" for MassUnit.Kilogram and
+        ///     LengthUnit.Meter respectively.
         /// </param>
-        /// <param name="unitType">Unit enum type, such as <see cref="MassUnit" /> and <see cref="LengthUnit" />.</param>
+        /// <param name="unitType">Unit enum type, such as MassUnit and LengthUnit.</param>
         /// <param name="formatProvider">The format provider to use for lookup. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
-        /// <returns>Unit enum value, such as <see cref="MassUnit.Kilogram" />.</returns>
+        /// <returns>Unit enum value, such as MassUnit.Kilogram.</returns>
         /// <exception cref="UnitNotFoundException">No units match the abbreviation.</exception>
         /// <exception cref="AmbiguousUnitParseException">More than one unit matches the abbreviation.</exception>
         public Enum Parse(string? unitAbbreviation, Type unitType, IFormatProvider? formatProvider = null)

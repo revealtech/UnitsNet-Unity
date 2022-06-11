@@ -1,11 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
+
   <!-- NuGet properties -->
   <PropertyGroup>
-    <PackageId>UnitsNet</PackageId>
+    <PackageId>UnitsNet.Core</PackageId>
     <Version>5.0.0-alpha006</Version>
     <Authors>Andreas Gullberg Larsen</Authors>
-    <Title>Units.NET</Title>
-    <Description>Get all the common units of measurement and the conversions between them. It is light-weight and thoroughly tested.</Description>
+    <Title>Units.NET - Core</Title>
+    <Description>Common types and abstractions that are required for the UnitsNet packages that adds quantities and units.</Description>
     <Copyright>Copyright 2013 Andreas Gullberg Larsen (andreas.larsen84@gmail.com).</Copyright>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <RepositoryUrl>https://github.com/angularsen/UnitsNet</RepositoryUrl>
@@ -47,23 +48,14 @@
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
   </ItemGroup>
 
-  <!-- Link in common unit definition .json files -->
-  <ItemGroup>
-    <None Include="..\Common\**\*">
-      <Link>Common\%(RecursiveDir)%(Filename)%(Extension)</Link>
-    </None>
-  </ItemGroup>
-
   <!-- Files to include in nuget package -->
   <ItemGroup>
     <None Include="../Docs/Images/logo-32.png" Pack="true" PackagePath="/" />
     <None Include="../README.md" Pack="true" PackagePath="/" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\UnitsNet.Core\UnitsNet.Core.csproj" />
+    <Folder Include="GeneratedCode" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CustomCode\Quantities" />
-  </ItemGroup>
+
 
 </Project>

@@ -3,7 +3,6 @@
 
 using System;
 using System.Globalization;
-using UnitsNet.Units;
 
 namespace UnitsNet
 {
@@ -25,18 +24,10 @@ namespace UnitsNet
         /// <summary>
         ///     Gets the value in the given unit.
         /// </summary>
-        /// <param name="unit">The unit enum value. The unit must be compatible, so for <see cref="Length"/> you should provide a <see cref="LengthUnit"/> value.</param>
+        /// <param name="unit">The unit enum value. The unit must be compatible, so for Length you should provide a LengthUnit value.</param>
         /// <returns>Value converted to the specified unit.</returns>
         /// <exception cref="InvalidCastException">Wrong unit enum type was given.</exception>
         double As(Enum unit);
-
-        /// <summary>
-        ///     Gets the value in the unit determined by the given <see cref="UnitSystem"/>. If multiple units were found for the given <see cref="UnitSystem"/>,
-        ///     the first match will be used.
-        /// </summary>
-        /// <param name="unitSystem">The <see cref="UnitSystem"/> to convert the quantity value to.</param>
-        /// <returns>The converted value.</returns>
-        double As(UnitSystem unitSystem);
 
         /// <summary>
         ///     The unit this quantity was constructed with -or- BaseUnit if default ctor was used.
@@ -53,7 +44,7 @@ namespace UnitsNet
         /// </summary>
         /// <param name="unit">
         ///     The unit <see cref="Enum"/> value. The <see cref="Enum"/> must be compatible with the units of the <see cref="IQuantity"/>.
-        ///     For example, if the <see cref="IQuantity"/> is a <see cref="Length"/>, you should provide a <see cref="LengthUnit"/> value.
+        ///     For example, if the <see cref="IQuantity"/> is a Length, you should provide a LengthUnit value.
         /// </param>
         /// <exception cref="NotImplementedException">Conversion was not possible from this <see cref="IQuantity"/> to <paramref name="unit"/>.</exception>
         /// <returns>A new <see cref="IQuantity"/> in the given <paramref name="unit"/>.</returns>

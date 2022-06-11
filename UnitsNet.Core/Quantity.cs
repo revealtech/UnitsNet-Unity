@@ -1,23 +1,23 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
 namespace UnitsNet
 {
-    public partial class Quantity
+    /// <summary>
+    ///     Dynamically parse or construct quantities when types are only known at runtime.
+    /// </summary>
+    public static class Quantity
     {
-        private static readonly Lazy<QuantityInfo[]> InfosLazy;
         private static readonly Lazy<Dictionary<(Type, string), UnitInfo>> UnitTypeAndNameToUnitInfoLazy;
+        private static Lazy<ConcurrentDictionary<string, QuantityInfo>> _byName = new(GetQuantityNameToInfo);
+        private static QuantityInfo[] _infos = Array.Empty<QuantityInfo>();
 
         static Quantity()
         {
-            ICollection<QuantityInfo> quantityInfos = ByName.Values;
-            Names = quantityInfos.Select(qt => qt.Name).ToArray();
-
-            InfosLazy = new Lazy<QuantityInfo[]>(() => quantityInfos
-                .OrderBy(quantityInfo => quantityInfo.Name)
-                .ToArray());
+            Names = Infos.Select(qt => qt.Name).ToArray();
 
             UnitTypeAndNameToUnitInfoLazy = new Lazy<Dictionary<(Type, string), UnitInfo>>(() =>
             {
@@ -31,14 +31,32 @@ namespace UnitsNet
         }
 
         /// <summary>
+        /// All QuantityInfo instances mapped by quantity name that are present in UnitsNet by default.
+        /// </summary>
+        public static ConcurrentDictionary<string, QuantityInfo> ByName => _byName.Value;
+
+        /// <summary>
         /// All enum value names of <see cref="Infos"/>, such as "Length" and "Mass".
         /// </summary>
         public static string[] Names { get; }
 
         /// <summary>
-        /// All quantity information objects, such as <see cref="Length.Info"/> and <see cref="Mass.Info"/>.
+        /// All quantity information objects, such as Length.Info and Mass.Info.
         /// </summary>
-        public static QuantityInfo[] Infos => InfosLazy.Value;
+        public static QuantityInfo[] Infos
+        {
+            get => _infos;
+            set
+            {
+                _infos = value;
+                ResetLazy();
+            }
+        }
+
+        private static void ResetLazy()
+        {
+            _byName = new Lazy<ConcurrentDictionary<string, QuantityInfo>>(GetQuantityNameToInfo);
+        }
 
         /// <summary>
         /// Get <see cref="UnitInfo"/> for a given unit enum value.
@@ -81,6 +99,26 @@ namespace UnitsNet
             return TryFrom((QuantityValue)value, unit, out quantity);
         }
 
+        /// <summary>
+        ///     Try to dynamically construct a quantity.
+        /// </summary>
+        /// <param name="value">Numeric value.</param>
+        /// <param name="unit">Unit enum value.</param>
+        /// <param name="quantity">The resulting quantity if successful, otherwise <c>default</c>.</param>
+        /// <returns><c>True</c> if successful with <paramref name="quantity"/> assigned the value, otherwise <c>false</c>.</returns>
+        public static bool TryFrom(QuantityValue value, Enum unit, out IQuantity? quantity)
+        {
+            var quantityInfo = Infos.FirstOrDefault(qi => qi.UnitType.Equals(unit.GetType()));
+            if (quantityInfo != null)
+            {
+                quantity = quantityInfo.From(value, unit);
+                return true;
+            }
+
+            quantity = default;
+            return false;
+        }
+
         /// <inheritdoc cref="Parse(IFormatProvider, System.Type,string)"/>
         public static IQuantity Parse(Type quantityType, string quantityString) => Parse(null, quantityType, quantityString);
 
@@ -88,7 +126,7 @@ namespace UnitsNet
         ///     Dynamically parse a quantity string representation.
         /// </summary>
         /// <param name="formatProvider">The format provider to use for lookup. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
-        /// <param name="quantityType">Type of quantity, such as <see cref="Length"/>.</param>
+        /// <param name="quantityType">Type of quantity, such as Length.</param>
         /// <param name="quantityString">Quantity string representation, such as "1.5 kg". Must be compatible with given quantity type.</param>
         /// <returns>The parsed quantity.</returns>
         /// <exception cref="ArgumentException">Type must be of type UnitsNet.IQuantity -or- Type is not a known quantity type.</exception>
@@ -108,12 +146,35 @@ namespace UnitsNet
             TryParse(null, quantityType, quantityString, out quantity);
 
         /// <summary>
+        ///     Try to dynamically parse a quantity string representation.
+        /// </summary>
+        /// <param name="formatProvider">The format provider to use for lookup. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
+        /// <param name="quantityType">Type of quantity, such as Length.</param>
+        /// <param name="quantityString">Quantity string representation, such as "1.5 kg". Must be compatible with given quantity type.</param>
+        /// <param name="quantity">The resulting quantity if successful, otherwise <c>default</c>.</param>
+        /// <returns>The parsed quantity.</returns>
+        public static bool TryParse(IFormatProvider? formatProvider, Type quantityType, string quantityString, out IQuantity? quantity)
+        {
+            quantity = default;
+
+            QuantityInfo quantityInfo = Infos.SingleOrDefault(i => i.QuantityType == quantityType) ??
+                                        throw new InvalidOperationException($"No QuantityInfo found for type '{quantityType}'.");
+
+            return QuantityParser.Default.TryParse(quantityString, quantityInfo.UnitType, formatProvider, quantityInfo.FromValueUnitDelegate, out quantity);
+        }
+
+        /// <summary>
         ///     Get a list of quantities that has the given base dimensions.
         /// </summary>
         /// <param name="baseDimensions">The base dimensions to match.</param>
         public static IEnumerable<QuantityInfo> GetQuantitiesWithBaseDimensions(BaseDimensions baseDimensions)
         {
-            return InfosLazy.Value.Where(info => info.BaseDimensions.Equals(baseDimensions));
+            return Infos.Where(info => info.BaseDimensions.Equals(baseDimensions));
+        }
+
+        private static ConcurrentDictionary<string, QuantityInfo> GetQuantityNameToInfo()
+        {
+            return new ConcurrentDictionary<string, QuantityInfo>(Infos.ToDictionary(x => x.Name, x => x));
         }
     }
 }

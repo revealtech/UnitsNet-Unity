@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using UnitsNet.Units;
 
 using UnitTypeToLookup = System.Collections.Generic.Dictionary<System.Type, UnitsNet.UnitValueAbbreviationLookup>;
 
@@ -26,7 +25,7 @@ namespace UnitsNet
         ///     if no abbreviations are found with a given culture.
         /// </summary>
         /// <example>
-        ///     User wants to call <see cref="UnitParser.Parse{TUnitType}" /> or <see cref="Length.ToString()" /> with Russian
+        ///     User wants to call <see cref="UnitParser.Parse{TUnitType}" /> or Length.ToString() with Russian
         ///     culture, but no translation is defined, so we return the US English definition as a last resort. If it's not
         ///     defined there either, an exception is thrown.
         /// </example>
@@ -54,16 +53,15 @@ namespace UnitsNet
 
         private void LoadGeneratedAbbreviations()
         {
-            foreach(var quantity in Quantity.GetQuantityTypes())
+            foreach(QuantityInfo quantityInfo in Quantity.Infos)
             {
-                var mapGeneratedLocalizationsMethod = quantity.GetMethod(nameof(Length.MapGeneratedLocalizations), BindingFlags.NonPublic | BindingFlags.Static);
-                mapGeneratedLocalizationsMethod?.Invoke(null, new object[]{this});
+                quantityInfo.ConfigureUnitAbbreviations(this);
             }
         }
 
         /// <summary>
         /// Adds one or more unit abbreviation for the given unit enum value.
-        /// This is used to dynamically add abbreviations for existing unit enums such as <see cref="UnitsNet.Units.LengthUnit"/> or to extend with third-party unit enums
+        /// This is used to dynamically add abbreviations for existing unit enums such as LengthUnit or to extend with third-party unit enums
         /// in order to <see cref="UnitParser.Parse{TUnitType}"/> or <see cref="GetDefaultAbbreviation{TUnitType}"/> on them later.
         /// </summary>
         /// <param name="unit">The unit enum value.</param>
@@ -76,7 +74,7 @@ namespace UnitsNet
 
         /// <summary>
         /// Adds a unit abbreviation for the given unit enum value and sets it as the default.
-        /// This is used to dynamically add abbreviations for existing unit enums such as <see cref="UnitsNet.Units.LengthUnit"/> or to extend with third-party unit enums
+        /// This is used to dynamically add abbreviations for existing unit enums such as LengthUnit or to extend with third-party unit enums
         /// in order to <see cref="UnitParser.Parse{TUnitType}"/> or <see cref="GetDefaultAbbreviation{TUnitType}"/> on them later.
         /// </summary>
         /// <param name="unit">The unit enum value.</param>
@@ -89,7 +87,7 @@ namespace UnitsNet
 
         /// <summary>
         /// Adds one or more unit abbreviation for the given unit enum value.
-        /// This is used to dynamically add abbreviations for existing unit enums such as <see cref="LengthUnit"/> or to extend with third-party unit enums
+        /// This is used to dynamically add abbreviations for existing unit enums such as LengthUnit or to extend with third-party unit enums
         /// in order to <see cref="UnitParser.Parse{TUnitType}"/> or <see cref="GetDefaultAbbreviation{TUnitType}"/> on them later.
         /// </summary>
         /// <param name="unit">The unit enum value.</param>
@@ -103,7 +101,7 @@ namespace UnitsNet
 
         /// <summary>
         /// Adds a unit abbreviation for the given unit enum value and sets it as the default.
-        /// This is used to dynamically add abbreviations for existing unit enums such as <see cref="LengthUnit"/> or to extend with third-party unit enums
+        /// This is used to dynamically add abbreviations for existing unit enums such as LengthUnit or to extend with third-party unit enums
         /// in order to <see cref="UnitParser.Parse{TUnitType}"/> or <see cref="GetDefaultAbbreviation{TUnitType}"/> on them later.
         /// </summary>
         /// <param name="unit">The unit enum value.</param>
@@ -117,7 +115,7 @@ namespace UnitsNet
 
         /// <summary>
         /// Adds one or more unit abbreviation for the given unit enum value.
-        /// This is used to dynamically add abbreviations for existing unit enums such as <see cref="LengthUnit"/> or to extend with third-party unit enums
+        /// This is used to dynamically add abbreviations for existing unit enums such as LengthUnit or to extend with third-party unit enums
         /// in order to <see cref="UnitParser.Parse{TUnitType}"/> or <see cref="GetDefaultAbbreviation{TUnitType}"/> on them later.
         /// </summary>
         /// <param name="unitType">The unit enum type.</param>
@@ -132,7 +130,7 @@ namespace UnitsNet
 
         /// <summary>
         /// Adds a unit abbreviation for the given unit enum value and sets it as the default.
-        /// This is used to dynamically add abbreviations for existing unit enums such as <see cref="LengthUnit"/> or to extend with third-party unit enums
+        /// This is used to dynamically add abbreviations for existing unit enums such as LengthUnit or to extend with third-party unit enums
         /// in order to <see cref="UnitParser.Parse{TUnitType}"/> or <see cref="GetDefaultAbbreviation{TUnitType}"/> on them later.
         /// </summary>
         /// <param name="unitType">The unit enum type.</param>

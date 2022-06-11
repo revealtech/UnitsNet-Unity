@@ -80,6 +80,24 @@ namespace UnitsNet
                    TryParseWithRegex(valueString, unitString, fromDelegate, formatProvider, out result);
         }
 
+        [SuppressMessage("ReSharper", "UseStringInterpolation")]
+        internal bool TryParse(string? str,
+            Type unitType,
+            IFormatProvider? formatProvider,
+            CreateQuantityDelegate fromDelegate,
+            out IQuantity? result)
+        {
+            result = default;
+
+            if(string.IsNullOrWhiteSpace(str)) return false;
+            str = str!.Trim();
+
+            var regex = CreateRegexForQuantity(unitType, formatProvider);
+
+            return TryExtractValueAndUnit(regex, str, out var valueString, out var unitString) &&
+                   TryParseQuantityFromValueAndUnit(valueString, unitString, unitType, fromDelegate, formatProvider, out result);
+        }
+
         /// <summary>
         ///     Workaround for C# not allowing to pass on 'out' param from type Length to IQuantity, even though the are compatible.
         /// </summary>
@@ -163,6 +181,29 @@ namespace UnitsNet
             return true;
         }
 
+        /// <summary>
+        ///     Parse a string given a particular regular expression.
+        /// </summary>
+        /// <exception cref="UnitsNetException">Error parsing string.</exception>
+        private bool TryParseQuantityFromValueAndUnit(string? valueString,
+            string? unitString,
+            Type unitType,
+            CreateQuantityDelegate fromDelegate,
+            IFormatProvider? formatProvider,
+            out IQuantity? result)
+        {
+            result = default;
+
+            if (!double.TryParse(valueString, ParseNumberStyles, formatProvider, out var value))
+                return false;
+
+            if (!_unitParser.TryParse(unitString, unitType, formatProvider, out Enum? parsedUnit))
+                return false;
+
+            result = fromDelegate(value, parsedUnit!);
+            return true;
+        }
+
         private static bool TryExtractValueAndUnit(Regex regex, string str, out string? valueString, out string? unitString)
         {
             var match = regex.Match(str);
@@ -195,7 +236,12 @@ namespace UnitsNet
 
         private string CreateRegexPatternForQuantity<TUnitType>(IFormatProvider? formatProvider) where TUnitType : Enum
         {
-            var unitAbbreviations = _unitAbbreviationsCache.GetAllUnitAbbreviationsForQuantity(typeof(TUnitType), formatProvider);
+            return CreateRegexPatternForQuantity(typeof(TUnitType), formatProvider);
+        }
+
+        private string CreateRegexPatternForQuantity(Type unitType, IFormatProvider? formatProvider)
+        {
+            var unitAbbreviations = _unitAbbreviationsCache.GetAllUnitAbbreviationsForQuantity(unitType, formatProvider);
             var pattern = GetRegexPatternForUnitAbbreviations(unitAbbreviations);
 
             // Match entire string exactly
@@ -204,7 +250,12 @@ namespace UnitsNet
 
         private Regex CreateRegexForQuantity<TUnitType>(IFormatProvider? formatProvider) where TUnitType : Enum
         {
-            var pattern = CreateRegexPatternForQuantity<TUnitType>(formatProvider);
+            return CreateRegexForQuantity(typeof(TUnitType), formatProvider);
+        }
+
+        private Regex CreateRegexForQuantity(Type unitType, IFormatProvider? formatProvider)
+        {
+            var pattern = CreateRegexPatternForQuantity(unitType, formatProvider);
             return new Regex(pattern, RegexOptions.Singleline | RegexOptions.IgnoreCase);
         }
     }

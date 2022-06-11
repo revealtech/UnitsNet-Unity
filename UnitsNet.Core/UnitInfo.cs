@@ -2,7 +2,6 @@
 // Copyright 2013 Andreas Gullberg Larsen (andreas.larsen84@gmail.com). Maintained at https://github.com/angularsen/UnitsNet.
 
 using System;
-using UnitsNet.Units;
 
 namespace UnitsNet
 {
@@ -20,7 +19,7 @@ namespace UnitsNet
         /// <summary>
         /// Creates an instance of the UnitInfo class.
         /// </summary>
-        /// <param name="value">The enum value for this class, for example <see cref="LengthUnit.Meter"/>.</param>
+        /// <param name="value">The enum value for this class, for example LengthUnit.Meter.</param>
         /// <param name="pluralName">The plural name of the unit, such as "Centimeters".</param>
         /// <param name="baseUnits">The <see cref="BaseUnits"/> for this unit.</param>
         public UnitInfo(Enum value, string pluralName, BaseUnits baseUnits)
@@ -32,7 +31,7 @@ namespace UnitsNet
         }
 
         /// <summary>
-        /// The enum value of the unit, such as <see cref="LengthUnit.Centimeter" />.
+        /// The enum value of the unit, such as LengthUnit.Centimeter.
         /// </summary>
         public Enum Value { get; }
 
@@ -58,7 +57,7 @@ namespace UnitsNet
     ///     Typically you obtain this by looking it up statically from <see cref="QuantityInfo{LengthUnit}.UnitInfos" /> or
     ///     or dynamically via <see cref="IQuantity{TUnitType}.QuantityInfo" />.
     /// </remarks>
-    /// <typeparam name="TUnit">The unit enum type, such as <see cref="LengthUnit" />. </typeparam>
+    /// <typeparam name="TUnit">The unit enum type, such as LengthUnit. </typeparam>
     public class UnitInfo<TUnit> : UnitInfo
         where TUnit : Enum
     {

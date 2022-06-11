@@ -44,6 +44,8 @@ ProjectSection(SolutionItems) = preProject
 	UnitsNet.snk = UnitsNet.snk
 EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitsNet.Core", "UnitsNet.Core\UnitsNet.Core.csproj", "{BAB52BC4-D90E-4FFB-98F9-3BDB5BF83B99}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,6 +88,10 @@ Global
 		{B4996AF5-9A8B-481A-9018-EC7F5B1605FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4996AF5-9A8B-481A-9018-EC7F5B1605FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4996AF5-9A8B-481A-9018-EC7F5B1605FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAB52BC4-D90E-4FFB-98F9-3BDB5BF83B99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAB52BC4-D90E-4FFB-98F9-3BDB5BF83B99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAB52BC4-D90E-4FFB-98F9-3BDB5BF83B99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAB52BC4-D90E-4FFB-98F9-3BDB5BF83B99}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

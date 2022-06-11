@@ -3,7 +3,6 @@
 
 using System;
 using System.Text;
-using UnitsNet.Units;
 
 namespace UnitsNet
 {

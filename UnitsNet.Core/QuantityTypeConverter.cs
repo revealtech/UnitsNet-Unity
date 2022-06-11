@@ -14,7 +14,7 @@ namespace UnitsNet
     public abstract class UnitAttributeBase : Attribute
     {
         /// <summary>
-        /// The unit enum type, such as <see cref="UnitsNet.Units.LengthUnit" />
+        /// The unit enum type, such as LengthUnit.
         /// </summary>
         public Enum? UnitType { get; set; }
 
@@ -80,7 +80,7 @@ namespace UnitsNet
     /// </para>
     ///   <para>For basic understanding of TypeConverters consult the .NET documentation.</para>
     /// </summary>
-    /// <typeparam name="TQuantity">Quantity value type, such as <see cref="Length"/> or <see cref="Mass"/>.</typeparam>
+    /// <typeparam name="TQuantity">Quantity value type, such as Length or Mass.</typeparam>
     /// <remarks>
     /// <para>
     ///     When a string is converted a Quantity the unit given by the string is used.

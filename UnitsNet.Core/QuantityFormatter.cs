@@ -4,7 +4,6 @@
 using System;
 using System.Globalization;
 using System.Linq;
-using UnitsNet.Units;
 
 namespace UnitsNet
 {
@@ -21,7 +20,7 @@ namespace UnitsNet
         /// <summary>
         /// Formats a quantity using the given format string and format provider.
         /// </summary>
-        /// <typeparam name="TUnitType">The quantity's unit type, for example <see cref="LengthUnit"/>.</typeparam>
+        /// <typeparam name="TUnitType">The quantity's unit type, for example LengthUnit.</typeparam>
         /// <param name="quantity">The quantity to format.</param>
         /// <param name="format">The format string.</param>
         /// <remarks>
@@ -67,7 +66,7 @@ namespace UnitsNet
         /// <summary>
         /// Formats a quantity using the given format string and format provider.
         /// </summary>
-        /// <typeparam name="TUnitType">The quantity's unit type, for example <see cref="LengthUnit"/>.</typeparam>
+        /// <typeparam name="TUnitType">The quantity's unit type, for example LengthUnit.</typeparam>
         /// <param name="quantity">The quantity to format.</param>
         /// <param name="format">The format string.</param>
         /// <param name="formatProvider">The format provider to use for localization and number formatting. Defaults to
