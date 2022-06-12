@@ -32,13 +32,10 @@ namespace UnitsNet
 {
     /// <inheritdoc />
     /// <summary>
-    ///     In photometry, illuminance is the total luminous flux incident on a surface, per unit area.
+    ///     Time is a dimension in which events can be ordered from the past through the present into the future, and also the measure of durations of events and the intervals between them.
     /// </summary>
-    /// <remarks>
-    ///     https://en.wikipedia.org/wiki/Illuminance
-    /// </remarks>
     [DataContract]
-    public partial struct Illuminance : IQuantity<IlluminanceUnit>, IComparable, IComparable<Illuminance>, IConvertible, IFormattable
+    public partial struct Duration : IQuantity<DurationUnit>, IComparable, IComparable<Duration>, IConvertible, IFormattable
     {
         /// <summary>
         ///     The numeric value this quantity was constructed with.
@@ -50,21 +47,28 @@ namespace UnitsNet
         ///     The unit this quantity was constructed with.
         /// </summary>
         [DataMember(Name = "Unit", Order = 1)]
-        private readonly IlluminanceUnit? _unit;
+        private readonly DurationUnit? _unit;
 
-        static Illuminance()
+        static Duration()
         {
-            BaseDimensions = new BaseDimensions(-2, 0, 0, 0, 0, 0, 1);
-            BaseUnit = IlluminanceUnit.Lux;
-            Units = Enum.GetValues(typeof(IlluminanceUnit)).Cast<IlluminanceUnit>().ToArray();
-            Zero = new Illuminance(0, BaseUnit);
-            Info = new QuantityInfo<IlluminanceUnit>("Illuminance",
-                new UnitInfo<IlluminanceUnit>[]
+            BaseDimensions = new BaseDimensions(0, 0, 1, 0, 0, 0, 0);
+            BaseUnit = DurationUnit.Second;
+            Units = Enum.GetValues(typeof(DurationUnit)).Cast<DurationUnit>().ToArray();
+            Zero = new Duration(0, BaseUnit);
+            Info = new QuantityInfo<DurationUnit>("Duration",
+                new UnitInfo<DurationUnit>[]
                 {
-                    new UnitInfo<IlluminanceUnit>(IlluminanceUnit.Kilolux, "Kilolux", BaseUnits.Undefined),
-                    new UnitInfo<IlluminanceUnit>(IlluminanceUnit.Lux, "Lux", BaseUnits.Undefined),
-                    new UnitInfo<IlluminanceUnit>(IlluminanceUnit.Megalux, "Megalux", BaseUnits.Undefined),
-                    new UnitInfo<IlluminanceUnit>(IlluminanceUnit.Millilux, "Millilux", BaseUnits.Undefined),
+                    new UnitInfo<DurationUnit>(DurationUnit.Day, "Days", new BaseUnits(time: DurationUnit.Day)),
+                    new UnitInfo<DurationUnit>(DurationUnit.Hour, "Hours", new BaseUnits(time: DurationUnit.Hour)),
+                    new UnitInfo<DurationUnit>(DurationUnit.JulianYear, "JulianYears", new BaseUnits(time: DurationUnit.JulianYear)),
+                    new UnitInfo<DurationUnit>(DurationUnit.Microsecond, "Microseconds", BaseUnits.Undefined),
+                    new UnitInfo<DurationUnit>(DurationUnit.Millisecond, "Milliseconds", BaseUnits.Undefined),
+                    new UnitInfo<DurationUnit>(DurationUnit.Minute, "Minutes", new BaseUnits(time: DurationUnit.Minute)),
+                    new UnitInfo<DurationUnit>(DurationUnit.Month30, "Months30", new BaseUnits(time: DurationUnit.Month30)),
+                    new UnitInfo<DurationUnit>(DurationUnit.Nanosecond, "Nanoseconds", BaseUnits.Undefined),
+                    new UnitInfo<DurationUnit>(DurationUnit.Second, "Seconds", new BaseUnits(time: DurationUnit.Second)),
+                    new UnitInfo<DurationUnit>(DurationUnit.Week, "Weeks", new BaseUnits(time: DurationUnit.Week)),
+                    new UnitInfo<DurationUnit>(DurationUnit.Year365, "Years365", new BaseUnits(time: DurationUnit.Year365)),
                 },
                 BaseUnit, Zero, BaseDimensions);
 
@@ -78,7 +82,7 @@ namespace UnitsNet
         /// <param name="value">The numeric value to construct this quantity with.</param>
         /// <param name="unit">The unit representation to construct this quantity with.</param>
         /// <exception cref="ArgumentException">If value is NaN or Infinity.</exception>
-        public Illuminance(double value, IlluminanceUnit unit)
+        public Duration(double value, DurationUnit unit)
         {
             _value = Guard.EnsureValidNumber(value, nameof(value));
             _unit = unit;
@@ -92,7 +96,7 @@ namespace UnitsNet
         /// <param name="unitSystem">The unit system to create the quantity with.</param>
         /// <exception cref="ArgumentNullException">The given <see cref="UnitSystem"/> is null.</exception>
         /// <exception cref="ArgumentException">No unit was found for the given <see cref="UnitSystem"/>.</exception>
-        public Illuminance(double value, UnitSystem unitSystem)
+        public Duration(double value, UnitSystem unitSystem)
         {
             if (unitSystem is null) throw new ArgumentNullException(nameof(unitSystem));
 
@@ -106,12 +110,12 @@ namespace UnitsNet
         #region Static Properties
 
         /// <summary>
-        ///     The <see cref="UnitConverter" /> containing the default generated conversion functions for <see cref="Illuminance" /> instances.
+        ///     The <see cref="UnitConverter" /> containing the default generated conversion functions for <see cref="Duration" /> instances.
         /// </summary>
         public static UnitConverter DefaultConversionFunctions { get; }
 
         /// <inheritdoc cref="IQuantity.QuantityInfo"/>
-        public static QuantityInfo<IlluminanceUnit> Info { get; }
+        public static QuantityInfo<DurationUnit> Info { get; }
 
         /// <summary>
         ///     The <see cref="BaseDimensions" /> of this quantity.
@@ -119,19 +123,19 @@ namespace UnitsNet
         public static BaseDimensions BaseDimensions { get; }
 
         /// <summary>
-        ///     The base unit of Illuminance, which is Lux. All conversions go via this value.
+        ///     The base unit of Duration, which is Second. All conversions go via this value.
         /// </summary>
-        public static IlluminanceUnit BaseUnit { get; }
+        public static DurationUnit BaseUnit { get; }
 
         /// <summary>
-        ///     All units of measurement for the Illuminance quantity.
+        ///     All units of measurement for the Duration quantity.
         /// </summary>
-        public static IlluminanceUnit[] Units { get; }
+        public static DurationUnit[] Units { get; }
 
         /// <summary>
-        ///     Gets an instance of this quantity with a value of 0 in the base unit Lux.
+        ///     Gets an instance of this quantity with a value of 0 in the base unit Second.
         /// </summary>
-        public static Illuminance Zero { get; }
+        public static Duration Zero { get; }
 
         #endregion
 
@@ -145,10 +149,10 @@ namespace UnitsNet
         Enum IQuantity.Unit => Unit;
 
         /// <inheritdoc />
-        public IlluminanceUnit Unit => _unit.GetValueOrDefault(BaseUnit);
+        public DurationUnit Unit => _unit.GetValueOrDefault(BaseUnit);
 
         /// <inheritdoc />
-        public QuantityInfo<IlluminanceUnit> QuantityInfo => Info;
+        public QuantityInfo<DurationUnit> QuantityInfo => Info;
 
         /// <inheritdoc cref="IQuantity.QuantityInfo"/>
         QuantityInfo IQuantity.QuantityInfo => Info;
@@ -156,31 +160,66 @@ namespace UnitsNet
         /// <summary>
         ///     The <see cref="BaseDimensions" /> of this quantity.
         /// </summary>
-        public BaseDimensions Dimensions => Illuminance.BaseDimensions;
+        public BaseDimensions Dimensions => Duration.BaseDimensions;
 
         #endregion
 
         #region Conversion Properties
 
         /// <summary>
-        ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="IlluminanceUnit.Kilolux"/>
+        ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="DurationUnit.Day"/>
         /// </summary>
-        public double Kilolux => As(IlluminanceUnit.Kilolux);
+        public double Days => As(DurationUnit.Day);
 
         /// <summary>
-        ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="IlluminanceUnit.Lux"/>
+        ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="DurationUnit.Hour"/>
         /// </summary>
-        public double Lux => As(IlluminanceUnit.Lux);
+        public double Hours => As(DurationUnit.Hour);
 
         /// <summary>
-        ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="IlluminanceUnit.Megalux"/>
+        ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="DurationUnit.JulianYear"/>
         /// </summary>
-        public double Megalux => As(IlluminanceUnit.Megalux);
+        public double JulianYears => As(DurationUnit.JulianYear);
 
         /// <summary>
-        ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="IlluminanceUnit.Millilux"/>
+        ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="DurationUnit.Microsecond"/>
         /// </summary>
-        public double Millilux => As(IlluminanceUnit.Millilux);
+        public double Microseconds => As(DurationUnit.Microsecond);
+
+        /// <summary>
+        ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="DurationUnit.Millisecond"/>
+        /// </summary>
+        public double Milliseconds => As(DurationUnit.Millisecond);
+
+        /// <summary>
+        ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="DurationUnit.Minute"/>
+        /// </summary>
+        public double Minutes => As(DurationUnit.Minute);
+
+        /// <summary>
+        ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="DurationUnit.Month30"/>
+        /// </summary>
+        public double Months30 => As(DurationUnit.Month30);
+
+        /// <summary>
+        ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="DurationUnit.Nanosecond"/>
+        /// </summary>
+        public double Nanoseconds => As(DurationUnit.Nanosecond);
+
+        /// <summary>
+        ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="DurationUnit.Second"/>
+        /// </summary>
+        public double Seconds => As(DurationUnit.Second);
+
+        /// <summary>
+        ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="DurationUnit.Week"/>
+        /// </summary>
+        public double Weeks => As(DurationUnit.Week);
+
+        /// <summary>
+        ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="DurationUnit.Year365"/>
+        /// </summary>
+        public double Years365 => As(DurationUnit.Year365);
 
         #endregion
 
@@ -192,26 +231,57 @@ namespace UnitsNet
         /// <param name="unitConverter">The <see cref="UnitConverter"/> to register the default conversion functions in.</param>
         internal static void RegisterDefaultConversions(UnitConverter unitConverter)
         {
-            // Register in unit converter: BaseUnit -> IlluminanceUnit
-            unitConverter.SetConversionFunction<Illuminance>(IlluminanceUnit.Lux, IlluminanceUnit.Kilolux, quantity => new Illuminance((quantity.Value) / 1e3d, IlluminanceUnit.Kilolux));
-            unitConverter.SetConversionFunction<Illuminance>(IlluminanceUnit.Lux, IlluminanceUnit.Megalux, quantity => new Illuminance((quantity.Value) / 1e6d, IlluminanceUnit.Megalux));
-            unitConverter.SetConversionFunction<Illuminance>(IlluminanceUnit.Lux, IlluminanceUnit.Millilux, quantity => new Illuminance((quantity.Value) / 1e-3d, IlluminanceUnit.Millilux));
+            // Register in unit converter: BaseUnit -> DurationUnit
+            unitConverter.SetConversionFunction<Duration>(DurationUnit.Second, DurationUnit.Day, quantity => new Duration(quantity.Value / (24 * 3600), DurationUnit.Day));
+            unitConverter.SetConversionFunction<Duration>(DurationUnit.Second, DurationUnit.Hour, quantity => new Duration(quantity.Value / 3600, DurationUnit.Hour));
+            unitConverter.SetConversionFunction<Duration>(DurationUnit.Second, DurationUnit.JulianYear, quantity => new Duration(quantity.Value / (365.25 * 24 * 3600), DurationUnit.JulianYear));
+            unitConverter.SetConversionFunction<Duration>(DurationUnit.Second, DurationUnit.Microsecond, quantity => new Duration((quantity.Value) / 1e-6d, DurationUnit.Microsecond));
+            unitConverter.SetConversionFunction<Duration>(DurationUnit.Second, DurationUnit.Millisecond, quantity => new Duration((quantity.Value) / 1e-3d, DurationUnit.Millisecond));
+            unitConverter.SetConversionFunction<Duration>(DurationUnit.Second, DurationUnit.Minute, quantity => new Duration(quantity.Value / 60, DurationUnit.Minute));
+            unitConverter.SetConversionFunction<Duration>(DurationUnit.Second, DurationUnit.Month30, quantity => new Duration(quantity.Value / (30 * 24 * 3600), DurationUnit.Month30));
+            unitConverter.SetConversionFunction<Duration>(DurationUnit.Second, DurationUnit.Nanosecond, quantity => new Duration((quantity.Value) / 1e-9d, DurationUnit.Nanosecond));
+            unitConverter.SetConversionFunction<Duration>(DurationUnit.Second, DurationUnit.Week, quantity => new Duration(quantity.Value / (7 * 24 * 3600), DurationUnit.Week));
+            unitConverter.SetConversionFunction<Duration>(DurationUnit.Second, DurationUnit.Year365, quantity => new Duration(quantity.Value / (365 * 24 * 3600), DurationUnit.Year365));
 
             // Register in unit converter: BaseUnit <-> BaseUnit
-            unitConverter.SetConversionFunction<Illuminance>(IlluminanceUnit.Lux, IlluminanceUnit.Lux, quantity => quantity);
+            unitConverter.SetConversionFunction<Duration>(DurationUnit.Second, DurationUnit.Second, quantity => quantity);
 
-            // Register in unit converter: IlluminanceUnit -> BaseUnit
-            unitConverter.SetConversionFunction<Illuminance>(IlluminanceUnit.Kilolux, IlluminanceUnit.Lux, quantity => new Illuminance((quantity.Value) * 1e3d, IlluminanceUnit.Lux));
-            unitConverter.SetConversionFunction<Illuminance>(IlluminanceUnit.Megalux, IlluminanceUnit.Lux, quantity => new Illuminance((quantity.Value) * 1e6d, IlluminanceUnit.Lux));
-            unitConverter.SetConversionFunction<Illuminance>(IlluminanceUnit.Millilux, IlluminanceUnit.Lux, quantity => new Illuminance((quantity.Value) * 1e-3d, IlluminanceUnit.Lux));
+            // Register in unit converter: DurationUnit -> BaseUnit
+            unitConverter.SetConversionFunction<Duration>(DurationUnit.Day, DurationUnit.Second, quantity => new Duration(quantity.Value * 24 * 3600, DurationUnit.Second));
+            unitConverter.SetConversionFunction<Duration>(DurationUnit.Hour, DurationUnit.Second, quantity => new Duration(quantity.Value * 3600, DurationUnit.Second));
+            unitConverter.SetConversionFunction<Duration>(DurationUnit.JulianYear, DurationUnit.Second, quantity => new Duration(quantity.Value * 365.25 * 24 * 3600, DurationUnit.Second));
+            unitConverter.SetConversionFunction<Duration>(DurationUnit.Microsecond, DurationUnit.Second, quantity => new Duration((quantity.Value) * 1e-6d, DurationUnit.Second));
+            unitConverter.SetConversionFunction<Duration>(DurationUnit.Millisecond, DurationUnit.Second, quantity => new Duration((quantity.Value) * 1e-3d, DurationUnit.Second));
+            unitConverter.SetConversionFunction<Duration>(DurationUnit.Minute, DurationUnit.Second, quantity => new Duration(quantity.Value * 60, DurationUnit.Second));
+            unitConverter.SetConversionFunction<Duration>(DurationUnit.Month30, DurationUnit.Second, quantity => new Duration(quantity.Value * 30 * 24 * 3600, DurationUnit.Second));
+            unitConverter.SetConversionFunction<Duration>(DurationUnit.Nanosecond, DurationUnit.Second, quantity => new Duration((quantity.Value) * 1e-9d, DurationUnit.Second));
+            unitConverter.SetConversionFunction<Duration>(DurationUnit.Week, DurationUnit.Second, quantity => new Duration(quantity.Value * 7 * 24 * 3600, DurationUnit.Second));
+            unitConverter.SetConversionFunction<Duration>(DurationUnit.Year365, DurationUnit.Second, quantity => new Duration(quantity.Value * 365 * 24 * 3600, DurationUnit.Second));
         }
 
         internal static void MapGeneratedLocalizations(UnitAbbreviationsCache unitAbbreviationsCache)
         {
-            unitAbbreviationsCache.PerformAbbreviationMapping(IlluminanceUnit.Kilolux, new CultureInfo("en-US"), false, true, new string[]{"klx"});
-            unitAbbreviationsCache.PerformAbbreviationMapping(IlluminanceUnit.Lux, new CultureInfo("en-US"), false, true, new string[]{"lx"});
-            unitAbbreviationsCache.PerformAbbreviationMapping(IlluminanceUnit.Megalux, new CultureInfo("en-US"), false, true, new string[]{"Mlx"});
-            unitAbbreviationsCache.PerformAbbreviationMapping(IlluminanceUnit.Millilux, new CultureInfo("en-US"), false, true, new string[]{"mlx"});
+            unitAbbreviationsCache.PerformAbbreviationMapping(DurationUnit.Day, new CultureInfo("en-US"), false, true, new string[]{"d", "day", "days"});
+            unitAbbreviationsCache.PerformAbbreviationMapping(DurationUnit.Day, new CultureInfo("ru-RU"), false, true, new string[]{"сут", "д"});
+            unitAbbreviationsCache.PerformAbbreviationMapping(DurationUnit.Hour, new CultureInfo("en-US"), false, true, new string[]{"h", "hr", "hrs", "hour", "hours"});
+            unitAbbreviationsCache.PerformAbbreviationMapping(DurationUnit.Hour, new CultureInfo("ru-RU"), false, true, new string[]{"ч", "час"});
+            unitAbbreviationsCache.PerformAbbreviationMapping(DurationUnit.JulianYear, new CultureInfo("en-US"), false, true, new string[]{"jyr", "jyear", "jyears"});
+            unitAbbreviationsCache.PerformAbbreviationMapping(DurationUnit.Microsecond, new CultureInfo("en-US"), false, true, new string[]{"µs", "µsec", "µsecs", "µsecond", "µseconds"});
+            unitAbbreviationsCache.PerformAbbreviationMapping(DurationUnit.Microsecond, new CultureInfo("ru-RU"), false, true, new string[]{"мксек", "мкс"});
+            unitAbbreviationsCache.PerformAbbreviationMapping(DurationUnit.Millisecond, new CultureInfo("en-US"), false, true, new string[]{"ms", "msec", "msecs", "msecond", "mseconds"});
+            unitAbbreviationsCache.PerformAbbreviationMapping(DurationUnit.Millisecond, new CultureInfo("ru-RU"), false, true, new string[]{"мсек", "мс"});
+            unitAbbreviationsCache.PerformAbbreviationMapping(DurationUnit.Minute, new CultureInfo("en-US"), false, true, new string[]{"m", "min", "minute", "minutes"});
+            unitAbbreviationsCache.PerformAbbreviationMapping(DurationUnit.Minute, new CultureInfo("ru-RU"), false, true, new string[]{"мин"});
+            unitAbbreviationsCache.PerformAbbreviationMapping(DurationUnit.Month30, new CultureInfo("en-US"), false, true, new string[]{"mo", "month", "months"});
+            unitAbbreviationsCache.PerformAbbreviationMapping(DurationUnit.Month30, new CultureInfo("ru-RU"), false, true, new string[]{"месяц"});
+            unitAbbreviationsCache.PerformAbbreviationMapping(DurationUnit.Nanosecond, new CultureInfo("en-US"), false, true, new string[]{"ns", "nsec", "nsecs", "nsecond", "nseconds"});
+            unitAbbreviationsCache.PerformAbbreviationMapping(DurationUnit.Nanosecond, new CultureInfo("ru-RU"), false, true, new string[]{"нсек", "нс"});
+            unitAbbreviationsCache.PerformAbbreviationMapping(DurationUnit.Second, new CultureInfo("en-US"), false, true, new string[]{"s", "sec", "secs", "second", "seconds"});
+            unitAbbreviationsCache.PerformAbbreviationMapping(DurationUnit.Second, new CultureInfo("ru-RU"), false, true, new string[]{"сек", "с"});
+            unitAbbreviationsCache.PerformAbbreviationMapping(DurationUnit.Week, new CultureInfo("en-US"), false, true, new string[]{"wk", "week", "weeks"});
+            unitAbbreviationsCache.PerformAbbreviationMapping(DurationUnit.Week, new CultureInfo("ru-RU"), false, true, new string[]{"нед"});
+            unitAbbreviationsCache.PerformAbbreviationMapping(DurationUnit.Year365, new CultureInfo("en-US"), false, true, new string[]{"yr", "year", "years"});
+            unitAbbreviationsCache.PerformAbbreviationMapping(DurationUnit.Year365, new CultureInfo("ru-RU"), false, true, new string[]{"год"});
         }
 
         /// <summary>
@@ -219,7 +289,7 @@ namespace UnitsNet
         /// </summary>
         /// <param name="unit">Unit to get abbreviation for.</param>
         /// <returns>Unit abbreviation string.</returns>
-        public static string GetAbbreviation(IlluminanceUnit unit)
+        public static string GetAbbreviation(DurationUnit unit)
         {
             return GetAbbreviation(unit, null);
         }
@@ -230,7 +300,7 @@ namespace UnitsNet
         /// <param name="unit">Unit to get abbreviation for.</param>
         /// <returns>Unit abbreviation string.</returns>
         /// <param name="provider">Format to use for localization. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
-        public static string GetAbbreviation(IlluminanceUnit unit, IFormatProvider? provider)
+        public static string GetAbbreviation(DurationUnit unit, IFormatProvider? provider)
         {
             return UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit, provider);
         }
@@ -240,54 +310,124 @@ namespace UnitsNet
         #region Static Factory Methods
 
         /// <summary>
-        ///     Creates a <see cref="Illuminance"/> from <see cref="IlluminanceUnit.Kilolux"/>.
+        ///     Creates a <see cref="Duration"/> from <see cref="DurationUnit.Day"/>.
         /// </summary>
         /// <exception cref="ArgumentException">If value is NaN or Infinity.</exception>
-        public static Illuminance FromKilolux(QuantityValue kilolux)
+        public static Duration FromDays(QuantityValue days)
         {
-            double value = (double) kilolux;
-            return new Illuminance(value, IlluminanceUnit.Kilolux);
+            double value = (double) days;
+            return new Duration(value, DurationUnit.Day);
         }
 
         /// <summary>
-        ///     Creates a <see cref="Illuminance"/> from <see cref="IlluminanceUnit.Lux"/>.
+        ///     Creates a <see cref="Duration"/> from <see cref="DurationUnit.Hour"/>.
         /// </summary>
         /// <exception cref="ArgumentException">If value is NaN or Infinity.</exception>
-        public static Illuminance FromLux(QuantityValue lux)
+        public static Duration FromHours(QuantityValue hours)
         {
-            double value = (double) lux;
-            return new Illuminance(value, IlluminanceUnit.Lux);
+            double value = (double) hours;
+            return new Duration(value, DurationUnit.Hour);
         }
 
         /// <summary>
-        ///     Creates a <see cref="Illuminance"/> from <see cref="IlluminanceUnit.Megalux"/>.
+        ///     Creates a <see cref="Duration"/> from <see cref="DurationUnit.JulianYear"/>.
         /// </summary>
         /// <exception cref="ArgumentException">If value is NaN or Infinity.</exception>
-        public static Illuminance FromMegalux(QuantityValue megalux)
+        public static Duration FromJulianYears(QuantityValue julianyears)
         {
-            double value = (double) megalux;
-            return new Illuminance(value, IlluminanceUnit.Megalux);
+            double value = (double) julianyears;
+            return new Duration(value, DurationUnit.JulianYear);
         }
 
         /// <summary>
-        ///     Creates a <see cref="Illuminance"/> from <see cref="IlluminanceUnit.Millilux"/>.
+        ///     Creates a <see cref="Duration"/> from <see cref="DurationUnit.Microsecond"/>.
         /// </summary>
         /// <exception cref="ArgumentException">If value is NaN or Infinity.</exception>
-        public static Illuminance FromMillilux(QuantityValue millilux)
+        public static Duration FromMicroseconds(QuantityValue microseconds)
         {
-            double value = (double) millilux;
-            return new Illuminance(value, IlluminanceUnit.Millilux);
+            double value = (double) microseconds;
+            return new Duration(value, DurationUnit.Microsecond);
         }
 
         /// <summary>
-        ///     Dynamically convert from value and unit enum <see cref="IlluminanceUnit" /> to <see cref="Illuminance" />.
+        ///     Creates a <see cref="Duration"/> from <see cref="DurationUnit.Millisecond"/>.
+        /// </summary>
+        /// <exception cref="ArgumentException">If value is NaN or Infinity.</exception>
+        public static Duration FromMilliseconds(QuantityValue milliseconds)
+        {
+            double value = (double) milliseconds;
+            return new Duration(value, DurationUnit.Millisecond);
+        }
+
+        /// <summary>
+        ///     Creates a <see cref="Duration"/> from <see cref="DurationUnit.Minute"/>.
+        /// </summary>
+        /// <exception cref="ArgumentException">If value is NaN or Infinity.</exception>
+        public static Duration FromMinutes(QuantityValue minutes)
+        {
+            double value = (double) minutes;
+            return new Duration(value, DurationUnit.Minute);
+        }
+
+        /// <summary>
+        ///     Creates a <see cref="Duration"/> from <see cref="DurationUnit.Month30"/>.
+        /// </summary>
+        /// <exception cref="ArgumentException">If value is NaN or Infinity.</exception>
+        public static Duration FromMonths30(QuantityValue months30)
+        {
+            double value = (double) months30;
+            return new Duration(value, DurationUnit.Month30);
+        }
+
+        /// <summary>
+        ///     Creates a <see cref="Duration"/> from <see cref="DurationUnit.Nanosecond"/>.
+        /// </summary>
+        /// <exception cref="ArgumentException">If value is NaN or Infinity.</exception>
+        public static Duration FromNanoseconds(QuantityValue nanoseconds)
+        {
+            double value = (double) nanoseconds;
+            return new Duration(value, DurationUnit.Nanosecond);
+        }
+
+        /// <summary>
+        ///     Creates a <see cref="Duration"/> from <see cref="DurationUnit.Second"/>.
+        /// </summary>
+        /// <exception cref="ArgumentException">If value is NaN or Infinity.</exception>
+        public static Duration FromSeconds(QuantityValue seconds)
+        {
+            double value = (double) seconds;
+            return new Duration(value, DurationUnit.Second);
+        }
+
+        /// <summary>
+        ///     Creates a <see cref="Duration"/> from <see cref="DurationUnit.Week"/>.
+        /// </summary>
+        /// <exception cref="ArgumentException">If value is NaN or Infinity.</exception>
+        public static Duration FromWeeks(QuantityValue weeks)
+        {
+            double value = (double) weeks;
+            return new Duration(value, DurationUnit.Week);
+        }
+
+        /// <summary>
+        ///     Creates a <see cref="Duration"/> from <see cref="DurationUnit.Year365"/>.
+        /// </summary>
+        /// <exception cref="ArgumentException">If value is NaN or Infinity.</exception>
+        public static Duration FromYears365(QuantityValue years365)
+        {
+            double value = (double) years365;
+            return new Duration(value, DurationUnit.Year365);
+        }
+
+        /// <summary>
+        ///     Dynamically convert from value and unit enum <see cref="DurationUnit" /> to <see cref="Duration" />.
         /// </summary>
         /// <param name="value">Value to convert from.</param>
         /// <param name="fromUnit">Unit to convert from.</param>
-        /// <returns>Illuminance unit value.</returns>
-        public static Illuminance From(QuantityValue value, IlluminanceUnit fromUnit)
+        /// <returns>Duration unit value.</returns>
+        public static Duration From(QuantityValue value, DurationUnit fromUnit)
         {
-            return new Illuminance((double)value, fromUnit);
+            return new Duration((double)value, fromUnit);
         }
 
         #endregion
@@ -316,7 +456,7 @@ namespace UnitsNet
         ///     We wrap exceptions in <see cref="UnitsNetException" /> to allow you to distinguish
         ///     Units.NET exceptions from other exceptions.
         /// </exception>
-        public static Illuminance Parse(string str)
+        public static Duration Parse(string str)
         {
             return Parse(str, null);
         }
@@ -344,9 +484,9 @@ namespace UnitsNet
         ///     Units.NET exceptions from other exceptions.
         /// </exception>
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
-        public static Illuminance Parse(string str, IFormatProvider? provider)
+        public static Duration Parse(string str, IFormatProvider? provider)
         {
-            return QuantityParser.Default.Parse<Illuminance, IlluminanceUnit>(
+            return QuantityParser.Default.Parse<Duration, DurationUnit>(
                 str,
                 provider,
                 From);
@@ -360,7 +500,7 @@ namespace UnitsNet
         /// <example>
         ///     Length.Parse("5.5 m", new CultureInfo("en-US"));
         /// </example>
-        public static bool TryParse(string? str, out Illuminance result)
+        public static bool TryParse(string? str, out Duration result)
         {
             return TryParse(str, null, out result);
         }
@@ -375,9 +515,9 @@ namespace UnitsNet
         ///     Length.Parse("5.5 m", new CultureInfo("en-US"));
         /// </example>
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
-        public static bool TryParse(string? str, IFormatProvider? provider, out Illuminance result)
+        public static bool TryParse(string? str, IFormatProvider? provider, out Duration result)
         {
-            return QuantityParser.Default.TryParse<Illuminance, IlluminanceUnit>(
+            return QuantityParser.Default.TryParse<Duration, DurationUnit>(
                 str,
                 provider,
                 From,
@@ -393,7 +533,7 @@ namespace UnitsNet
         /// </example>
         /// <exception cref="ArgumentNullException">The value of 'str' cannot be null. </exception>
         /// <exception cref="UnitsNetException">Error parsing string.</exception>
-        public static IlluminanceUnit ParseUnit(string str)
+        public static DurationUnit ParseUnit(string str)
         {
             return ParseUnit(str, null);
         }
@@ -408,13 +548,13 @@ namespace UnitsNet
         /// </example>
         /// <exception cref="ArgumentNullException">The value of 'str' cannot be null. </exception>
         /// <exception cref="UnitsNetException">Error parsing string.</exception>
-        public static IlluminanceUnit ParseUnit(string str, IFormatProvider? provider)
+        public static DurationUnit ParseUnit(string str, IFormatProvider? provider)
         {
-            return UnitParser.Default.Parse<IlluminanceUnit>(str, provider);
+            return UnitParser.Default.Parse<DurationUnit>(str, provider);
         }
 
-        /// <inheritdoc cref="TryParseUnit(string,IFormatProvider,out UnitsNet.Units.IlluminanceUnit)"/>
-        public static bool TryParseUnit(string str, out IlluminanceUnit unit)
+        /// <inheritdoc cref="TryParseUnit(string,IFormatProvider,out UnitsNet.Units.DurationUnit)"/>
+        public static bool TryParseUnit(string str, out DurationUnit unit)
         {
             return TryParseUnit(str, null, out unit);
         }
@@ -429,9 +569,9 @@ namespace UnitsNet
         ///     Length.TryParseUnit("m", new CultureInfo("en-US"));
         /// </example>
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
-        public static bool TryParseUnit(string str, IFormatProvider? provider, out IlluminanceUnit unit)
+        public static bool TryParseUnit(string str, IFormatProvider? provider, out DurationUnit unit)
         {
-            return UnitParser.Default.TryParse<IlluminanceUnit>(str, provider, out unit);
+            return UnitParser.Default.TryParse<DurationUnit>(str, provider, out unit);
         }
 
         #endregion
@@ -439,45 +579,45 @@ namespace UnitsNet
         #region Arithmetic Operators
 
         /// <summary>Negate the value.</summary>
-        public static Illuminance operator -(Illuminance right)
+        public static Duration operator -(Duration right)
         {
-            return new Illuminance(-right.Value, right.Unit);
+            return new Duration(-right.Value, right.Unit);
         }
 
-        /// <summary>Get <see cref="Illuminance"/> from adding two <see cref="Illuminance"/>.</summary>
-        public static Illuminance operator +(Illuminance left, Illuminance right)
+        /// <summary>Get <see cref="Duration"/> from adding two <see cref="Duration"/>.</summary>
+        public static Duration operator +(Duration left, Duration right)
         {
-            return new Illuminance(left.Value + right.GetValueAs(left.Unit), left.Unit);
+            return new Duration(left.Value + right.GetValueAs(left.Unit), left.Unit);
         }
 
-        /// <summary>Get <see cref="Illuminance"/> from subtracting two <see cref="Illuminance"/>.</summary>
-        public static Illuminance operator -(Illuminance left, Illuminance right)
+        /// <summary>Get <see cref="Duration"/> from subtracting two <see cref="Duration"/>.</summary>
+        public static Duration operator -(Duration left, Duration right)
         {
-            return new Illuminance(left.Value - right.GetValueAs(left.Unit), left.Unit);
+            return new Duration(left.Value - right.GetValueAs(left.Unit), left.Unit);
         }
 
-        /// <summary>Get <see cref="Illuminance"/> from multiplying value and <see cref="Illuminance"/>.</summary>
-        public static Illuminance operator *(double left, Illuminance right)
+        /// <summary>Get <see cref="Duration"/> from multiplying value and <see cref="Duration"/>.</summary>
+        public static Duration operator *(double left, Duration right)
         {
-            return new Illuminance(left * right.Value, right.Unit);
+            return new Duration(left * right.Value, right.Unit);
         }
 
-        /// <summary>Get <see cref="Illuminance"/> from multiplying value and <see cref="Illuminance"/>.</summary>
-        public static Illuminance operator *(Illuminance left, double right)
+        /// <summary>Get <see cref="Duration"/> from multiplying value and <see cref="Duration"/>.</summary>
+        public static Duration operator *(Duration left, double right)
         {
-            return new Illuminance(left.Value * right, left.Unit);
+            return new Duration(left.Value * right, left.Unit);
         }
 
-        /// <summary>Get <see cref="Illuminance"/> from dividing <see cref="Illuminance"/> by value.</summary>
-        public static Illuminance operator /(Illuminance left, double right)
+        /// <summary>Get <see cref="Duration"/> from dividing <see cref="Duration"/> by value.</summary>
+        public static Duration operator /(Duration left, double right)
         {
-            return new Illuminance(left.Value / right, left.Unit);
+            return new Duration(left.Value / right, left.Unit);
         }
 
-        /// <summary>Get ratio value from dividing <see cref="Illuminance"/> by <see cref="Illuminance"/>.</summary>
-        public static double operator /(Illuminance left, Illuminance right)
+        /// <summary>Get ratio value from dividing <see cref="Duration"/> by <see cref="Duration"/>.</summary>
+        public static double operator /(Duration left, Duration right)
         {
-            return left.Lux / right.Lux;
+            return left.Seconds / right.Seconds;
         }
 
         #endregion
@@ -485,25 +625,25 @@ namespace UnitsNet
         #region Equality / IComparable
 
         /// <summary>Returns true if less or equal to.</summary>
-        public static bool operator <=(Illuminance left, Illuminance right)
+        public static bool operator <=(Duration left, Duration right)
         {
             return left.Value <= right.GetValueAs(left.Unit);
         }
 
         /// <summary>Returns true if greater than or equal to.</summary>
-        public static bool operator >=(Illuminance left, Illuminance right)
+        public static bool operator >=(Duration left, Duration right)
         {
             return left.Value >= right.GetValueAs(left.Unit);
         }
 
         /// <summary>Returns true if less than.</summary>
-        public static bool operator <(Illuminance left, Illuminance right)
+        public static bool operator <(Duration left, Duration right)
         {
             return left.Value < right.GetValueAs(left.Unit);
         }
 
         /// <summary>Returns true if greater than.</summary>
-        public static bool operator >(Illuminance left, Illuminance right)
+        public static bool operator >(Duration left, Duration right)
         {
             return left.Value > right.GetValueAs(left.Unit);
         }
@@ -512,20 +652,20 @@ namespace UnitsNet
         public int CompareTo(object obj)
         {
             if (obj is null) throw new ArgumentNullException(nameof(obj));
-            if (!(obj is Illuminance objIlluminance)) throw new ArgumentException("Expected type Illuminance.", nameof(obj));
+            if (!(obj is Duration objDuration)) throw new ArgumentException("Expected type Duration.", nameof(obj));
 
-            return CompareTo(objIlluminance);
+            return CompareTo(objDuration);
         }
 
         /// <inheritdoc />
-        public int CompareTo(Illuminance other)
+        public int CompareTo(Duration other)
         {
             return _value.CompareTo(other.GetValueAs(this.Unit));
         }
 
         /// <summary>
         ///     <para>
-        ///     Compare equality to another Illuminance within the given absolute or relative tolerance.
+        ///     Compare equality to another Duration within the given absolute or relative tolerance.
         ///     </para>
         ///     <para>
         ///     Relative tolerance is defined as the maximum allowable absolute difference between this quantity's value and
@@ -563,7 +703,7 @@ namespace UnitsNet
         /// <param name="tolerance">The absolute or relative tolerance value. Must be greater than or equal to 0.</param>
         /// <param name="comparisonType">The comparison type: either relative or absolute.</param>
         /// <returns>True if the absolute difference between the two values is not greater than the specified relative or absolute tolerance.</returns>
-        public bool Equals(Illuminance other, double tolerance, ComparisonType comparisonType)
+        public bool Equals(Duration other, double tolerance, ComparisonType comparisonType)
         {
             if (tolerance < 0)
                 throw new ArgumentOutOfRangeException("tolerance", "Tolerance must be greater than or equal to 0.");
@@ -577,7 +717,7 @@ namespace UnitsNet
         /// <summary>
         ///     Returns the hash code for this instance.
         /// </summary>
-        /// <returns>A hash code for the current Illuminance.</returns>
+        /// <returns>A hash code for the current Duration.</returns>
         public override int GetHashCode()
         {
             return new { Info.Name, Value, Unit }.GetHashCode();
@@ -591,7 +731,7 @@ namespace UnitsNet
         ///     Convert to the unit representation <paramref name="unit" />.
         /// </summary>
         /// <returns>Value converted to the specified unit.</returns>
-        public double As(IlluminanceUnit unit)
+        public double As(DurationUnit unit)
         {
             if (Unit == unit)
                 return Convert.ToDouble(Value);
@@ -600,58 +740,43 @@ namespace UnitsNet
             return Convert.ToDouble(converted);
         }
 
-        /// <inheritdoc cref="IQuantity.As(UnitSystem)"/>
-        public double As(UnitSystem unitSystem)
-        {
-            if (unitSystem is null)
-                throw new ArgumentNullException(nameof(unitSystem));
-
-            var unitInfos = Info.GetUnitInfosFor(unitSystem.BaseUnits);
-
-            var firstUnitInfo = unitInfos.FirstOrDefault();
-            if (firstUnitInfo == null)
-                throw new ArgumentException("No units were found for the given UnitSystem.", nameof(unitSystem));
-
-            return As(firstUnitInfo.Value);
-        }
-
         /// <inheritdoc />
         double IQuantity.As(Enum unit)
         {
-            if (!(unit is IlluminanceUnit unitAsIlluminanceUnit))
-                throw new ArgumentException($"The given unit is of type {unit.GetType()}. Only {typeof(IlluminanceUnit)} is supported.", nameof(unit));
+            if (!(unit is DurationUnit unitAsDurationUnit))
+                throw new ArgumentException($"The given unit is of type {unit.GetType()}. Only {typeof(DurationUnit)} is supported.", nameof(unit));
 
-            return As(unitAsIlluminanceUnit);
+            return As(unitAsDurationUnit);
         }
 
         /// <summary>
-        ///     Converts this Illuminance to another Illuminance with the unit representation <paramref name="unit" />.
+        ///     Converts this Duration to another Duration with the unit representation <paramref name="unit" />.
         /// </summary>
         /// <param name="unit">The unit to convert to.</param>
-        /// <returns>A Illuminance with the specified unit.</returns>
-        public Illuminance ToUnit(IlluminanceUnit unit)
+        /// <returns>A Duration with the specified unit.</returns>
+        public Duration ToUnit(DurationUnit unit)
         {
             return ToUnit(unit, DefaultConversionFunctions);
         }
 
         /// <summary>
-        ///     Converts this Illuminance to another Illuminance using the given <paramref name="unitConverter"/> with the unit representation <paramref name="unit" />.
+        ///     Converts this Duration to another Duration using the given <paramref name="unitConverter"/> with the unit representation <paramref name="unit" />.
         /// </summary>
         /// <param name="unit">The unit to convert to.</param>
         /// <param name="unitConverter">The <see cref="UnitConverter"/> to use for the conversion.</param>
-        /// <returns>A Illuminance with the specified unit.</returns>
-        public Illuminance ToUnit(IlluminanceUnit unit, UnitConverter unitConverter)
+        /// <returns>A Duration with the specified unit.</returns>
+        public Duration ToUnit(DurationUnit unit, UnitConverter unitConverter)
         {
             if (Unit == unit)
             {
                 // Already in requested units.
                 return this;
             }
-            else if (unitConverter.TryGetConversionFunction((typeof(Illuminance), Unit, typeof(Illuminance), unit), out var conversionFunction))
+            else if (unitConverter.TryGetConversionFunction((typeof(Duration), Unit, typeof(Duration), unit), out var conversionFunction))
             {
                 // Direct conversion to requested unit found. Return the converted quantity.
                 var converted = conversionFunction(this);
-                return (Illuminance)converted;
+                return (Duration)converted;
             }
             else if (Unit != BaseUnit)
             {
@@ -668,14 +793,14 @@ namespace UnitsNet
         /// <inheritdoc />
         IQuantity IQuantity.ToUnit(Enum unit)
         {
-            if (!(unit is IlluminanceUnit unitAsIlluminanceUnit))
-                throw new ArgumentException($"The given unit is of type {unit.GetType()}. Only {typeof(IlluminanceUnit)} is supported.", nameof(unit));
+            if (!(unit is DurationUnit unitAsDurationUnit))
+                throw new ArgumentException($"The given unit is of type {unit.GetType()}. Only {typeof(DurationUnit)} is supported.", nameof(unit));
 
-            return ToUnit(unitAsIlluminanceUnit, DefaultConversionFunctions);
+            return ToUnit(unitAsDurationUnit, DefaultConversionFunctions);
         }
 
         /// <inheritdoc cref="IQuantity.ToUnit(UnitSystem)"/>
-        public Illuminance ToUnit(UnitSystem unitSystem)
+        public Duration ToUnit(UnitSystem unitSystem)
         {
             if (unitSystem is null)
                 throw new ArgumentNullException(nameof(unitSystem));
@@ -693,12 +818,12 @@ namespace UnitsNet
         IQuantity IQuantity.ToUnit(UnitSystem unitSystem) => ToUnit(unitSystem);
 
         /// <inheritdoc />
-        IQuantity<IlluminanceUnit> IQuantity<IlluminanceUnit>.ToUnit(IlluminanceUnit unit) => ToUnit(unit);
+        IQuantity<DurationUnit> IQuantity<DurationUnit>.ToUnit(DurationUnit unit) => ToUnit(unit);
 
         /// <inheritdoc />
-        IQuantity<IlluminanceUnit> IQuantity<IlluminanceUnit>.ToUnit(UnitSystem unitSystem) => ToUnit(unitSystem);
+        IQuantity<DurationUnit> IQuantity<DurationUnit>.ToUnit(UnitSystem unitSystem) => ToUnit(unitSystem);
 
-        private double GetValueAs(IlluminanceUnit unit)
+        private double GetValueAs(DurationUnit unit)
         {
             var converted = ToUnit(unit);
             return (double)converted.Value;
@@ -747,7 +872,7 @@ namespace UnitsNet
         /// <returns>The string representation.</returns>
         public string ToString(string format, IFormatProvider? provider)
         {
-            return QuantityFormatter.Format<IlluminanceUnit>(this, format, provider);
+            return QuantityFormatter.Format<DurationUnit>(this, format, provider);
         }
 
         #endregion
@@ -761,7 +886,7 @@ namespace UnitsNet
 
         bool IConvertible.ToBoolean(IFormatProvider provider)
         {
-            throw new InvalidCastException($"Converting {typeof(Illuminance)} to bool is not supported.");
+            throw new InvalidCastException($"Converting {typeof(Duration)} to bool is not supported.");
         }
 
         byte IConvertible.ToByte(IFormatProvider provider)
@@ -771,12 +896,12 @@ namespace UnitsNet
 
         char IConvertible.ToChar(IFormatProvider provider)
         {
-            throw new InvalidCastException($"Converting {typeof(Illuminance)} to char is not supported.");
+            throw new InvalidCastException($"Converting {typeof(Duration)} to char is not supported.");
         }
 
         DateTime IConvertible.ToDateTime(IFormatProvider provider)
         {
-            throw new InvalidCastException($"Converting {typeof(Illuminance)} to DateTime is not supported.");
+            throw new InvalidCastException($"Converting {typeof(Duration)} to DateTime is not supported.");
         }
 
         decimal IConvertible.ToDecimal(IFormatProvider provider)
@@ -821,16 +946,16 @@ namespace UnitsNet
 
         object IConvertible.ToType(Type conversionType, IFormatProvider provider)
         {
-            if (conversionType == typeof(Illuminance))
+            if (conversionType == typeof(Duration))
                 return this;
-            else if (conversionType == typeof(IlluminanceUnit))
+            else if (conversionType == typeof(DurationUnit))
                 return Unit;
             else if (conversionType == typeof(QuantityInfo))
-                return Illuminance.Info;
+                return Duration.Info;
             else if (conversionType == typeof(BaseDimensions))
-                return Illuminance.BaseDimensions;
+                return Duration.BaseDimensions;
             else
-                throw new InvalidCastException($"Converting {typeof(Illuminance)} to {conversionType} is not supported.");
+                throw new InvalidCastException($"Converting {typeof(Duration)} to {conversionType} is not supported.");
         }
 
         ushort IConvertible.ToUInt16(IFormatProvider provider)

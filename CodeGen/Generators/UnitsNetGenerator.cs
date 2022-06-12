@@ -1,6 +1,7 @@
 ﻿// Licensed under MIT No Attribution, see LICENSE file at the root.
 // Copyright 2013 Andreas Gullberg Larsen (andreas.larsen84@gmail.com). Maintained at https://github.com/angularsen/UnitsNet.
 
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using CodeGen.Generators.UnitsNetGen;
@@ -13,6 +14,7 @@ namespace CodeGen.Generators
     /// <summary>
     ///     Code generator for UnitsNet and UnitsNet.Tests projects.
     /// </summary>
+    [SuppressMessage("ReSharper", "TemplateIsNotCompileTimeConstantProblem")]
     internal static class UnitsNetGenerator
     {
         /// <summary>
@@ -35,28 +37,34 @@ namespace CodeGen.Generators
         /// <param name="quantityNameToUnitEnumValues">Allocated unit enum values for generating unit enum types.</param>
         public static void Generate(string rootDir, Quantity[] quantities, QuantityNameToUnitEnumValues quantityNameToUnitEnumValues)
         {
-            var outputDir = $"{rootDir}/UnitsNet/GeneratedCode";
-            var extensionsOutputDir = $"{rootDir}/UnitsNet.NumberExtensions/GeneratedCode";
-            var extensionsTestOutputDir = $"{rootDir}/UnitsNet.NumberExtensions.Tests/GeneratedCode";
+            var unitsNetDir = $"{rootDir}/UnitsNet";
+            var numberExtensionsGenDir = $"{rootDir}/UnitsNet.NumberExtensions/GeneratedCode";
+            var numberExtensionsTestsGenDir = $"{rootDir}/UnitsNet.NumberExtensions.Tests/GeneratedCode";
             var testProjectDir = $"{rootDir}/UnitsNet.Tests";
 
             // Ensure output directories exist
-            Directory.CreateDirectory($"{outputDir}/Quantities");
-            Directory.CreateDirectory($"{outputDir}/Units");
-            Directory.CreateDirectory($"{extensionsOutputDir}");
-            Directory.CreateDirectory($"{extensionsTestOutputDir}");
+            Directory.CreateDirectory($"{unitsNetDir}/Quantities");
+            Directory.CreateDirectory($"{unitsNetDir}/Units");
+            Directory.CreateDirectory($"{numberExtensionsGenDir}");
+            Directory.CreateDirectory($"{numberExtensionsTestsGenDir}");
             Directory.CreateDirectory($"{testProjectDir}/GeneratedCode");
             Directory.CreateDirectory($"{testProjectDir}/GeneratedCode/TestsBase");
             Directory.CreateDirectory($"{testProjectDir}/GeneratedCode/QuantityTests");
 
             foreach (var quantity in quantities)
             {
+                var projectDir = Path.Combine(unitsNetDir, quantity.Name);
+                Directory.CreateDirectory(projectDir);
+
                 UnitEnumNameToValue unitEnumValues = quantityNameToUnitEnumValues[quantity.Name];
 
-                GenerateQuantity(quantity, $"{outputDir}/Quantities/{quantity.Name}.g.cs");
-                GenerateUnitType(quantity, $"{outputDir}/Units/{quantity.Name}Unit.g.cs", unitEnumValues);
-                GenerateNumberToExtensions(quantity, $"{extensionsOutputDir}/NumberTo{quantity.Name}Extensions.g.cs");
-                GenerateNumberToExtensionsTestClass(quantity, $"{extensionsTestOutputDir}/NumberTo{quantity.Name}ExtensionsTest.g.cs");
+                GenerateQuantity(quantity, $"{projectDir}/{quantity.Name}.g.cs");
+                GenerateUnitType(quantity, $"{projectDir}/{quantity.Name}Unit.g.cs", unitEnumValues);
+                GenerateProject(quantity, Path.Combine(projectDir, $"UnitsNet.{quantity.Name}.csproj"));
+                GenerateSolution(quantities, Path.Combine(unitsNetDir, "UnitsNet2.sln"));
+
+                GenerateNumberToExtensions(quantity, $"{numberExtensionsGenDir}/NumberTo{quantity.Name}Extensions.g.cs");
+                GenerateNumberToExtensionsTestClass(quantity, $"{numberExtensionsTestsGenDir}/NumberTo{quantity.Name}ExtensionsTest.g.cs");
 
                 // Example: CustomCode/Quantities/LengthTests inherits GeneratedCode/TestsBase/LengthTestsBase
                 // This way when new units are added to the quantity JSON definition, we auto-generate the new
@@ -70,7 +78,7 @@ namespace CodeGen.Generators
 
             Log.Information("");
             GenerateIQuantityTests(quantities, $"{testProjectDir}/GeneratedCode/IQuantityTests.g.cs");
-            GenerateStaticQuantity(quantities, $"{outputDir}/Quantity.g.cs");
+            GenerateStaticQuantity(quantities, $"{unitsNetDir}/Quantity.g.cs");
 
             var unitCount = quantities.SelectMany(q => q.Units).Count();
             Log.Information("");
@@ -130,5 +138,20 @@ namespace CodeGen.Generators
             File.WriteAllText(filePath, content);
             Log.Information("✅ Quantity.g.cs");
         }
+
+        private static void GenerateProject(Quantity quantity, string filePath)
+        {
+            var content = new ProjectGenerator(quantity).Generate();
+            File.WriteAllText(filePath, content);
+        }
+
+        private static void GenerateSolution(Quantity[] quantities, string filePath)
+        {
+            var content = new SolutionGenerator(quantities).Generate();
+
+            File.WriteAllText(filePath, content);
+            Log.Information($"✅ {Path.GetFileName("UnitsNet2.sln")}");
+        }
+
     }
 }

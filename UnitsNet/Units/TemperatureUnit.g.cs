@@ -23,12 +23,18 @@ namespace UnitsNet.Units
     // Disable missing XML comment warnings for the generated unit enums.
     #pragma warning disable 1591
 
-    public enum IlluminanceUnit
+    public enum TemperatureUnit
     {
-        Kilolux = 1,
-        Lux = 2,
-        Megalux = 3,
-        Millilux = 4,
+        DegreeCelsius = 1,
+        DegreeDelisle = 2,
+        DegreeFahrenheit = 3,
+        DegreeNewton = 4,
+        DegreeRankine = 5,
+        DegreeReaumur = 6,
+        DegreeRoemer = 7,
+        Kelvin = 8,
+        MillidegreeCelsius = 9,
+        SolarTemperature = 10,
     }
 
     #pragma warning restore 1591

@@ -32,10 +32,13 @@ namespace UnitsNet
 {
     /// <inheritdoc />
     /// <summary>
-    ///     A temperature is a numerical measure of hot or cold. Its measurement is by detection of heat radiation or particle velocity or kinetic energy, or by the bulk behavior of a thermometric material. It may be calibrated in any of various temperature scales, Celsius, Fahrenheit, Kelvin, etc. The fundamental physical definition of temperature is provided by thermodynamics.
+    ///     In photometry, luminous intensity is a measure of the wavelength-weighted power emitted by a light source in a particular direction per unit solid angle, based on the luminosity function, a standardized model of the sensitivity of the human eye.
     /// </summary>
+    /// <remarks>
+    ///     https://en.wikipedia.org/wiki/Luminous_intensity
+    /// </remarks>
     [DataContract]
-    public partial struct Temperature : IQuantity<TemperatureUnit>, IComparable, IComparable<Temperature>, IConvertible, IFormattable
+    public partial struct LuminousIntensity : IQuantity<LuminousIntensityUnit>, IComparable, IComparable<LuminousIntensity>, IConvertible, IFormattable
     {
         /// <summary>
         ///     The numeric value this quantity was constructed with.
@@ -47,27 +50,18 @@ namespace UnitsNet
         ///     The unit this quantity was constructed with.
         /// </summary>
         [DataMember(Name = "Unit", Order = 1)]
-        private readonly TemperatureUnit? _unit;
+        private readonly LuminousIntensityUnit? _unit;
 
-        static Temperature()
+        static LuminousIntensity()
         {
-            BaseDimensions = new BaseDimensions(0, 0, 0, 0, 1, 0, 0);
-            BaseUnit = TemperatureUnit.Kelvin;
-            Units = Enum.GetValues(typeof(TemperatureUnit)).Cast<TemperatureUnit>().ToArray();
-            Zero = new Temperature(0, BaseUnit);
-            Info = new QuantityInfo<TemperatureUnit>("Temperature",
-                new UnitInfo<TemperatureUnit>[]
+            BaseDimensions = new BaseDimensions(0, 0, 0, 0, 0, 0, 1);
+            BaseUnit = LuminousIntensityUnit.Candela;
+            Units = Enum.GetValues(typeof(LuminousIntensityUnit)).Cast<LuminousIntensityUnit>().ToArray();
+            Zero = new LuminousIntensity(0, BaseUnit);
+            Info = new QuantityInfo<LuminousIntensityUnit>("LuminousIntensity",
+                new UnitInfo<LuminousIntensityUnit>[]
                 {
-                    new UnitInfo<TemperatureUnit>(TemperatureUnit.DegreeCelsius, "DegreesCelsius", new BaseUnits(temperature: TemperatureUnit.DegreeCelsius)),
-                    new UnitInfo<TemperatureUnit>(TemperatureUnit.DegreeDelisle, "DegreesDelisle", new BaseUnits(temperature: TemperatureUnit.DegreeDelisle)),
-                    new UnitInfo<TemperatureUnit>(TemperatureUnit.DegreeFahrenheit, "DegreesFahrenheit", new BaseUnits(temperature: TemperatureUnit.DegreeFahrenheit)),
-                    new UnitInfo<TemperatureUnit>(TemperatureUnit.DegreeNewton, "DegreesNewton", new BaseUnits(temperature: TemperatureUnit.DegreeNewton)),
-                    new UnitInfo<TemperatureUnit>(TemperatureUnit.DegreeRankine, "DegreesRankine", new BaseUnits(temperature: TemperatureUnit.DegreeRankine)),
-                    new UnitInfo<TemperatureUnit>(TemperatureUnit.DegreeReaumur, "DegreesReaumur", new BaseUnits(temperature: TemperatureUnit.DegreeReaumur)),
-                    new UnitInfo<TemperatureUnit>(TemperatureUnit.DegreeRoemer, "DegreesRoemer", new BaseUnits(temperature: TemperatureUnit.DegreeRoemer)),
-                    new UnitInfo<TemperatureUnit>(TemperatureUnit.Kelvin, "Kelvins", new BaseUnits(temperature: TemperatureUnit.Kelvin)),
-                    new UnitInfo<TemperatureUnit>(TemperatureUnit.MillidegreeCelsius, "MillidegreesCelsius", new BaseUnits(temperature: TemperatureUnit.DegreeCelsius)),
-                    new UnitInfo<TemperatureUnit>(TemperatureUnit.SolarTemperature, "SolarTemperatures", BaseUnits.Undefined),
+                    new UnitInfo<LuminousIntensityUnit>(LuminousIntensityUnit.Candela, "Candela", new BaseUnits(luminousIntensity: LuminousIntensityUnit.Candela)),
                 },
                 BaseUnit, Zero, BaseDimensions);
 
@@ -81,7 +75,7 @@ namespace UnitsNet
         /// <param name="value">The numeric value to construct this quantity with.</param>
         /// <param name="unit">The unit representation to construct this quantity with.</param>
         /// <exception cref="ArgumentException">If value is NaN or Infinity.</exception>
-        public Temperature(double value, TemperatureUnit unit)
+        public LuminousIntensity(double value, LuminousIntensityUnit unit)
         {
             _value = Guard.EnsureValidNumber(value, nameof(value));
             _unit = unit;
@@ -95,7 +89,7 @@ namespace UnitsNet
         /// <param name="unitSystem">The unit system to create the quantity with.</param>
         /// <exception cref="ArgumentNullException">The given <see cref="UnitSystem"/> is null.</exception>
         /// <exception cref="ArgumentException">No unit was found for the given <see cref="UnitSystem"/>.</exception>
-        public Temperature(double value, UnitSystem unitSystem)
+        public LuminousIntensity(double value, UnitSystem unitSystem)
         {
             if (unitSystem is null) throw new ArgumentNullException(nameof(unitSystem));
 
@@ -109,12 +103,12 @@ namespace UnitsNet
         #region Static Properties
 
         /// <summary>
-        ///     The <see cref="UnitConverter" /> containing the default generated conversion functions for <see cref="Temperature" /> instances.
+        ///     The <see cref="UnitConverter" /> containing the default generated conversion functions for <see cref="LuminousIntensity" /> instances.
         /// </summary>
         public static UnitConverter DefaultConversionFunctions { get; }
 
         /// <inheritdoc cref="IQuantity.QuantityInfo"/>
-        public static QuantityInfo<TemperatureUnit> Info { get; }
+        public static QuantityInfo<LuminousIntensityUnit> Info { get; }
 
         /// <summary>
         ///     The <see cref="BaseDimensions" /> of this quantity.
@@ -122,19 +116,19 @@ namespace UnitsNet
         public static BaseDimensions BaseDimensions { get; }
 
         /// <summary>
-        ///     The base unit of Temperature, which is Kelvin. All conversions go via this value.
+        ///     The base unit of LuminousIntensity, which is Candela. All conversions go via this value.
         /// </summary>
-        public static TemperatureUnit BaseUnit { get; }
+        public static LuminousIntensityUnit BaseUnit { get; }
 
         /// <summary>
-        ///     All units of measurement for the Temperature quantity.
+        ///     All units of measurement for the LuminousIntensity quantity.
         /// </summary>
-        public static TemperatureUnit[] Units { get; }
+        public static LuminousIntensityUnit[] Units { get; }
 
         /// <summary>
-        ///     Gets an instance of this quantity with a value of 0 in the base unit Kelvin.
+        ///     Gets an instance of this quantity with a value of 0 in the base unit Candela.
         /// </summary>
-        public static Temperature Zero { get; }
+        public static LuminousIntensity Zero { get; }
 
         #endregion
 
@@ -148,10 +142,10 @@ namespace UnitsNet
         Enum IQuantity.Unit => Unit;
 
         /// <inheritdoc />
-        public TemperatureUnit Unit => _unit.GetValueOrDefault(BaseUnit);
+        public LuminousIntensityUnit Unit => _unit.GetValueOrDefault(BaseUnit);
 
         /// <inheritdoc />
-        public QuantityInfo<TemperatureUnit> QuantityInfo => Info;
+        public QuantityInfo<LuminousIntensityUnit> QuantityInfo => Info;
 
         /// <inheritdoc cref="IQuantity.QuantityInfo"/>
         QuantityInfo IQuantity.QuantityInfo => Info;
@@ -159,61 +153,16 @@ namespace UnitsNet
         /// <summary>
         ///     The <see cref="BaseDimensions" /> of this quantity.
         /// </summary>
-        public BaseDimensions Dimensions => Temperature.BaseDimensions;
+        public BaseDimensions Dimensions => LuminousIntensity.BaseDimensions;
 
         #endregion
 
         #region Conversion Properties
 
         /// <summary>
-        ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="TemperatureUnit.DegreeCelsius"/>
+        ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="LuminousIntensityUnit.Candela"/>
         /// </summary>
-        public double DegreesCelsius => As(TemperatureUnit.DegreeCelsius);
-
-        /// <summary>
-        ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="TemperatureUnit.DegreeDelisle"/>
-        /// </summary>
-        public double DegreesDelisle => As(TemperatureUnit.DegreeDelisle);
-
-        /// <summary>
-        ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="TemperatureUnit.DegreeFahrenheit"/>
-        /// </summary>
-        public double DegreesFahrenheit => As(TemperatureUnit.DegreeFahrenheit);
-
-        /// <summary>
-        ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="TemperatureUnit.DegreeNewton"/>
-        /// </summary>
-        public double DegreesNewton => As(TemperatureUnit.DegreeNewton);
-
-        /// <summary>
-        ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="TemperatureUnit.DegreeRankine"/>
-        /// </summary>
-        public double DegreesRankine => As(TemperatureUnit.DegreeRankine);
-
-        /// <summary>
-        ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="TemperatureUnit.DegreeReaumur"/>
-        /// </summary>
-        public double DegreesReaumur => As(TemperatureUnit.DegreeReaumur);
-
-        /// <summary>
-        ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="TemperatureUnit.DegreeRoemer"/>
-        /// </summary>
-        public double DegreesRoemer => As(TemperatureUnit.DegreeRoemer);
-
-        /// <summary>
-        ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="TemperatureUnit.Kelvin"/>
-        /// </summary>
-        public double Kelvins => As(TemperatureUnit.Kelvin);
-
-        /// <summary>
-        ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="TemperatureUnit.MillidegreeCelsius"/>
-        /// </summary>
-        public double MillidegreesCelsius => As(TemperatureUnit.MillidegreeCelsius);
-
-        /// <summary>
-        ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="TemperatureUnit.SolarTemperature"/>
-        /// </summary>
-        public double SolarTemperatures => As(TemperatureUnit.SolarTemperature);
+        public double Candela => As(LuminousIntensityUnit.Candela);
 
         #endregion
 
@@ -225,44 +174,17 @@ namespace UnitsNet
         /// <param name="unitConverter">The <see cref="UnitConverter"/> to register the default conversion functions in.</param>
         internal static void RegisterDefaultConversions(UnitConverter unitConverter)
         {
-            // Register in unit converter: BaseUnit -> TemperatureUnit
-            unitConverter.SetConversionFunction<Temperature>(TemperatureUnit.Kelvin, TemperatureUnit.DegreeCelsius, quantity => new Temperature(quantity.Value - 273.15, TemperatureUnit.DegreeCelsius));
-            unitConverter.SetConversionFunction<Temperature>(TemperatureUnit.Kelvin, TemperatureUnit.DegreeDelisle, quantity => new Temperature((quantity.Value - 373.15) * -3 / 2, TemperatureUnit.DegreeDelisle));
-            unitConverter.SetConversionFunction<Temperature>(TemperatureUnit.Kelvin, TemperatureUnit.DegreeFahrenheit, quantity => new Temperature((quantity.Value - 459.67 * 5 / 9) * 9 / 5, TemperatureUnit.DegreeFahrenheit));
-            unitConverter.SetConversionFunction<Temperature>(TemperatureUnit.Kelvin, TemperatureUnit.DegreeNewton, quantity => new Temperature((quantity.Value - 273.15) * 33 / 100, TemperatureUnit.DegreeNewton));
-            unitConverter.SetConversionFunction<Temperature>(TemperatureUnit.Kelvin, TemperatureUnit.DegreeRankine, quantity => new Temperature(quantity.Value * 9 / 5, TemperatureUnit.DegreeRankine));
-            unitConverter.SetConversionFunction<Temperature>(TemperatureUnit.Kelvin, TemperatureUnit.DegreeReaumur, quantity => new Temperature((quantity.Value - 273.15) * 4 / 5, TemperatureUnit.DegreeReaumur));
-            unitConverter.SetConversionFunction<Temperature>(TemperatureUnit.Kelvin, TemperatureUnit.DegreeRoemer, quantity => new Temperature((quantity.Value - (273.15 - 7.5 * 40d / 21)) * 21 / 40, TemperatureUnit.DegreeRoemer));
-            unitConverter.SetConversionFunction<Temperature>(TemperatureUnit.Kelvin, TemperatureUnit.MillidegreeCelsius, quantity => new Temperature((quantity.Value - 273.15) * 1000, TemperatureUnit.MillidegreeCelsius));
-            unitConverter.SetConversionFunction<Temperature>(TemperatureUnit.Kelvin, TemperatureUnit.SolarTemperature, quantity => new Temperature(quantity.Value / 5778, TemperatureUnit.SolarTemperature));
+            // Register in unit converter: BaseUnit -> LuminousIntensityUnit
 
             // Register in unit converter: BaseUnit <-> BaseUnit
-            unitConverter.SetConversionFunction<Temperature>(TemperatureUnit.Kelvin, TemperatureUnit.Kelvin, quantity => quantity);
+            unitConverter.SetConversionFunction<LuminousIntensity>(LuminousIntensityUnit.Candela, LuminousIntensityUnit.Candela, quantity => quantity);
 
-            // Register in unit converter: TemperatureUnit -> BaseUnit
-            unitConverter.SetConversionFunction<Temperature>(TemperatureUnit.DegreeCelsius, TemperatureUnit.Kelvin, quantity => new Temperature(quantity.Value + 273.15, TemperatureUnit.Kelvin));
-            unitConverter.SetConversionFunction<Temperature>(TemperatureUnit.DegreeDelisle, TemperatureUnit.Kelvin, quantity => new Temperature(quantity.Value * -2 / 3 + 373.15, TemperatureUnit.Kelvin));
-            unitConverter.SetConversionFunction<Temperature>(TemperatureUnit.DegreeFahrenheit, TemperatureUnit.Kelvin, quantity => new Temperature(quantity.Value * 5 / 9 + 459.67 * 5 / 9, TemperatureUnit.Kelvin));
-            unitConverter.SetConversionFunction<Temperature>(TemperatureUnit.DegreeNewton, TemperatureUnit.Kelvin, quantity => new Temperature(quantity.Value * 100 / 33 + 273.15, TemperatureUnit.Kelvin));
-            unitConverter.SetConversionFunction<Temperature>(TemperatureUnit.DegreeRankine, TemperatureUnit.Kelvin, quantity => new Temperature(quantity.Value * 5 / 9, TemperatureUnit.Kelvin));
-            unitConverter.SetConversionFunction<Temperature>(TemperatureUnit.DegreeReaumur, TemperatureUnit.Kelvin, quantity => new Temperature(quantity.Value * 5 / 4 + 273.15, TemperatureUnit.Kelvin));
-            unitConverter.SetConversionFunction<Temperature>(TemperatureUnit.DegreeRoemer, TemperatureUnit.Kelvin, quantity => new Temperature(quantity.Value * 40 / 21 + 273.15 - 7.5 * 40d / 21, TemperatureUnit.Kelvin));
-            unitConverter.SetConversionFunction<Temperature>(TemperatureUnit.MillidegreeCelsius, TemperatureUnit.Kelvin, quantity => new Temperature(quantity.Value / 1000 + 273.15, TemperatureUnit.Kelvin));
-            unitConverter.SetConversionFunction<Temperature>(TemperatureUnit.SolarTemperature, TemperatureUnit.Kelvin, quantity => new Temperature(quantity.Value * 5778, TemperatureUnit.Kelvin));
+            // Register in unit converter: LuminousIntensityUnit -> BaseUnit
         }
 
         internal static void MapGeneratedLocalizations(UnitAbbreviationsCache unitAbbreviationsCache)
         {
-            unitAbbreviationsCache.PerformAbbreviationMapping(TemperatureUnit.DegreeCelsius, new CultureInfo("en-US"), false, true, new string[]{"°C"});
-            unitAbbreviationsCache.PerformAbbreviationMapping(TemperatureUnit.DegreeDelisle, new CultureInfo("en-US"), false, true, new string[]{"°De"});
-            unitAbbreviationsCache.PerformAbbreviationMapping(TemperatureUnit.DegreeFahrenheit, new CultureInfo("en-US"), false, true, new string[]{"°F"});
-            unitAbbreviationsCache.PerformAbbreviationMapping(TemperatureUnit.DegreeNewton, new CultureInfo("en-US"), false, true, new string[]{"°N"});
-            unitAbbreviationsCache.PerformAbbreviationMapping(TemperatureUnit.DegreeRankine, new CultureInfo("en-US"), false, true, new string[]{"°R"});
-            unitAbbreviationsCache.PerformAbbreviationMapping(TemperatureUnit.DegreeReaumur, new CultureInfo("en-US"), false, true, new string[]{"°Ré"});
-            unitAbbreviationsCache.PerformAbbreviationMapping(TemperatureUnit.DegreeRoemer, new CultureInfo("en-US"), false, true, new string[]{"°Rø"});
-            unitAbbreviationsCache.PerformAbbreviationMapping(TemperatureUnit.Kelvin, new CultureInfo("en-US"), false, true, new string[]{"K"});
-            unitAbbreviationsCache.PerformAbbreviationMapping(TemperatureUnit.MillidegreeCelsius, new CultureInfo("en-US"), false, true, new string[]{"m°C"});
-            unitAbbreviationsCache.PerformAbbreviationMapping(TemperatureUnit.SolarTemperature, new CultureInfo("en-US"), false, true, new string[]{"T⊙"});
+            unitAbbreviationsCache.PerformAbbreviationMapping(LuminousIntensityUnit.Candela, new CultureInfo("en-US"), false, true, new string[]{"cd"});
         }
 
         /// <summary>
@@ -270,7 +192,7 @@ namespace UnitsNet
         /// </summary>
         /// <param name="unit">Unit to get abbreviation for.</param>
         /// <returns>Unit abbreviation string.</returns>
-        public static string GetAbbreviation(TemperatureUnit unit)
+        public static string GetAbbreviation(LuminousIntensityUnit unit)
         {
             return GetAbbreviation(unit, null);
         }
@@ -281,7 +203,7 @@ namespace UnitsNet
         /// <param name="unit">Unit to get abbreviation for.</param>
         /// <returns>Unit abbreviation string.</returns>
         /// <param name="provider">Format to use for localization. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
-        public static string GetAbbreviation(TemperatureUnit unit, IFormatProvider? provider)
+        public static string GetAbbreviation(LuminousIntensityUnit unit, IFormatProvider? provider)
         {
             return UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit, provider);
         }
@@ -291,114 +213,24 @@ namespace UnitsNet
         #region Static Factory Methods
 
         /// <summary>
-        ///     Creates a <see cref="Temperature"/> from <see cref="TemperatureUnit.DegreeCelsius"/>.
+        ///     Creates a <see cref="LuminousIntensity"/> from <see cref="LuminousIntensityUnit.Candela"/>.
         /// </summary>
         /// <exception cref="ArgumentException">If value is NaN or Infinity.</exception>
-        public static Temperature FromDegreesCelsius(QuantityValue degreescelsius)
+        public static LuminousIntensity FromCandela(QuantityValue candela)
         {
-            double value = (double) degreescelsius;
-            return new Temperature(value, TemperatureUnit.DegreeCelsius);
+            double value = (double) candela;
+            return new LuminousIntensity(value, LuminousIntensityUnit.Candela);
         }
 
         /// <summary>
-        ///     Creates a <see cref="Temperature"/> from <see cref="TemperatureUnit.DegreeDelisle"/>.
-        /// </summary>
-        /// <exception cref="ArgumentException">If value is NaN or Infinity.</exception>
-        public static Temperature FromDegreesDelisle(QuantityValue degreesdelisle)
-        {
-            double value = (double) degreesdelisle;
-            return new Temperature(value, TemperatureUnit.DegreeDelisle);
-        }
-
-        /// <summary>
-        ///     Creates a <see cref="Temperature"/> from <see cref="TemperatureUnit.DegreeFahrenheit"/>.
-        /// </summary>
-        /// <exception cref="ArgumentException">If value is NaN or Infinity.</exception>
-        public static Temperature FromDegreesFahrenheit(QuantityValue degreesfahrenheit)
-        {
-            double value = (double) degreesfahrenheit;
-            return new Temperature(value, TemperatureUnit.DegreeFahrenheit);
-        }
-
-        /// <summary>
-        ///     Creates a <see cref="Temperature"/> from <see cref="TemperatureUnit.DegreeNewton"/>.
-        /// </summary>
-        /// <exception cref="ArgumentException">If value is NaN or Infinity.</exception>
-        public static Temperature FromDegreesNewton(QuantityValue degreesnewton)
-        {
-            double value = (double) degreesnewton;
-            return new Temperature(value, TemperatureUnit.DegreeNewton);
-        }
-
-        /// <summary>
-        ///     Creates a <see cref="Temperature"/> from <see cref="TemperatureUnit.DegreeRankine"/>.
-        /// </summary>
-        /// <exception cref="ArgumentException">If value is NaN or Infinity.</exception>
-        public static Temperature FromDegreesRankine(QuantityValue degreesrankine)
-        {
-            double value = (double) degreesrankine;
-            return new Temperature(value, TemperatureUnit.DegreeRankine);
-        }
-
-        /// <summary>
-        ///     Creates a <see cref="Temperature"/> from <see cref="TemperatureUnit.DegreeReaumur"/>.
-        /// </summary>
-        /// <exception cref="ArgumentException">If value is NaN or Infinity.</exception>
-        public static Temperature FromDegreesReaumur(QuantityValue degreesreaumur)
-        {
-            double value = (double) degreesreaumur;
-            return new Temperature(value, TemperatureUnit.DegreeReaumur);
-        }
-
-        /// <summary>
-        ///     Creates a <see cref="Temperature"/> from <see cref="TemperatureUnit.DegreeRoemer"/>.
-        /// </summary>
-        /// <exception cref="ArgumentException">If value is NaN or Infinity.</exception>
-        public static Temperature FromDegreesRoemer(QuantityValue degreesroemer)
-        {
-            double value = (double) degreesroemer;
-            return new Temperature(value, TemperatureUnit.DegreeRoemer);
-        }
-
-        /// <summary>
-        ///     Creates a <see cref="Temperature"/> from <see cref="TemperatureUnit.Kelvin"/>.
-        /// </summary>
-        /// <exception cref="ArgumentException">If value is NaN or Infinity.</exception>
-        public static Temperature FromKelvins(QuantityValue kelvins)
-        {
-            double value = (double) kelvins;
-            return new Temperature(value, TemperatureUnit.Kelvin);
-        }
-
-        /// <summary>
-        ///     Creates a <see cref="Temperature"/> from <see cref="TemperatureUnit.MillidegreeCelsius"/>.
-        /// </summary>
-        /// <exception cref="ArgumentException">If value is NaN or Infinity.</exception>
-        public static Temperature FromMillidegreesCelsius(QuantityValue millidegreescelsius)
-        {
-            double value = (double) millidegreescelsius;
-            return new Temperature(value, TemperatureUnit.MillidegreeCelsius);
-        }
-
-        /// <summary>
-        ///     Creates a <see cref="Temperature"/> from <see cref="TemperatureUnit.SolarTemperature"/>.
-        /// </summary>
-        /// <exception cref="ArgumentException">If value is NaN or Infinity.</exception>
-        public static Temperature FromSolarTemperatures(QuantityValue solartemperatures)
-        {
-            double value = (double) solartemperatures;
-            return new Temperature(value, TemperatureUnit.SolarTemperature);
-        }
-
-        /// <summary>
-        ///     Dynamically convert from value and unit enum <see cref="TemperatureUnit" /> to <see cref="Temperature" />.
+        ///     Dynamically convert from value and unit enum <see cref="LuminousIntensityUnit" /> to <see cref="LuminousIntensity" />.
         /// </summary>
         /// <param name="value">Value to convert from.</param>
         /// <param name="fromUnit">Unit to convert from.</param>
-        /// <returns>Temperature unit value.</returns>
-        public static Temperature From(QuantityValue value, TemperatureUnit fromUnit)
+        /// <returns>LuminousIntensity unit value.</returns>
+        public static LuminousIntensity From(QuantityValue value, LuminousIntensityUnit fromUnit)
         {
-            return new Temperature((double)value, fromUnit);
+            return new LuminousIntensity((double)value, fromUnit);
         }
 
         #endregion
@@ -427,7 +259,7 @@ namespace UnitsNet
         ///     We wrap exceptions in <see cref="UnitsNetException" /> to allow you to distinguish
         ///     Units.NET exceptions from other exceptions.
         /// </exception>
-        public static Temperature Parse(string str)
+        public static LuminousIntensity Parse(string str)
         {
             return Parse(str, null);
         }
@@ -455,9 +287,9 @@ namespace UnitsNet
         ///     Units.NET exceptions from other exceptions.
         /// </exception>
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
-        public static Temperature Parse(string str, IFormatProvider? provider)
+        public static LuminousIntensity Parse(string str, IFormatProvider? provider)
         {
-            return QuantityParser.Default.Parse<Temperature, TemperatureUnit>(
+            return QuantityParser.Default.Parse<LuminousIntensity, LuminousIntensityUnit>(
                 str,
                 provider,
                 From);
@@ -471,7 +303,7 @@ namespace UnitsNet
         /// <example>
         ///     Length.Parse("5.5 m", new CultureInfo("en-US"));
         /// </example>
-        public static bool TryParse(string? str, out Temperature result)
+        public static bool TryParse(string? str, out LuminousIntensity result)
         {
             return TryParse(str, null, out result);
         }
@@ -486,9 +318,9 @@ namespace UnitsNet
         ///     Length.Parse("5.5 m", new CultureInfo("en-US"));
         /// </example>
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
-        public static bool TryParse(string? str, IFormatProvider? provider, out Temperature result)
+        public static bool TryParse(string? str, IFormatProvider? provider, out LuminousIntensity result)
         {
-            return QuantityParser.Default.TryParse<Temperature, TemperatureUnit>(
+            return QuantityParser.Default.TryParse<LuminousIntensity, LuminousIntensityUnit>(
                 str,
                 provider,
                 From,
@@ -504,7 +336,7 @@ namespace UnitsNet
         /// </example>
         /// <exception cref="ArgumentNullException">The value of 'str' cannot be null. </exception>
         /// <exception cref="UnitsNetException">Error parsing string.</exception>
-        public static TemperatureUnit ParseUnit(string str)
+        public static LuminousIntensityUnit ParseUnit(string str)
         {
             return ParseUnit(str, null);
         }
@@ -519,13 +351,13 @@ namespace UnitsNet
         /// </example>
         /// <exception cref="ArgumentNullException">The value of 'str' cannot be null. </exception>
         /// <exception cref="UnitsNetException">Error parsing string.</exception>
-        public static TemperatureUnit ParseUnit(string str, IFormatProvider? provider)
+        public static LuminousIntensityUnit ParseUnit(string str, IFormatProvider? provider)
         {
-            return UnitParser.Default.Parse<TemperatureUnit>(str, provider);
+            return UnitParser.Default.Parse<LuminousIntensityUnit>(str, provider);
         }
 
-        /// <inheritdoc cref="TryParseUnit(string,IFormatProvider,out UnitsNet.Units.TemperatureUnit)"/>
-        public static bool TryParseUnit(string str, out TemperatureUnit unit)
+        /// <inheritdoc cref="TryParseUnit(string,IFormatProvider,out UnitsNet.Units.LuminousIntensityUnit)"/>
+        public static bool TryParseUnit(string str, out LuminousIntensityUnit unit)
         {
             return TryParseUnit(str, null, out unit);
         }
@@ -540,9 +372,55 @@ namespace UnitsNet
         ///     Length.TryParseUnit("m", new CultureInfo("en-US"));
         /// </example>
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
-        public static bool TryParseUnit(string str, IFormatProvider? provider, out TemperatureUnit unit)
+        public static bool TryParseUnit(string str, IFormatProvider? provider, out LuminousIntensityUnit unit)
         {
-            return UnitParser.Default.TryParse<TemperatureUnit>(str, provider, out unit);
+            return UnitParser.Default.TryParse<LuminousIntensityUnit>(str, provider, out unit);
+        }
+
+        #endregion
+
+        #region Arithmetic Operators
+
+        /// <summary>Negate the value.</summary>
+        public static LuminousIntensity operator -(LuminousIntensity right)
+        {
+            return new LuminousIntensity(-right.Value, right.Unit);
+        }
+
+        /// <summary>Get <see cref="LuminousIntensity"/> from adding two <see cref="LuminousIntensity"/>.</summary>
+        public static LuminousIntensity operator +(LuminousIntensity left, LuminousIntensity right)
+        {
+            return new LuminousIntensity(left.Value + right.GetValueAs(left.Unit), left.Unit);
+        }
+
+        /// <summary>Get <see cref="LuminousIntensity"/> from subtracting two <see cref="LuminousIntensity"/>.</summary>
+        public static LuminousIntensity operator -(LuminousIntensity left, LuminousIntensity right)
+        {
+            return new LuminousIntensity(left.Value - right.GetValueAs(left.Unit), left.Unit);
+        }
+
+        /// <summary>Get <see cref="LuminousIntensity"/> from multiplying value and <see cref="LuminousIntensity"/>.</summary>
+        public static LuminousIntensity operator *(double left, LuminousIntensity right)
+        {
+            return new LuminousIntensity(left * right.Value, right.Unit);
+        }
+
+        /// <summary>Get <see cref="LuminousIntensity"/> from multiplying value and <see cref="LuminousIntensity"/>.</summary>
+        public static LuminousIntensity operator *(LuminousIntensity left, double right)
+        {
+            return new LuminousIntensity(left.Value * right, left.Unit);
+        }
+
+        /// <summary>Get <see cref="LuminousIntensity"/> from dividing <see cref="LuminousIntensity"/> by value.</summary>
+        public static LuminousIntensity operator /(LuminousIntensity left, double right)
+        {
+            return new LuminousIntensity(left.Value / right, left.Unit);
+        }
+
+        /// <summary>Get ratio value from dividing <see cref="LuminousIntensity"/> by <see cref="LuminousIntensity"/>.</summary>
+        public static double operator /(LuminousIntensity left, LuminousIntensity right)
+        {
+            return left.Candela / right.Candela;
         }
 
         #endregion
@@ -550,25 +428,25 @@ namespace UnitsNet
         #region Equality / IComparable
 
         /// <summary>Returns true if less or equal to.</summary>
-        public static bool operator <=(Temperature left, Temperature right)
+        public static bool operator <=(LuminousIntensity left, LuminousIntensity right)
         {
             return left.Value <= right.GetValueAs(left.Unit);
         }
 
         /// <summary>Returns true if greater than or equal to.</summary>
-        public static bool operator >=(Temperature left, Temperature right)
+        public static bool operator >=(LuminousIntensity left, LuminousIntensity right)
         {
             return left.Value >= right.GetValueAs(left.Unit);
         }
 
         /// <summary>Returns true if less than.</summary>
-        public static bool operator <(Temperature left, Temperature right)
+        public static bool operator <(LuminousIntensity left, LuminousIntensity right)
         {
             return left.Value < right.GetValueAs(left.Unit);
         }
 
         /// <summary>Returns true if greater than.</summary>
-        public static bool operator >(Temperature left, Temperature right)
+        public static bool operator >(LuminousIntensity left, LuminousIntensity right)
         {
             return left.Value > right.GetValueAs(left.Unit);
         }
@@ -577,20 +455,20 @@ namespace UnitsNet
         public int CompareTo(object obj)
         {
             if (obj is null) throw new ArgumentNullException(nameof(obj));
-            if (!(obj is Temperature objTemperature)) throw new ArgumentException("Expected type Temperature.", nameof(obj));
+            if (!(obj is LuminousIntensity objLuminousIntensity)) throw new ArgumentException("Expected type LuminousIntensity.", nameof(obj));
 
-            return CompareTo(objTemperature);
+            return CompareTo(objLuminousIntensity);
         }
 
         /// <inheritdoc />
-        public int CompareTo(Temperature other)
+        public int CompareTo(LuminousIntensity other)
         {
             return _value.CompareTo(other.GetValueAs(this.Unit));
         }
 
         /// <summary>
         ///     <para>
-        ///     Compare equality to another Temperature within the given absolute or relative tolerance.
+        ///     Compare equality to another LuminousIntensity within the given absolute or relative tolerance.
         ///     </para>
         ///     <para>
         ///     Relative tolerance is defined as the maximum allowable absolute difference between this quantity's value and
@@ -628,7 +506,7 @@ namespace UnitsNet
         /// <param name="tolerance">The absolute or relative tolerance value. Must be greater than or equal to 0.</param>
         /// <param name="comparisonType">The comparison type: either relative or absolute.</param>
         /// <returns>True if the absolute difference between the two values is not greater than the specified relative or absolute tolerance.</returns>
-        public bool Equals(Temperature other, double tolerance, ComparisonType comparisonType)
+        public bool Equals(LuminousIntensity other, double tolerance, ComparisonType comparisonType)
         {
             if (tolerance < 0)
                 throw new ArgumentOutOfRangeException("tolerance", "Tolerance must be greater than or equal to 0.");
@@ -642,7 +520,7 @@ namespace UnitsNet
         /// <summary>
         ///     Returns the hash code for this instance.
         /// </summary>
-        /// <returns>A hash code for the current Temperature.</returns>
+        /// <returns>A hash code for the current LuminousIntensity.</returns>
         public override int GetHashCode()
         {
             return new { Info.Name, Value, Unit }.GetHashCode();
@@ -656,7 +534,7 @@ namespace UnitsNet
         ///     Convert to the unit representation <paramref name="unit" />.
         /// </summary>
         /// <returns>Value converted to the specified unit.</returns>
-        public double As(TemperatureUnit unit)
+        public double As(LuminousIntensityUnit unit)
         {
             if (Unit == unit)
                 return Convert.ToDouble(Value);
@@ -665,58 +543,43 @@ namespace UnitsNet
             return Convert.ToDouble(converted);
         }
 
-        /// <inheritdoc cref="IQuantity.As(UnitSystem)"/>
-        public double As(UnitSystem unitSystem)
-        {
-            if (unitSystem is null)
-                throw new ArgumentNullException(nameof(unitSystem));
-
-            var unitInfos = Info.GetUnitInfosFor(unitSystem.BaseUnits);
-
-            var firstUnitInfo = unitInfos.FirstOrDefault();
-            if (firstUnitInfo == null)
-                throw new ArgumentException("No units were found for the given UnitSystem.", nameof(unitSystem));
-
-            return As(firstUnitInfo.Value);
-        }
-
         /// <inheritdoc />
         double IQuantity.As(Enum unit)
         {
-            if (!(unit is TemperatureUnit unitAsTemperatureUnit))
-                throw new ArgumentException($"The given unit is of type {unit.GetType()}. Only {typeof(TemperatureUnit)} is supported.", nameof(unit));
+            if (!(unit is LuminousIntensityUnit unitAsLuminousIntensityUnit))
+                throw new ArgumentException($"The given unit is of type {unit.GetType()}. Only {typeof(LuminousIntensityUnit)} is supported.", nameof(unit));
 
-            return As(unitAsTemperatureUnit);
+            return As(unitAsLuminousIntensityUnit);
         }
 
         /// <summary>
-        ///     Converts this Temperature to another Temperature with the unit representation <paramref name="unit" />.
+        ///     Converts this LuminousIntensity to another LuminousIntensity with the unit representation <paramref name="unit" />.
         /// </summary>
         /// <param name="unit">The unit to convert to.</param>
-        /// <returns>A Temperature with the specified unit.</returns>
-        public Temperature ToUnit(TemperatureUnit unit)
+        /// <returns>A LuminousIntensity with the specified unit.</returns>
+        public LuminousIntensity ToUnit(LuminousIntensityUnit unit)
         {
             return ToUnit(unit, DefaultConversionFunctions);
         }
 
         /// <summary>
-        ///     Converts this Temperature to another Temperature using the given <paramref name="unitConverter"/> with the unit representation <paramref name="unit" />.
+        ///     Converts this LuminousIntensity to another LuminousIntensity using the given <paramref name="unitConverter"/> with the unit representation <paramref name="unit" />.
         /// </summary>
         /// <param name="unit">The unit to convert to.</param>
         /// <param name="unitConverter">The <see cref="UnitConverter"/> to use for the conversion.</param>
-        /// <returns>A Temperature with the specified unit.</returns>
-        public Temperature ToUnit(TemperatureUnit unit, UnitConverter unitConverter)
+        /// <returns>A LuminousIntensity with the specified unit.</returns>
+        public LuminousIntensity ToUnit(LuminousIntensityUnit unit, UnitConverter unitConverter)
         {
             if (Unit == unit)
             {
                 // Already in requested units.
                 return this;
             }
-            else if (unitConverter.TryGetConversionFunction((typeof(Temperature), Unit, typeof(Temperature), unit), out var conversionFunction))
+            else if (unitConverter.TryGetConversionFunction((typeof(LuminousIntensity), Unit, typeof(LuminousIntensity), unit), out var conversionFunction))
             {
                 // Direct conversion to requested unit found. Return the converted quantity.
                 var converted = conversionFunction(this);
-                return (Temperature)converted;
+                return (LuminousIntensity)converted;
             }
             else if (Unit != BaseUnit)
             {
@@ -733,14 +596,14 @@ namespace UnitsNet
         /// <inheritdoc />
         IQuantity IQuantity.ToUnit(Enum unit)
         {
-            if (!(unit is TemperatureUnit unitAsTemperatureUnit))
-                throw new ArgumentException($"The given unit is of type {unit.GetType()}. Only {typeof(TemperatureUnit)} is supported.", nameof(unit));
+            if (!(unit is LuminousIntensityUnit unitAsLuminousIntensityUnit))
+                throw new ArgumentException($"The given unit is of type {unit.GetType()}. Only {typeof(LuminousIntensityUnit)} is supported.", nameof(unit));
 
-            return ToUnit(unitAsTemperatureUnit, DefaultConversionFunctions);
+            return ToUnit(unitAsLuminousIntensityUnit, DefaultConversionFunctions);
         }
 
         /// <inheritdoc cref="IQuantity.ToUnit(UnitSystem)"/>
-        public Temperature ToUnit(UnitSystem unitSystem)
+        public LuminousIntensity ToUnit(UnitSystem unitSystem)
         {
             if (unitSystem is null)
                 throw new ArgumentNullException(nameof(unitSystem));
@@ -758,12 +621,12 @@ namespace UnitsNet
         IQuantity IQuantity.ToUnit(UnitSystem unitSystem) => ToUnit(unitSystem);
 
         /// <inheritdoc />
-        IQuantity<TemperatureUnit> IQuantity<TemperatureUnit>.ToUnit(TemperatureUnit unit) => ToUnit(unit);
+        IQuantity<LuminousIntensityUnit> IQuantity<LuminousIntensityUnit>.ToUnit(LuminousIntensityUnit unit) => ToUnit(unit);
 
         /// <inheritdoc />
-        IQuantity<TemperatureUnit> IQuantity<TemperatureUnit>.ToUnit(UnitSystem unitSystem) => ToUnit(unitSystem);
+        IQuantity<LuminousIntensityUnit> IQuantity<LuminousIntensityUnit>.ToUnit(UnitSystem unitSystem) => ToUnit(unitSystem);
 
-        private double GetValueAs(TemperatureUnit unit)
+        private double GetValueAs(LuminousIntensityUnit unit)
         {
             var converted = ToUnit(unit);
             return (double)converted.Value;
@@ -812,7 +675,7 @@ namespace UnitsNet
         /// <returns>The string representation.</returns>
         public string ToString(string format, IFormatProvider? provider)
         {
-            return QuantityFormatter.Format<TemperatureUnit>(this, format, provider);
+            return QuantityFormatter.Format<LuminousIntensityUnit>(this, format, provider);
         }
 
         #endregion
@@ -826,7 +689,7 @@ namespace UnitsNet
 
         bool IConvertible.ToBoolean(IFormatProvider provider)
         {
-            throw new InvalidCastException($"Converting {typeof(Temperature)} to bool is not supported.");
+            throw new InvalidCastException($"Converting {typeof(LuminousIntensity)} to bool is not supported.");
         }
 
         byte IConvertible.ToByte(IFormatProvider provider)
@@ -836,12 +699,12 @@ namespace UnitsNet
 
         char IConvertible.ToChar(IFormatProvider provider)
         {
-            throw new InvalidCastException($"Converting {typeof(Temperature)} to char is not supported.");
+            throw new InvalidCastException($"Converting {typeof(LuminousIntensity)} to char is not supported.");
         }
 
         DateTime IConvertible.ToDateTime(IFormatProvider provider)
         {
-            throw new InvalidCastException($"Converting {typeof(Temperature)} to DateTime is not supported.");
+            throw new InvalidCastException($"Converting {typeof(LuminousIntensity)} to DateTime is not supported.");
         }
 
         decimal IConvertible.ToDecimal(IFormatProvider provider)
@@ -886,16 +749,16 @@ namespace UnitsNet
 
         object IConvertible.ToType(Type conversionType, IFormatProvider provider)
         {
-            if (conversionType == typeof(Temperature))
+            if (conversionType == typeof(LuminousIntensity))
                 return this;
-            else if (conversionType == typeof(TemperatureUnit))
+            else if (conversionType == typeof(LuminousIntensityUnit))
                 return Unit;
             else if (conversionType == typeof(QuantityInfo))
-                return Temperature.Info;
+                return LuminousIntensity.Info;
             else if (conversionType == typeof(BaseDimensions))
-                return Temperature.BaseDimensions;
+                return LuminousIntensity.BaseDimensions;
             else
-                throw new InvalidCastException($"Converting {typeof(Temperature)} to {conversionType} is not supported.");
+                throw new InvalidCastException($"Converting {typeof(LuminousIntensity)} to {conversionType} is not supported.");
         }
 
         ushort IConvertible.ToUInt16(IFormatProvider provider)
