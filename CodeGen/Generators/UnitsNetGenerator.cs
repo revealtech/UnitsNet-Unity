@@ -53,14 +53,15 @@ namespace CodeGen.Generators
 
             foreach (var quantity in quantities)
             {
-                var projectDir = Path.Combine(unitsNetDir, quantity.Name);
+                var projectName = $"UnitsNet.{quantity.Name}";
+                var projectDir = Path.Combine(unitsNetDir, projectName);
                 Directory.CreateDirectory(projectDir);
 
                 UnitEnumNameToValue unitEnumValues = quantityNameToUnitEnumValues[quantity.Name];
 
                 GenerateQuantity(quantity, $"{projectDir}/{quantity.Name}.g.cs");
                 GenerateUnitType(quantity, $"{projectDir}/{quantity.Name}Unit.g.cs", unitEnumValues);
-                GenerateProject(quantity, Path.Combine(projectDir, $"UnitsNet.{quantity.Name}.csproj"));
+                GenerateProject(quantity, Path.Combine(projectDir, $"{projectName}.csproj"));
                 GenerateSolution(quantities, Path.Combine(unitsNetDir, "UnitsNet2.sln"));
 
                 GenerateNumberToExtensions(quantity, $"{numberExtensionsGenDir}/NumberTo{quantity.Name}Extensions.g.cs");

@@ -5,7 +5,7 @@
     <PackageId>UnitsNet.Duration</PackageId>
     <Version>5.0.0-alpha006</Version>
     <Authors>Andreas Gullberg Larsen</Authors>
-    <Title>Units.NET - Duration</Title>
+    <Title>Units.NET Duration</Title>
     <Description>Adds Duration units for Units.NET.</Description>
     <Copyright>Copyright 2013 Andreas Gullberg Larsen (andreas.larsen84@gmail.com).</Copyright>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -15,7 +15,7 @@
     <PackageProjectUrl>https://github.com/angularsen/UnitsNet</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageTags>unit units quantity quantities measurement si metric imperial abbreviation abbreviations convert conversion parse immutable</PackageTags>
+    <PackageTags>duration unit units quantity quantities measurement si metric imperial abbreviation abbreviations convert conversion parse immutable</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
@@ -26,6 +26,7 @@
     <Nullable>enable</Nullable>
     <RootNamespace>UnitsNet</RootNamespace>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <ProjectGuid>{3c2ac54f-554c-518b-7c46-3b22d86d0e3b}</ProjectGuid>
   </PropertyGroup>
 
   <!-- SourceLink -->
@@ -40,7 +41,7 @@
     <AssemblyOriginatorKeyFile>../../UnitsNet.snk</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
     <SignAssembly>true</SignAssembly>
-    <AssemblyName>UnitsNet</AssemblyName>
+    <AssemblyName>UnitsNet.Duration</AssemblyName>
   </PropertyGroup>
 
   <!-- NuGet references that work for all TargetFrameworks, both signed and unsigned. -->
