@@ -29,7 +29,7 @@ namespace UnitsNet
         /// <summary>
         ///     Function to create a quantity with the given value and unit.
         /// </summary>
-        public CreateQuantityDelegate FromValueUnitDelegate { get; }
+        private CreateQuantityDelegate FromValueUnitDelegate { get; }
 
         /// <summary>
         ///     Constructs an instance.
@@ -114,54 +114,12 @@ namespace UnitsNet
         public BaseDimensions BaseDimensions { get; }
 
         /// <summary>
-        /// Gets the <see cref="UnitInfo"/> whose <see cref="BaseUnits"/> is a subset of <paramref name="baseUnits"/>.
-        /// </summary>
-        /// <example>Length.Info.GetUnitInfoFor(unitSystemWithFootAsLengthUnit) returns <see cref="UnitInfo" /> for LengthUnit.Foot.</example>
-        /// <param name="baseUnits">The <see cref="BaseUnits"/> to check against.</param>
-        /// <returns>The <see cref="UnitInfo"/> that has <see cref="BaseUnits"/> that is a subset of <paramref name="baseUnits"/>.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="baseUnits"/> is null.</exception>
-        /// <exception cref="InvalidOperationException">No unit was found that is a subset of <paramref name="baseUnits"/>.</exception>
-        /// <exception cref="InvalidOperationException">More than one unit was found that is a subset of <paramref name="baseUnits"/>.</exception>
-        public UnitInfo GetUnitInfoFor(BaseUnits baseUnits)
-        {
-            if (baseUnits is null)
-                throw new ArgumentNullException(nameof(baseUnits));
-
-            var matchingUnitInfos = GetUnitInfosFor(baseUnits)
-                .Take(2)
-                .ToArray();
-
-            var firstUnitInfo = matchingUnitInfos.FirstOrDefault();
-            if (firstUnitInfo == null)
-                throw new InvalidOperationException($"No unit was found that is a subset of {nameof(baseUnits)}");
-
-            if (matchingUnitInfos.Length > 1)
-                throw new InvalidOperationException($"More than one unit was found that is a subset of {nameof(baseUnits)}");
-
-            return firstUnitInfo;
-        }
-
-        /// <summary>
-        /// Gets an <see cref="IEnumerable{T}"/> of <see cref="UnitInfo"/> that have <see cref="BaseUnits"/> that is a subset of <paramref name="baseUnits"/>.
-        /// </summary>
-        /// <param name="baseUnits">The <see cref="BaseUnits"/> to check against.</param>
-        /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="UnitInfo"/> that have <see cref="BaseUnits"/> that is a subset of <paramref name="baseUnits"/>.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="baseUnits"/> is null.</exception>
-        public IEnumerable<UnitInfo> GetUnitInfosFor(BaseUnits baseUnits)
-        {
-            if (baseUnits is null)
-                throw new ArgumentNullException(nameof(baseUnits));
-
-            return UnitInfos.Where(unitInfo => unitInfo.BaseUnits.IsSubsetOf(baseUnits));
-        }
-
-        /// <summary>
         /// Create a quantity with the given value and unit.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <param name="unit">The unit.</param>
         /// <returns>The quantity.</returns>
-        public IQuantity From(QuantityValue value, Enum unit)
+        public IQuantity CreateQuantity(QuantityValue value, Enum unit)
         {
             return FromValueUnitDelegate(value, unit);
         }

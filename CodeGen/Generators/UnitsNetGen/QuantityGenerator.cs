@@ -186,31 +186,6 @@ namespace UnitsNet
             Writer.WL($@"
             _unit = unit;
         }}
-
-        /// <summary>
-        /// Creates an instance of the quantity with the given numeric value in units compatible with the given <see cref=""UnitSystem""/>.
-        /// If multiple compatible units were found, the first match is used.
-        /// </summary>
-        /// <param name=""value"">The numeric value to construct this quantity with.</param>
-        /// <param name=""unitSystem"">The unit system to create the quantity with.</param>
-        /// <exception cref=""ArgumentNullException"">The given <see cref=""UnitSystem""/> is null.</exception>
-        /// <exception cref=""ArgumentException"">No unit was found for the given <see cref=""UnitSystem""/>.</exception>
-        public {_quantity.Name}({_valueType} value, UnitSystem unitSystem)
-        {{
-            if (unitSystem is null) throw new ArgumentNullException(nameof(unitSystem));
-
-            var unitInfos = Info.GetUnitInfosFor(unitSystem.BaseUnits);
-            var firstUnitInfo = unitInfos.FirstOrDefault();
-");
-
-            Writer.WL(_quantity.ValueType == "double"
-                ? @"
-            _value = Guard.EnsureValidNumber(value, nameof(value));"
-                : @"
-            _value = value;");
-            Writer.WL($@"
-            _unit = firstUnitInfo?.Value ?? throw new ArgumentException(""No units were found for the given UnitSystem."", nameof(unitSystem));
-        }}
 ");
         }
 
@@ -907,29 +882,8 @@ namespace UnitsNet
             return ToUnit(unitAs{_unitEnumName}, DefaultConversionFunctions);
         }}
 
-        /// <inheritdoc cref=""IQuantity.ToUnit(UnitSystem)""/>
-        public {_quantity.Name} ToUnit(UnitSystem unitSystem)
-        {{
-            if (unitSystem is null)
-                throw new ArgumentNullException(nameof(unitSystem));
-
-            var unitInfos = Info.GetUnitInfosFor(unitSystem.BaseUnits);
-
-            var firstUnitInfo = unitInfos.FirstOrDefault();
-            if (firstUnitInfo == null)
-                throw new ArgumentException(""No units were found for the given UnitSystem."", nameof(unitSystem));
-
-            return ToUnit(firstUnitInfo.Value);
-        }}
-
-        /// <inheritdoc />
-        IQuantity IQuantity.ToUnit(UnitSystem unitSystem) => ToUnit(unitSystem);
-
         /// <inheritdoc />
         IQuantity<{_unitEnumName}> IQuantity<{_unitEnumName}>.ToUnit({_unitEnumName} unit) => ToUnit(unit);
-
-        /// <inheritdoc />
-        IQuantity<{_unitEnumName}> IQuantity<{_unitEnumName}>.ToUnit(UnitSystem unitSystem) => ToUnit(unitSystem);
 
         private {_valueType} GetValueAs({_unitEnumName} unit)
         {{

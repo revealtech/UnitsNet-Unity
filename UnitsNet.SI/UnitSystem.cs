@@ -2,6 +2,7 @@
 // Copyright 2013 Andreas Gullberg Larsen (andreas.larsen84@gmail.com). Maintained at https://github.com/angularsen/UnitsNet.
 
 using System;
+using System.Linq;
 
 namespace UnitsNet
 {
@@ -22,6 +23,26 @@ namespace UnitsNet
             if (!baseUnits.IsFullyDefined) throw new ArgumentException("A unit system must have all base units defined.", nameof(baseUnits));
 
             BaseUnits = baseUnits;
+        }
+
+        /// <summary>
+        /// Creates an instance of the quantity with the given numeric value in units compatible with the given <see cref="UnitSystem"/>.
+        /// If multiple compatible units were found, the first match is used.
+        /// </summary>
+        /// <param name="value">The numeric value to construct this quantity with.</param>
+        /// <param name="quantityInfo">Information about the quantity type to create.</param>
+        /// <exception cref="ArgumentNullException">The given <see cref="QuantityInfo"/> is null.</exception>
+        /// <exception cref="InvalidOperationException">No unit was found for the given <see cref="UnitSystem"/>.</exception>
+        public IQuantity CreateQuantity(QuantityInfo quantityInfo, double value)
+        {
+            if (quantityInfo == null) throw new ArgumentNullException(nameof(quantityInfo));
+
+            var unitInfos = quantityInfo.GetUnitInfosFor(BaseUnits);
+            UnitInfo firstUnitInfo = unitInfos.FirstOrDefault() ??
+                                      throw new InvalidOperationException($"No {quantityInfo.Name} units were found for unit system with base units {BaseUnits}.");
+
+            Enum unit = firstUnitInfo.Value;
+            return quantityInfo.CreateQuantity(value, unit);
         }
 
         /// <inheritdoc />

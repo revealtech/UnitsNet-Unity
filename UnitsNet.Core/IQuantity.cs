@@ -51,14 +51,6 @@ namespace UnitsNet
         IQuantity ToUnit(Enum unit);
 
         /// <summary>
-        ///     Converts to a quantity with a unit determined by the given <see cref="UnitSystem"/>, which affects things like <see cref="IQuantity.ToString(System.IFormatProvider)"/>.
-        ///     If multiple units were found for the given <see cref="UnitSystem"/>, the first match will be used.
-        /// </summary>
-        /// <param name="unitSystem">The <see cref="UnitSystem"/> to convert the quantity to.</param>
-        /// <returns>A new quantity with the determined unit.</returns>
-        IQuantity ToUnit(UnitSystem unitSystem);
-
-        /// <summary>
         ///     Gets the string representation of value and unit. Uses two significant digits after radix.
         /// </summary>
         /// <returns>String representation.</returns>

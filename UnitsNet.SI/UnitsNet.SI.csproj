@@ -2,10 +2,10 @@
 
   <!-- NuGet properties -->
   <PropertyGroup>
-    <PackageId>UnitsNet.Core</PackageId>
+    <PackageId>UnitsNet.SI</PackageId>
     <Version>5.0.0-alpha006</Version>
     <Authors>Andreas Gullberg Larsen</Authors>
-    <Title>Units.NET Core</Title>
+    <Title>Units.NET - SI Unit System</Title>
     <Description>Common types and abstractions that are required for the UnitsNet packages that adds quantities and units.</Description>
     <Copyright>Copyright 2013 Andreas Gullberg Larsen (andreas.larsen84@gmail.com).</Copyright>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -40,7 +40,6 @@
     <AssemblyOriginatorKeyFile>../UnitsNet.snk</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
     <SignAssembly>true</SignAssembly>
-    <AssemblyName>UnitsNet</AssemblyName>
   </PropertyGroup>
 
   <!-- NuGet references that work for all TargetFrameworks, both signed and unsigned. -->
@@ -52,6 +51,9 @@
   <ItemGroup>
     <None Include="../Docs/Images/logo-32.png" Pack="true" PackagePath="/" />
     <None Include="../README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UnitsNet.Core\UnitsNet.Core.csproj" />
   </ItemGroup>
 
 </Project>

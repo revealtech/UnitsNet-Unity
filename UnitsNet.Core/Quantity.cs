@@ -111,7 +111,7 @@ namespace UnitsNet
             var quantityInfo = Infos.FirstOrDefault(qi => qi.UnitType.Equals(unit.GetType()));
             if (quantityInfo != null)
             {
-                quantity = quantityInfo.From(value, unit);
+                quantity = quantityInfo.CreateQuantity(value, unit);
                 return true;
             }
 

@@ -54,6 +54,12 @@
     </None>
     <None Remove="UnitsNet.Length\**" />
     <None Remove="UnitsNet.Duration\**" />
+    <None Remove="UnitsNet.AmountOfSubstance\**" />
+    <None Remove="UnitsNet.ElectricCurrent\**" />
+    <None Remove="UnitsNet.LuminousIntensity\**" />
+    <None Remove="UnitsNet.Mass\**" />
+    <None Remove="UnitsNet.Pressure\**" />
+    <None Remove="UnitsNet.Temperature\**" />
   </ItemGroup>
 
   <!-- Files to include in nuget package -->
@@ -67,10 +73,22 @@
   <ItemGroup>
     <Compile Remove="UnitsNet.Length\**" />
     <Compile Remove="UnitsNet.Duration\**" />
+    <Compile Remove="UnitsNet.AmountOfSubstance\**" />
+    <Compile Remove="UnitsNet.ElectricCurrent\**" />
+    <Compile Remove="UnitsNet.LuminousIntensity\**" />
+    <Compile Remove="UnitsNet.Mass\**" />
+    <Compile Remove="UnitsNet.Pressure\**" />
+    <Compile Remove="UnitsNet.Temperature\**" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="UnitsNet.Length\**" />
     <EmbeddedResource Remove="UnitsNet.Duration\**" />
+    <EmbeddedResource Remove="UnitsNet.AmountOfSubstance\**" />
+    <EmbeddedResource Remove="UnitsNet.ElectricCurrent\**" />
+    <EmbeddedResource Remove="UnitsNet.LuminousIntensity\**" />
+    <EmbeddedResource Remove="UnitsNet.Mass\**" />
+    <EmbeddedResource Remove="UnitsNet.Pressure\**" />
+    <EmbeddedResource Remove="UnitsNet.Temperature\**" />
   </ItemGroup>
 
 </Project>
