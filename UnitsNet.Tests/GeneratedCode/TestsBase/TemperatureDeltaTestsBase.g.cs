@@ -607,19 +607,22 @@ namespace UnitsNet.Tests
             // IEquatable
             Assert.Equal(a.Equals((object)b), expectEqual);
             Assert.Equal(b.Equals((object)a), expectEqual);
+        }
+
+        [Fact]
+        public void Equals_Null_ReturnsFalse()
+        {
+            var a = TemperatureDelta.Zero;
+
+            Assert.False(a.Equals((object)null));
 
             // "The result of the expression is always 'false'..."
             #pragma warning disable CS8073
             Assert.False(a == null);
             Assert.False(null == a);
+            Assert.True(a != null);
+            Assert.True(null != a);
             #pragma warning restore CS8073
-        }
-
-        [Fact]
-        public void Equals_Object_ReturnsFalseIfNull()
-        {
-            var a = TemperatureDelta.Zero;
-            Assert.False(a.Equals((object)null));
         }
 
         [Fact]
