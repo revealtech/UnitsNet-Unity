@@ -237,7 +237,7 @@ namespace UnitsNet.Tests
         public void ToUnit_FromNonBaseUnit_ReturnsQuantityWithGivenUnit(AreaDensityUnit unit)
         {
             // See if there is a unit available that is not the base unit, fallback to base unit if it has only a single unit.
-            var fromUnit = AreaDensity.Units.Where(u => u != AreaDensity.BaseUnit).DefaultIfEmpty(AreaDensity.BaseUnit).FirstOrDefault();
+            var fromUnit = AreaDensity.Units.Where(u => u != AreaDensity.BaseUnit).DefaultIfEmpty(AreaDensity.BaseUnit).First();
 
             var quantity = AreaDensity.From(3.0, fromUnit);
             var converted = quantity.ToUnit(unit);
@@ -302,6 +302,43 @@ namespace UnitsNet.Tests
         {
             AreaDensity kilogrampersquaremeter = AreaDensity.FromKilogramsPerSquareMeter(1);
             Assert.Throws<ArgumentNullException>(() => kilogrampersquaremeter.CompareTo(null));
+        }
+
+        [Theory]
+        [InlineData(1, AreaDensityUnit.KilogramPerSquareMeter, 1, AreaDensityUnit.KilogramPerSquareMeter, true)]  // Same value and unit.
+        [InlineData(1, AreaDensityUnit.KilogramPerSquareMeter, 2, AreaDensityUnit.KilogramPerSquareMeter, false)] // Different value.
+        [InlineData(2, AreaDensityUnit.KilogramPerSquareMeter, 1, AreaDensityUnit.KilogramPerSquareMeter, false)] // Different value and unit.
+        public void Equality_MatchesOnValueAndUnit(double valueA, AreaDensityUnit unitA, double valueB, AreaDensityUnit unitB, bool expectEqual)
+        {
+            var a = new AreaDensity(valueA, unitA);
+            var b = new AreaDensity(valueB, unitB);
+
+            // Operator overloads.
+            Assert.Equal(a == b, expectEqual);
+            Assert.Equal(b == a, expectEqual);
+            Assert.Equal(a != b, !expectEqual);
+            Assert.Equal(b != a, !expectEqual);
+
+            // IEquatable<T>
+            Assert.Equal(a.Equals(b), expectEqual);
+            Assert.Equal(b.Equals(a), expectEqual);
+
+            // IEquatable
+            Assert.Equal(a.Equals((object)b), expectEqual);
+            Assert.Equal(b.Equals((object)a), expectEqual);
+
+            // "The result of the expression is always 'false'..."
+            #pragma warning disable CS8073
+            Assert.False(a == null);
+            Assert.False(null == a);
+            #pragma warning restore CS8073
+        }
+
+        [Fact]
+        public void Equals_Object_ReturnsFalseIfNull()
+        {
+            var a = AreaDensity.Zero;
+            Assert.False(a.Equals((object)null));
         }
 
         [Fact]

@@ -237,7 +237,7 @@ namespace UnitsNet.Tests
         public void ToUnit_FromNonBaseUnit_ReturnsQuantityWithGivenUnit(RelativeHumidityUnit unit)
         {
             // See if there is a unit available that is not the base unit, fallback to base unit if it has only a single unit.
-            var fromUnit = RelativeHumidity.Units.Where(u => u != RelativeHumidity.BaseUnit).DefaultIfEmpty(RelativeHumidity.BaseUnit).FirstOrDefault();
+            var fromUnit = RelativeHumidity.Units.Where(u => u != RelativeHumidity.BaseUnit).DefaultIfEmpty(RelativeHumidity.BaseUnit).First();
 
             var quantity = RelativeHumidity.From(3.0, fromUnit);
             var converted = quantity.ToUnit(unit);
@@ -302,6 +302,43 @@ namespace UnitsNet.Tests
         {
             RelativeHumidity percent = RelativeHumidity.FromPercent(1);
             Assert.Throws<ArgumentNullException>(() => percent.CompareTo(null));
+        }
+
+        [Theory]
+        [InlineData(1, RelativeHumidityUnit.Percent, 1, RelativeHumidityUnit.Percent, true)]  // Same value and unit.
+        [InlineData(1, RelativeHumidityUnit.Percent, 2, RelativeHumidityUnit.Percent, false)] // Different value.
+        [InlineData(2, RelativeHumidityUnit.Percent, 1, RelativeHumidityUnit.Percent, false)] // Different value and unit.
+        public void Equality_MatchesOnValueAndUnit(double valueA, RelativeHumidityUnit unitA, double valueB, RelativeHumidityUnit unitB, bool expectEqual)
+        {
+            var a = new RelativeHumidity(valueA, unitA);
+            var b = new RelativeHumidity(valueB, unitB);
+
+            // Operator overloads.
+            Assert.Equal(a == b, expectEqual);
+            Assert.Equal(b == a, expectEqual);
+            Assert.Equal(a != b, !expectEqual);
+            Assert.Equal(b != a, !expectEqual);
+
+            // IEquatable<T>
+            Assert.Equal(a.Equals(b), expectEqual);
+            Assert.Equal(b.Equals(a), expectEqual);
+
+            // IEquatable
+            Assert.Equal(a.Equals((object)b), expectEqual);
+            Assert.Equal(b.Equals((object)a), expectEqual);
+
+            // "The result of the expression is always 'false'..."
+            #pragma warning disable CS8073
+            Assert.False(a == null);
+            Assert.False(null == a);
+            #pragma warning restore CS8073
+        }
+
+        [Fact]
+        public void Equals_Object_ReturnsFalseIfNull()
+        {
+            var a = RelativeHumidity.Zero;
+            Assert.False(a.Equals((object)null));
         }
 
         [Fact]

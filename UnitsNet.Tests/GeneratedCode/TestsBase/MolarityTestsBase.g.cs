@@ -600,7 +600,7 @@ namespace UnitsNet.Tests
         public void ToUnit_FromNonBaseUnit_ReturnsQuantityWithGivenUnit(MolarityUnit unit)
         {
             // See if there is a unit available that is not the base unit, fallback to base unit if it has only a single unit.
-            var fromUnit = Molarity.Units.Where(u => u != Molarity.BaseUnit).DefaultIfEmpty(Molarity.BaseUnit).FirstOrDefault();
+            var fromUnit = Molarity.Units.Where(u => u != Molarity.BaseUnit).DefaultIfEmpty(Molarity.BaseUnit).First();
 
             var quantity = Molarity.From(3.0, fromUnit);
             var converted = quantity.ToUnit(unit);
@@ -681,6 +681,44 @@ namespace UnitsNet.Tests
         {
             Molarity molespercubicmeter = Molarity.FromMolesPerCubicMeter(1);
             Assert.Throws<ArgumentNullException>(() => molespercubicmeter.CompareTo(null));
+        }
+
+        [Theory]
+        [InlineData(1, MolarityUnit.MolesPerCubicMeter, 1, MolarityUnit.MolesPerCubicMeter, true)]  // Same value and unit.
+        [InlineData(1, MolarityUnit.MolesPerCubicMeter, 2, MolarityUnit.MolesPerCubicMeter, false)] // Different value.
+        [InlineData(2, MolarityUnit.MolesPerCubicMeter, 1, MolarityUnit.CentimolePerLiter, false)] // Different value and unit.
+        [InlineData(1, MolarityUnit.MolesPerCubicMeter, 1, MolarityUnit.CentimolePerLiter, false)] // Different unit.
+        public void Equality_MatchesOnValueAndUnit(double valueA, MolarityUnit unitA, double valueB, MolarityUnit unitB, bool expectEqual)
+        {
+            var a = new Molarity(valueA, unitA);
+            var b = new Molarity(valueB, unitB);
+
+            // Operator overloads.
+            Assert.Equal(a == b, expectEqual);
+            Assert.Equal(b == a, expectEqual);
+            Assert.Equal(a != b, !expectEqual);
+            Assert.Equal(b != a, !expectEqual);
+
+            // IEquatable<T>
+            Assert.Equal(a.Equals(b), expectEqual);
+            Assert.Equal(b.Equals(a), expectEqual);
+
+            // IEquatable
+            Assert.Equal(a.Equals((object)b), expectEqual);
+            Assert.Equal(b.Equals((object)a), expectEqual);
+
+            // "The result of the expression is always 'false'..."
+            #pragma warning disable CS8073
+            Assert.False(a == null);
+            Assert.False(null == a);
+            #pragma warning restore CS8073
+        }
+
+        [Fact]
+        public void Equals_Object_ReturnsFalseIfNull()
+        {
+            var a = Molarity.Zero;
+            Assert.False(a.Equals((object)null));
         }
 
         [Fact]

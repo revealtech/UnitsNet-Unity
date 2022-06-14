@@ -305,7 +305,7 @@ namespace UnitsNet.Tests
         public void ToUnit_FromNonBaseUnit_ReturnsQuantityWithGivenUnit(ElectricCurrentDensityUnit unit)
         {
             // See if there is a unit available that is not the base unit, fallback to base unit if it has only a single unit.
-            var fromUnit = ElectricCurrentDensity.Units.Where(u => u != ElectricCurrentDensity.BaseUnit).DefaultIfEmpty(ElectricCurrentDensity.BaseUnit).FirstOrDefault();
+            var fromUnit = ElectricCurrentDensity.Units.Where(u => u != ElectricCurrentDensity.BaseUnit).DefaultIfEmpty(ElectricCurrentDensity.BaseUnit).First();
 
             var quantity = ElectricCurrentDensity.From(3.0, fromUnit);
             var converted = quantity.ToUnit(unit);
@@ -372,6 +372,44 @@ namespace UnitsNet.Tests
         {
             ElectricCurrentDensity amperepersquaremeter = ElectricCurrentDensity.FromAmperesPerSquareMeter(1);
             Assert.Throws<ArgumentNullException>(() => amperepersquaremeter.CompareTo(null));
+        }
+
+        [Theory]
+        [InlineData(1, ElectricCurrentDensityUnit.AmperePerSquareMeter, 1, ElectricCurrentDensityUnit.AmperePerSquareMeter, true)]  // Same value and unit.
+        [InlineData(1, ElectricCurrentDensityUnit.AmperePerSquareMeter, 2, ElectricCurrentDensityUnit.AmperePerSquareMeter, false)] // Different value.
+        [InlineData(2, ElectricCurrentDensityUnit.AmperePerSquareMeter, 1, ElectricCurrentDensityUnit.AmperePerSquareFoot, false)] // Different value and unit.
+        [InlineData(1, ElectricCurrentDensityUnit.AmperePerSquareMeter, 1, ElectricCurrentDensityUnit.AmperePerSquareFoot, false)] // Different unit.
+        public void Equality_MatchesOnValueAndUnit(double valueA, ElectricCurrentDensityUnit unitA, double valueB, ElectricCurrentDensityUnit unitB, bool expectEqual)
+        {
+            var a = new ElectricCurrentDensity(valueA, unitA);
+            var b = new ElectricCurrentDensity(valueB, unitB);
+
+            // Operator overloads.
+            Assert.Equal(a == b, expectEqual);
+            Assert.Equal(b == a, expectEqual);
+            Assert.Equal(a != b, !expectEqual);
+            Assert.Equal(b != a, !expectEqual);
+
+            // IEquatable<T>
+            Assert.Equal(a.Equals(b), expectEqual);
+            Assert.Equal(b.Equals(a), expectEqual);
+
+            // IEquatable
+            Assert.Equal(a.Equals((object)b), expectEqual);
+            Assert.Equal(b.Equals((object)a), expectEqual);
+
+            // "The result of the expression is always 'false'..."
+            #pragma warning disable CS8073
+            Assert.False(a == null);
+            Assert.False(null == a);
+            #pragma warning restore CS8073
+        }
+
+        [Fact]
+        public void Equals_Object_ReturnsFalseIfNull()
+        {
+            var a = ElectricCurrentDensity.Zero;
+            Assert.False(a.Equals((object)null));
         }
 
         [Fact]

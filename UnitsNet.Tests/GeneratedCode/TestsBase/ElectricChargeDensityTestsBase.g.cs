@@ -237,7 +237,7 @@ namespace UnitsNet.Tests
         public void ToUnit_FromNonBaseUnit_ReturnsQuantityWithGivenUnit(ElectricChargeDensityUnit unit)
         {
             // See if there is a unit available that is not the base unit, fallback to base unit if it has only a single unit.
-            var fromUnit = ElectricChargeDensity.Units.Where(u => u != ElectricChargeDensity.BaseUnit).DefaultIfEmpty(ElectricChargeDensity.BaseUnit).FirstOrDefault();
+            var fromUnit = ElectricChargeDensity.Units.Where(u => u != ElectricChargeDensity.BaseUnit).DefaultIfEmpty(ElectricChargeDensity.BaseUnit).First();
 
             var quantity = ElectricChargeDensity.From(3.0, fromUnit);
             var converted = quantity.ToUnit(unit);
@@ -302,6 +302,43 @@ namespace UnitsNet.Tests
         {
             ElectricChargeDensity coulombpercubicmeter = ElectricChargeDensity.FromCoulombsPerCubicMeter(1);
             Assert.Throws<ArgumentNullException>(() => coulombpercubicmeter.CompareTo(null));
+        }
+
+        [Theory]
+        [InlineData(1, ElectricChargeDensityUnit.CoulombPerCubicMeter, 1, ElectricChargeDensityUnit.CoulombPerCubicMeter, true)]  // Same value and unit.
+        [InlineData(1, ElectricChargeDensityUnit.CoulombPerCubicMeter, 2, ElectricChargeDensityUnit.CoulombPerCubicMeter, false)] // Different value.
+        [InlineData(2, ElectricChargeDensityUnit.CoulombPerCubicMeter, 1, ElectricChargeDensityUnit.CoulombPerCubicMeter, false)] // Different value and unit.
+        public void Equality_MatchesOnValueAndUnit(double valueA, ElectricChargeDensityUnit unitA, double valueB, ElectricChargeDensityUnit unitB, bool expectEqual)
+        {
+            var a = new ElectricChargeDensity(valueA, unitA);
+            var b = new ElectricChargeDensity(valueB, unitB);
+
+            // Operator overloads.
+            Assert.Equal(a == b, expectEqual);
+            Assert.Equal(b == a, expectEqual);
+            Assert.Equal(a != b, !expectEqual);
+            Assert.Equal(b != a, !expectEqual);
+
+            // IEquatable<T>
+            Assert.Equal(a.Equals(b), expectEqual);
+            Assert.Equal(b.Equals(a), expectEqual);
+
+            // IEquatable
+            Assert.Equal(a.Equals((object)b), expectEqual);
+            Assert.Equal(b.Equals((object)a), expectEqual);
+
+            // "The result of the expression is always 'false'..."
+            #pragma warning disable CS8073
+            Assert.False(a == null);
+            Assert.False(null == a);
+            #pragma warning restore CS8073
+        }
+
+        [Fact]
+        public void Equals_Object_ReturnsFalseIfNull()
+        {
+            var a = ElectricChargeDensity.Zero;
+            Assert.False(a.Equals((object)null));
         }
 
         [Fact]

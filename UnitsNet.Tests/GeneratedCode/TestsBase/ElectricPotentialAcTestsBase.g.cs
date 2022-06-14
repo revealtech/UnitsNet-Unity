@@ -351,7 +351,7 @@ namespace UnitsNet.Tests
         public void ToUnit_FromNonBaseUnit_ReturnsQuantityWithGivenUnit(ElectricPotentialAcUnit unit)
         {
             // See if there is a unit available that is not the base unit, fallback to base unit if it has only a single unit.
-            var fromUnit = ElectricPotentialAc.Units.Where(u => u != ElectricPotentialAc.BaseUnit).DefaultIfEmpty(ElectricPotentialAc.BaseUnit).FirstOrDefault();
+            var fromUnit = ElectricPotentialAc.Units.Where(u => u != ElectricPotentialAc.BaseUnit).DefaultIfEmpty(ElectricPotentialAc.BaseUnit).First();
 
             var quantity = ElectricPotentialAc.From(3.0, fromUnit);
             var converted = quantity.ToUnit(unit);
@@ -420,6 +420,44 @@ namespace UnitsNet.Tests
         {
             ElectricPotentialAc voltac = ElectricPotentialAc.FromVoltsAc(1);
             Assert.Throws<ArgumentNullException>(() => voltac.CompareTo(null));
+        }
+
+        [Theory]
+        [InlineData(1, ElectricPotentialAcUnit.VoltAc, 1, ElectricPotentialAcUnit.VoltAc, true)]  // Same value and unit.
+        [InlineData(1, ElectricPotentialAcUnit.VoltAc, 2, ElectricPotentialAcUnit.VoltAc, false)] // Different value.
+        [InlineData(2, ElectricPotentialAcUnit.VoltAc, 1, ElectricPotentialAcUnit.KilovoltAc, false)] // Different value and unit.
+        [InlineData(1, ElectricPotentialAcUnit.VoltAc, 1, ElectricPotentialAcUnit.KilovoltAc, false)] // Different unit.
+        public void Equality_MatchesOnValueAndUnit(double valueA, ElectricPotentialAcUnit unitA, double valueB, ElectricPotentialAcUnit unitB, bool expectEqual)
+        {
+            var a = new ElectricPotentialAc(valueA, unitA);
+            var b = new ElectricPotentialAc(valueB, unitB);
+
+            // Operator overloads.
+            Assert.Equal(a == b, expectEqual);
+            Assert.Equal(b == a, expectEqual);
+            Assert.Equal(a != b, !expectEqual);
+            Assert.Equal(b != a, !expectEqual);
+
+            // IEquatable<T>
+            Assert.Equal(a.Equals(b), expectEqual);
+            Assert.Equal(b.Equals(a), expectEqual);
+
+            // IEquatable
+            Assert.Equal(a.Equals((object)b), expectEqual);
+            Assert.Equal(b.Equals((object)a), expectEqual);
+
+            // "The result of the expression is always 'false'..."
+            #pragma warning disable CS8073
+            Assert.False(a == null);
+            Assert.False(null == a);
+            #pragma warning restore CS8073
+        }
+
+        [Fact]
+        public void Equals_Object_ReturnsFalseIfNull()
+        {
+            var a = ElectricPotentialAc.Zero;
+            Assert.False(a.Equals((object)null));
         }
 
         [Fact]

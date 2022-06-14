@@ -339,7 +339,7 @@ namespace UnitsNet.Tests
         public void ToUnit_FromNonBaseUnit_ReturnsQuantityWithGivenUnit(ElectricCurrentGradientUnit unit)
         {
             // See if there is a unit available that is not the base unit, fallback to base unit if it has only a single unit.
-            var fromUnit = ElectricCurrentGradient.Units.Where(u => u != ElectricCurrentGradient.BaseUnit).DefaultIfEmpty(ElectricCurrentGradient.BaseUnit).FirstOrDefault();
+            var fromUnit = ElectricCurrentGradient.Units.Where(u => u != ElectricCurrentGradient.BaseUnit).DefaultIfEmpty(ElectricCurrentGradient.BaseUnit).First();
 
             var quantity = ElectricCurrentGradient.From(3.0, fromUnit);
             var converted = quantity.ToUnit(unit);
@@ -407,6 +407,44 @@ namespace UnitsNet.Tests
         {
             ElectricCurrentGradient amperepersecond = ElectricCurrentGradient.FromAmperesPerSecond(1);
             Assert.Throws<ArgumentNullException>(() => amperepersecond.CompareTo(null));
+        }
+
+        [Theory]
+        [InlineData(1, ElectricCurrentGradientUnit.AmperePerSecond, 1, ElectricCurrentGradientUnit.AmperePerSecond, true)]  // Same value and unit.
+        [InlineData(1, ElectricCurrentGradientUnit.AmperePerSecond, 2, ElectricCurrentGradientUnit.AmperePerSecond, false)] // Different value.
+        [InlineData(2, ElectricCurrentGradientUnit.AmperePerSecond, 1, ElectricCurrentGradientUnit.AmperePerMicrosecond, false)] // Different value and unit.
+        [InlineData(1, ElectricCurrentGradientUnit.AmperePerSecond, 1, ElectricCurrentGradientUnit.AmperePerMicrosecond, false)] // Different unit.
+        public void Equality_MatchesOnValueAndUnit(double valueA, ElectricCurrentGradientUnit unitA, double valueB, ElectricCurrentGradientUnit unitB, bool expectEqual)
+        {
+            var a = new ElectricCurrentGradient(valueA, unitA);
+            var b = new ElectricCurrentGradient(valueB, unitB);
+
+            // Operator overloads.
+            Assert.Equal(a == b, expectEqual);
+            Assert.Equal(b == a, expectEqual);
+            Assert.Equal(a != b, !expectEqual);
+            Assert.Equal(b != a, !expectEqual);
+
+            // IEquatable<T>
+            Assert.Equal(a.Equals(b), expectEqual);
+            Assert.Equal(b.Equals(a), expectEqual);
+
+            // IEquatable
+            Assert.Equal(a.Equals((object)b), expectEqual);
+            Assert.Equal(b.Equals((object)a), expectEqual);
+
+            // "The result of the expression is always 'false'..."
+            #pragma warning disable CS8073
+            Assert.False(a == null);
+            Assert.False(null == a);
+            #pragma warning restore CS8073
+        }
+
+        [Fact]
+        public void Equals_Object_ReturnsFalseIfNull()
+        {
+            var a = ElectricCurrentGradient.Zero;
+            Assert.False(a.Equals((object)null));
         }
 
         [Fact]

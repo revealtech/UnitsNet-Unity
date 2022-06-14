@@ -305,7 +305,7 @@ namespace UnitsNet.Tests
         public void ToUnit_FromNonBaseUnit_ReturnsQuantityWithGivenUnit(HeatTransferCoefficientUnit unit)
         {
             // See if there is a unit available that is not the base unit, fallback to base unit if it has only a single unit.
-            var fromUnit = HeatTransferCoefficient.Units.Where(u => u != HeatTransferCoefficient.BaseUnit).DefaultIfEmpty(HeatTransferCoefficient.BaseUnit).FirstOrDefault();
+            var fromUnit = HeatTransferCoefficient.Units.Where(u => u != HeatTransferCoefficient.BaseUnit).DefaultIfEmpty(HeatTransferCoefficient.BaseUnit).First();
 
             var quantity = HeatTransferCoefficient.From(3.0, fromUnit);
             var converted = quantity.ToUnit(unit);
@@ -372,6 +372,44 @@ namespace UnitsNet.Tests
         {
             HeatTransferCoefficient wattpersquaremeterkelvin = HeatTransferCoefficient.FromWattsPerSquareMeterKelvin(1);
             Assert.Throws<ArgumentNullException>(() => wattpersquaremeterkelvin.CompareTo(null));
+        }
+
+        [Theory]
+        [InlineData(1, HeatTransferCoefficientUnit.WattPerSquareMeterKelvin, 1, HeatTransferCoefficientUnit.WattPerSquareMeterKelvin, true)]  // Same value and unit.
+        [InlineData(1, HeatTransferCoefficientUnit.WattPerSquareMeterKelvin, 2, HeatTransferCoefficientUnit.WattPerSquareMeterKelvin, false)] // Different value.
+        [InlineData(2, HeatTransferCoefficientUnit.WattPerSquareMeterKelvin, 1, HeatTransferCoefficientUnit.BtuPerSquareFootDegreeFahrenheit, false)] // Different value and unit.
+        [InlineData(1, HeatTransferCoefficientUnit.WattPerSquareMeterKelvin, 1, HeatTransferCoefficientUnit.BtuPerSquareFootDegreeFahrenheit, false)] // Different unit.
+        public void Equality_MatchesOnValueAndUnit(double valueA, HeatTransferCoefficientUnit unitA, double valueB, HeatTransferCoefficientUnit unitB, bool expectEqual)
+        {
+            var a = new HeatTransferCoefficient(valueA, unitA);
+            var b = new HeatTransferCoefficient(valueB, unitB);
+
+            // Operator overloads.
+            Assert.Equal(a == b, expectEqual);
+            Assert.Equal(b == a, expectEqual);
+            Assert.Equal(a != b, !expectEqual);
+            Assert.Equal(b != a, !expectEqual);
+
+            // IEquatable<T>
+            Assert.Equal(a.Equals(b), expectEqual);
+            Assert.Equal(b.Equals(a), expectEqual);
+
+            // IEquatable
+            Assert.Equal(a.Equals((object)b), expectEqual);
+            Assert.Equal(b.Equals((object)a), expectEqual);
+
+            // "The result of the expression is always 'false'..."
+            #pragma warning disable CS8073
+            Assert.False(a == null);
+            Assert.False(null == a);
+            #pragma warning restore CS8073
+        }
+
+        [Fact]
+        public void Equals_Object_ReturnsFalseIfNull()
+        {
+            var a = HeatTransferCoefficient.Zero;
+            Assert.False(a.Equals((object)null));
         }
 
         [Fact]

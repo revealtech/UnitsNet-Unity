@@ -1915,7 +1915,7 @@ namespace UnitsNet.Tests
         public void ToUnit_FromNonBaseUnit_ReturnsQuantityWithGivenUnit(SpeedUnit unit)
         {
             // See if there is a unit available that is not the base unit, fallback to base unit if it has only a single unit.
-            var fromUnit = Speed.Units.Where(u => u != Speed.BaseUnit).DefaultIfEmpty(Speed.BaseUnit).FirstOrDefault();
+            var fromUnit = Speed.Units.Where(u => u != Speed.BaseUnit).DefaultIfEmpty(Speed.BaseUnit).First();
 
             var quantity = Speed.From(3.0, fromUnit);
             var converted = quantity.ToUnit(unit);
@@ -2011,6 +2011,44 @@ namespace UnitsNet.Tests
         {
             Speed meterpersecond = Speed.FromMetersPerSecond(1);
             Assert.Throws<ArgumentNullException>(() => meterpersecond.CompareTo(null));
+        }
+
+        [Theory]
+        [InlineData(1, SpeedUnit.MeterPerSecond, 1, SpeedUnit.MeterPerSecond, true)]  // Same value and unit.
+        [InlineData(1, SpeedUnit.MeterPerSecond, 2, SpeedUnit.MeterPerSecond, false)] // Different value.
+        [InlineData(2, SpeedUnit.MeterPerSecond, 1, SpeedUnit.CentimeterPerHour, false)] // Different value and unit.
+        [InlineData(1, SpeedUnit.MeterPerSecond, 1, SpeedUnit.CentimeterPerHour, false)] // Different unit.
+        public void Equality_MatchesOnValueAndUnit(double valueA, SpeedUnit unitA, double valueB, SpeedUnit unitB, bool expectEqual)
+        {
+            var a = new Speed(valueA, unitA);
+            var b = new Speed(valueB, unitB);
+
+            // Operator overloads.
+            Assert.Equal(a == b, expectEqual);
+            Assert.Equal(b == a, expectEqual);
+            Assert.Equal(a != b, !expectEqual);
+            Assert.Equal(b != a, !expectEqual);
+
+            // IEquatable<T>
+            Assert.Equal(a.Equals(b), expectEqual);
+            Assert.Equal(b.Equals(a), expectEqual);
+
+            // IEquatable
+            Assert.Equal(a.Equals((object)b), expectEqual);
+            Assert.Equal(b.Equals((object)a), expectEqual);
+
+            // "The result of the expression is always 'false'..."
+            #pragma warning disable CS8073
+            Assert.False(a == null);
+            Assert.False(null == a);
+            #pragma warning restore CS8073
+        }
+
+        [Fact]
+        public void Equals_Object_ReturnsFalseIfNull()
+        {
+            var a = Speed.Zero;
+            Assert.False(a.Equals((object)null));
         }
 
         [Fact]

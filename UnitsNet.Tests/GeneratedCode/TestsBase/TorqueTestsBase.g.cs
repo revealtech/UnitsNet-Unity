@@ -1125,7 +1125,7 @@ namespace UnitsNet.Tests
         public void ToUnit_FromNonBaseUnit_ReturnsQuantityWithGivenUnit(TorqueUnit unit)
         {
             // See if there is a unit available that is not the base unit, fallback to base unit if it has only a single unit.
-            var fromUnit = Torque.Units.Where(u => u != Torque.BaseUnit).DefaultIfEmpty(Torque.BaseUnit).FirstOrDefault();
+            var fromUnit = Torque.Units.Where(u => u != Torque.BaseUnit).DefaultIfEmpty(Torque.BaseUnit).First();
 
             var quantity = Torque.From(3.0, fromUnit);
             var converted = quantity.ToUnit(unit);
@@ -1214,6 +1214,44 @@ namespace UnitsNet.Tests
         {
             Torque newtonmeter = Torque.FromNewtonMeters(1);
             Assert.Throws<ArgumentNullException>(() => newtonmeter.CompareTo(null));
+        }
+
+        [Theory]
+        [InlineData(1, TorqueUnit.NewtonMeter, 1, TorqueUnit.NewtonMeter, true)]  // Same value and unit.
+        [InlineData(1, TorqueUnit.NewtonMeter, 2, TorqueUnit.NewtonMeter, false)] // Different value.
+        [InlineData(2, TorqueUnit.NewtonMeter, 1, TorqueUnit.GramForceCentimeter, false)] // Different value and unit.
+        [InlineData(1, TorqueUnit.NewtonMeter, 1, TorqueUnit.GramForceCentimeter, false)] // Different unit.
+        public void Equality_MatchesOnValueAndUnit(double valueA, TorqueUnit unitA, double valueB, TorqueUnit unitB, bool expectEqual)
+        {
+            var a = new Torque(valueA, unitA);
+            var b = new Torque(valueB, unitB);
+
+            // Operator overloads.
+            Assert.Equal(a == b, expectEqual);
+            Assert.Equal(b == a, expectEqual);
+            Assert.Equal(a != b, !expectEqual);
+            Assert.Equal(b != a, !expectEqual);
+
+            // IEquatable<T>
+            Assert.Equal(a.Equals(b), expectEqual);
+            Assert.Equal(b.Equals(a), expectEqual);
+
+            // IEquatable
+            Assert.Equal(a.Equals((object)b), expectEqual);
+            Assert.Equal(b.Equals((object)a), expectEqual);
+
+            // "The result of the expression is always 'false'..."
+            #pragma warning disable CS8073
+            Assert.False(a == null);
+            Assert.False(null == a);
+            #pragma warning restore CS8073
+        }
+
+        [Fact]
+        public void Equals_Object_ReturnsFalseIfNull()
+        {
+            var a = Torque.Zero;
+            Assert.False(a.Equals((object)null));
         }
 
         [Fact]

@@ -45,16 +45,33 @@ namespace CodeGen.Generators.UnitsNetGen
         /// </summary>
         private readonly string _numberSuffix;
 
+        /// <summary>
+        /// Other unit, if more than one unit exists for quantity, otherwise same as <see cref="_baseUnit"/>.
+        /// </summary>
+        private readonly Unit _otherOrBaseUnit;
+
+        /// <summary>
+        /// Example: "LengthUnit.Centimeter".
+        /// </summary>
+        private readonly string _otherOrBaseUnitFullName;
+
         public UnitTestBaseClassGenerator(Quantity quantity)
         {
             _quantity = quantity;
             _baseUnit = quantity.Units.FirstOrDefault(u => u.SingularName == _quantity.BaseUnit) ??
                         throw new ArgumentException($"No unit found with SingularName equal to BaseUnit [{_quantity.BaseUnit}]. This unit must be defined.",
                             nameof(quantity));
+
             _unitEnumName = $"{quantity.Name}Unit";
+
             _baseUnitEnglishAbbreviation = GetEnglishAbbreviation(_baseUnit);
             _baseUnitFullName = $"{_unitEnumName}.{_baseUnit.SingularName}";
             _numberSuffix = quantity.ValueType == "decimal" ? "m" : "";
+
+            // Try to pick another unit, or fall back to base unit if only a single unit.
+            _otherOrBaseUnit = quantity.Units.Where(u => u != _baseUnit).DefaultIfEmpty(_baseUnit).First();
+            _otherOrBaseUnitFullName = $"{_unitEnumName}.{_otherOrBaseUnit.SingularName}";
+
         }
 
         private string GetUnitFullName(Unit unit) => $"{_unitEnumName}.{unit.SingularName}";
@@ -373,7 +390,7 @@ namespace UnitsNet.Tests
         public void ToUnit_FromNonBaseUnit_ReturnsQuantityWithGivenUnit({_unitEnumName} unit)
         {{
             // See if there is a unit available that is not the base unit, fallback to base unit if it has only a single unit.
-            var fromUnit = {_quantity.Name}.Units.Where(u => u != {_quantity.Name}.BaseUnit).DefaultIfEmpty({_quantity.Name}.BaseUnit).FirstOrDefault();
+            var fromUnit = {_quantity.Name}.Units.Where(u => u != {_quantity.Name}.BaseUnit).DefaultIfEmpty({_quantity.Name}.BaseUnit).First();
 
             var quantity = {_quantity.Name}.From(3.0, fromUnit);
             var converted = quantity.ToUnit(unit);
@@ -472,6 +489,49 @@ namespace UnitsNet.Tests
         {{
             {_quantity.Name} {baseUnitVariableName} = {_quantity.Name}.From{_baseUnit.PluralName}(1);
             Assert.Throws<ArgumentNullException>(() => {baseUnitVariableName}.CompareTo(null));
+        }}
+
+        [Theory]
+        [InlineData(1, {_baseUnitFullName}, 1, {_baseUnitFullName}, true)]  // Same value and unit.
+        [InlineData(1, {_baseUnitFullName}, 2, {_baseUnitFullName}, false)] // Different value.
+        [InlineData(2, {_baseUnitFullName}, 1, {_otherOrBaseUnitFullName}, false)] // Different value and unit.");
+            if (_baseUnit != _otherOrBaseUnit)
+            {
+                Writer.WL($@"
+        [InlineData(1, {_baseUnitFullName}, 1, {_otherOrBaseUnitFullName}, false)] // Different unit.");
+            }
+            Writer.WL($@"
+        public void Equality_MatchesOnValueAndUnit({_quantity.ValueType} valueA, {_unitEnumName} unitA, {_quantity.ValueType} valueB, {_unitEnumName} unitB, bool expectEqual)
+        {{
+            var a = new {_quantity.Name}(valueA, unitA);
+            var b = new {_quantity.Name}(valueB, unitB);
+
+            // Operator overloads.
+            Assert.Equal(a == b, expectEqual);
+            Assert.Equal(b == a, expectEqual);
+            Assert.Equal(a != b, !expectEqual);
+            Assert.Equal(b != a, !expectEqual);
+
+            // IEquatable<T>
+            Assert.Equal(a.Equals(b), expectEqual);
+            Assert.Equal(b.Equals(a), expectEqual);
+
+            // IEquatable
+            Assert.Equal(a.Equals((object)b), expectEqual);
+            Assert.Equal(b.Equals((object)a), expectEqual);
+
+            // ""The result of the expression is always 'false'...""
+            #pragma warning disable CS8073
+            Assert.False(a == null);
+            Assert.False(null == a);
+            #pragma warning restore CS8073
+        }}
+
+        [Fact]
+        public void Equals_Object_ReturnsFalseIfNull()
+        {{
+            var a = {_quantity.Name}.Zero;
+            Assert.False(a.Equals((object)null));
         }}
 
         [Fact]

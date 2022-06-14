@@ -509,7 +509,7 @@ namespace UnitsNet.Tests
         public void ToUnit_FromNonBaseUnit_ReturnsQuantityWithGivenUnit(StandardVolumeFlowUnit unit)
         {
             // See if there is a unit available that is not the base unit, fallback to base unit if it has only a single unit.
-            var fromUnit = StandardVolumeFlow.Units.Where(u => u != StandardVolumeFlow.BaseUnit).DefaultIfEmpty(StandardVolumeFlow.BaseUnit).FirstOrDefault();
+            var fromUnit = StandardVolumeFlow.Units.Where(u => u != StandardVolumeFlow.BaseUnit).DefaultIfEmpty(StandardVolumeFlow.BaseUnit).First();
 
             var quantity = StandardVolumeFlow.From(3.0, fromUnit);
             var converted = quantity.ToUnit(unit);
@@ -582,6 +582,44 @@ namespace UnitsNet.Tests
         {
             StandardVolumeFlow standardcubicmeterpersecond = StandardVolumeFlow.FromStandardCubicMetersPerSecond(1);
             Assert.Throws<ArgumentNullException>(() => standardcubicmeterpersecond.CompareTo(null));
+        }
+
+        [Theory]
+        [InlineData(1, StandardVolumeFlowUnit.StandardCubicMeterPerSecond, 1, StandardVolumeFlowUnit.StandardCubicMeterPerSecond, true)]  // Same value and unit.
+        [InlineData(1, StandardVolumeFlowUnit.StandardCubicMeterPerSecond, 2, StandardVolumeFlowUnit.StandardCubicMeterPerSecond, false)] // Different value.
+        [InlineData(2, StandardVolumeFlowUnit.StandardCubicMeterPerSecond, 1, StandardVolumeFlowUnit.StandardCubicCentimeterPerMinute, false)] // Different value and unit.
+        [InlineData(1, StandardVolumeFlowUnit.StandardCubicMeterPerSecond, 1, StandardVolumeFlowUnit.StandardCubicCentimeterPerMinute, false)] // Different unit.
+        public void Equality_MatchesOnValueAndUnit(double valueA, StandardVolumeFlowUnit unitA, double valueB, StandardVolumeFlowUnit unitB, bool expectEqual)
+        {
+            var a = new StandardVolumeFlow(valueA, unitA);
+            var b = new StandardVolumeFlow(valueB, unitB);
+
+            // Operator overloads.
+            Assert.Equal(a == b, expectEqual);
+            Assert.Equal(b == a, expectEqual);
+            Assert.Equal(a != b, !expectEqual);
+            Assert.Equal(b != a, !expectEqual);
+
+            // IEquatable<T>
+            Assert.Equal(a.Equals(b), expectEqual);
+            Assert.Equal(b.Equals(a), expectEqual);
+
+            // IEquatable
+            Assert.Equal(a.Equals((object)b), expectEqual);
+            Assert.Equal(b.Equals((object)a), expectEqual);
+
+            // "The result of the expression is always 'false'..."
+            #pragma warning disable CS8073
+            Assert.False(a == null);
+            Assert.False(null == a);
+            #pragma warning restore CS8073
+        }
+
+        [Fact]
+        public void Equals_Object_ReturnsFalseIfNull()
+        {
+            var a = StandardVolumeFlow.Zero;
+            Assert.False(a.Equals((object)null));
         }
 
         [Fact]

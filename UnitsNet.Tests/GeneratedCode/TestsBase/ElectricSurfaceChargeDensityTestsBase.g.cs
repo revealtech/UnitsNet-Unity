@@ -305,7 +305,7 @@ namespace UnitsNet.Tests
         public void ToUnit_FromNonBaseUnit_ReturnsQuantityWithGivenUnit(ElectricSurfaceChargeDensityUnit unit)
         {
             // See if there is a unit available that is not the base unit, fallback to base unit if it has only a single unit.
-            var fromUnit = ElectricSurfaceChargeDensity.Units.Where(u => u != ElectricSurfaceChargeDensity.BaseUnit).DefaultIfEmpty(ElectricSurfaceChargeDensity.BaseUnit).FirstOrDefault();
+            var fromUnit = ElectricSurfaceChargeDensity.Units.Where(u => u != ElectricSurfaceChargeDensity.BaseUnit).DefaultIfEmpty(ElectricSurfaceChargeDensity.BaseUnit).First();
 
             var quantity = ElectricSurfaceChargeDensity.From(3.0, fromUnit);
             var converted = quantity.ToUnit(unit);
@@ -372,6 +372,44 @@ namespace UnitsNet.Tests
         {
             ElectricSurfaceChargeDensity coulombpersquaremeter = ElectricSurfaceChargeDensity.FromCoulombsPerSquareMeter(1);
             Assert.Throws<ArgumentNullException>(() => coulombpersquaremeter.CompareTo(null));
+        }
+
+        [Theory]
+        [InlineData(1, ElectricSurfaceChargeDensityUnit.CoulombPerSquareMeter, 1, ElectricSurfaceChargeDensityUnit.CoulombPerSquareMeter, true)]  // Same value and unit.
+        [InlineData(1, ElectricSurfaceChargeDensityUnit.CoulombPerSquareMeter, 2, ElectricSurfaceChargeDensityUnit.CoulombPerSquareMeter, false)] // Different value.
+        [InlineData(2, ElectricSurfaceChargeDensityUnit.CoulombPerSquareMeter, 1, ElectricSurfaceChargeDensityUnit.CoulombPerSquareCentimeter, false)] // Different value and unit.
+        [InlineData(1, ElectricSurfaceChargeDensityUnit.CoulombPerSquareMeter, 1, ElectricSurfaceChargeDensityUnit.CoulombPerSquareCentimeter, false)] // Different unit.
+        public void Equality_MatchesOnValueAndUnit(double valueA, ElectricSurfaceChargeDensityUnit unitA, double valueB, ElectricSurfaceChargeDensityUnit unitB, bool expectEqual)
+        {
+            var a = new ElectricSurfaceChargeDensity(valueA, unitA);
+            var b = new ElectricSurfaceChargeDensity(valueB, unitB);
+
+            // Operator overloads.
+            Assert.Equal(a == b, expectEqual);
+            Assert.Equal(b == a, expectEqual);
+            Assert.Equal(a != b, !expectEqual);
+            Assert.Equal(b != a, !expectEqual);
+
+            // IEquatable<T>
+            Assert.Equal(a.Equals(b), expectEqual);
+            Assert.Equal(b.Equals(a), expectEqual);
+
+            // IEquatable
+            Assert.Equal(a.Equals((object)b), expectEqual);
+            Assert.Equal(b.Equals((object)a), expectEqual);
+
+            // "The result of the expression is always 'false'..."
+            #pragma warning disable CS8073
+            Assert.False(a == null);
+            Assert.False(null == a);
+            #pragma warning restore CS8073
+        }
+
+        [Fact]
+        public void Equals_Object_ReturnsFalseIfNull()
+        {
+            var a = ElectricSurfaceChargeDensity.Zero;
+            Assert.False(a.Equals((object)null));
         }
 
         [Fact]

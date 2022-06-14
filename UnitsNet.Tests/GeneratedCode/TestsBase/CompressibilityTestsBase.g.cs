@@ -609,7 +609,7 @@ namespace UnitsNet.Tests
         public void ToUnit_FromNonBaseUnit_ReturnsQuantityWithGivenUnit(CompressibilityUnit unit)
         {
             // See if there is a unit available that is not the base unit, fallback to base unit if it has only a single unit.
-            var fromUnit = Compressibility.Units.Where(u => u != Compressibility.BaseUnit).DefaultIfEmpty(Compressibility.BaseUnit).FirstOrDefault();
+            var fromUnit = Compressibility.Units.Where(u => u != Compressibility.BaseUnit).DefaultIfEmpty(Compressibility.BaseUnit).First();
 
             var quantity = Compressibility.From(3.0, fromUnit);
             var converted = quantity.ToUnit(unit);
@@ -680,6 +680,44 @@ namespace UnitsNet.Tests
         {
             Compressibility inversepascal = Compressibility.FromInversePascals(1);
             Assert.Throws<ArgumentNullException>(() => inversepascal.CompareTo(null));
+        }
+
+        [Theory]
+        [InlineData(1, CompressibilityUnit.InversePascal, 1, CompressibilityUnit.InversePascal, true)]  // Same value and unit.
+        [InlineData(1, CompressibilityUnit.InversePascal, 2, CompressibilityUnit.InversePascal, false)] // Different value.
+        [InlineData(2, CompressibilityUnit.InversePascal, 1, CompressibilityUnit.InverseAtmosphere, false)] // Different value and unit.
+        [InlineData(1, CompressibilityUnit.InversePascal, 1, CompressibilityUnit.InverseAtmosphere, false)] // Different unit.
+        public void Equality_MatchesOnValueAndUnit(double valueA, CompressibilityUnit unitA, double valueB, CompressibilityUnit unitB, bool expectEqual)
+        {
+            var a = new Compressibility(valueA, unitA);
+            var b = new Compressibility(valueB, unitB);
+
+            // Operator overloads.
+            Assert.Equal(a == b, expectEqual);
+            Assert.Equal(b == a, expectEqual);
+            Assert.Equal(a != b, !expectEqual);
+            Assert.Equal(b != a, !expectEqual);
+
+            // IEquatable<T>
+            Assert.Equal(a.Equals(b), expectEqual);
+            Assert.Equal(b.Equals(a), expectEqual);
+
+            // IEquatable
+            Assert.Equal(a.Equals((object)b), expectEqual);
+            Assert.Equal(b.Equals((object)a), expectEqual);
+
+            // "The result of the expression is always 'false'..."
+            #pragma warning disable CS8073
+            Assert.False(a == null);
+            Assert.False(null == a);
+            #pragma warning restore CS8073
+        }
+
+        [Fact]
+        public void Equals_Object_ReturnsFalseIfNull()
+        {
+            var a = Compressibility.Zero;
+            Assert.False(a.Equals((object)null));
         }
 
         [Fact]

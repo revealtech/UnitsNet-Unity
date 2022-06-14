@@ -611,7 +611,7 @@ namespace UnitsNet.Tests
         public void ToUnit_FromNonBaseUnit_ReturnsQuantityWithGivenUnit(MassFluxUnit unit)
         {
             // See if there is a unit available that is not the base unit, fallback to base unit if it has only a single unit.
-            var fromUnit = MassFlux.Units.Where(u => u != MassFlux.BaseUnit).DefaultIfEmpty(MassFlux.BaseUnit).FirstOrDefault();
+            var fromUnit = MassFlux.Units.Where(u => u != MassFlux.BaseUnit).DefaultIfEmpty(MassFlux.BaseUnit).First();
 
             var quantity = MassFlux.From(3.0, fromUnit);
             var converted = quantity.ToUnit(unit);
@@ -687,6 +687,44 @@ namespace UnitsNet.Tests
         {
             MassFlux kilogrampersecondpersquaremeter = MassFlux.FromKilogramsPerSecondPerSquareMeter(1);
             Assert.Throws<ArgumentNullException>(() => kilogrampersecondpersquaremeter.CompareTo(null));
+        }
+
+        [Theory]
+        [InlineData(1, MassFluxUnit.KilogramPerSecondPerSquareMeter, 1, MassFluxUnit.KilogramPerSecondPerSquareMeter, true)]  // Same value and unit.
+        [InlineData(1, MassFluxUnit.KilogramPerSecondPerSquareMeter, 2, MassFluxUnit.KilogramPerSecondPerSquareMeter, false)] // Different value.
+        [InlineData(2, MassFluxUnit.KilogramPerSecondPerSquareMeter, 1, MassFluxUnit.GramPerHourPerSquareCentimeter, false)] // Different value and unit.
+        [InlineData(1, MassFluxUnit.KilogramPerSecondPerSquareMeter, 1, MassFluxUnit.GramPerHourPerSquareCentimeter, false)] // Different unit.
+        public void Equality_MatchesOnValueAndUnit(double valueA, MassFluxUnit unitA, double valueB, MassFluxUnit unitB, bool expectEqual)
+        {
+            var a = new MassFlux(valueA, unitA);
+            var b = new MassFlux(valueB, unitB);
+
+            // Operator overloads.
+            Assert.Equal(a == b, expectEqual);
+            Assert.Equal(b == a, expectEqual);
+            Assert.Equal(a != b, !expectEqual);
+            Assert.Equal(b != a, !expectEqual);
+
+            // IEquatable<T>
+            Assert.Equal(a.Equals(b), expectEqual);
+            Assert.Equal(b.Equals(a), expectEqual);
+
+            // IEquatable
+            Assert.Equal(a.Equals((object)b), expectEqual);
+            Assert.Equal(b.Equals((object)a), expectEqual);
+
+            // "The result of the expression is always 'false'..."
+            #pragma warning disable CS8073
+            Assert.False(a == null);
+            Assert.False(null == a);
+            #pragma warning restore CS8073
+        }
+
+        [Fact]
+        public void Equals_Object_ReturnsFalseIfNull()
+        {
+            var a = MassFlux.Zero;
+            Assert.False(a.Equals((object)null));
         }
 
         [Fact]

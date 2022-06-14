@@ -1753,7 +1753,7 @@ namespace UnitsNet.Tests
         public void ToUnit_FromNonBaseUnit_ReturnsQuantityWithGivenUnit(DurationUnit unit)
         {
             // See if there is a unit available that is not the base unit, fallback to base unit if it has only a single unit.
-            var fromUnit = Duration.Units.Where(u => u != Duration.BaseUnit).DefaultIfEmpty(Duration.BaseUnit).FirstOrDefault();
+            var fromUnit = Duration.Units.Where(u => u != Duration.BaseUnit).DefaultIfEmpty(Duration.BaseUnit).First();
 
             var quantity = Duration.From(3.0, fromUnit);
             var converted = quantity.ToUnit(unit);
@@ -1828,6 +1828,44 @@ namespace UnitsNet.Tests
         {
             Duration second = Duration.FromSeconds(1);
             Assert.Throws<ArgumentNullException>(() => second.CompareTo(null));
+        }
+
+        [Theory]
+        [InlineData(1, DurationUnit.Second, 1, DurationUnit.Second, true)]  // Same value and unit.
+        [InlineData(1, DurationUnit.Second, 2, DurationUnit.Second, false)] // Different value.
+        [InlineData(2, DurationUnit.Second, 1, DurationUnit.Day, false)] // Different value and unit.
+        [InlineData(1, DurationUnit.Second, 1, DurationUnit.Day, false)] // Different unit.
+        public void Equality_MatchesOnValueAndUnit(double valueA, DurationUnit unitA, double valueB, DurationUnit unitB, bool expectEqual)
+        {
+            var a = new Duration(valueA, unitA);
+            var b = new Duration(valueB, unitB);
+
+            // Operator overloads.
+            Assert.Equal(a == b, expectEqual);
+            Assert.Equal(b == a, expectEqual);
+            Assert.Equal(a != b, !expectEqual);
+            Assert.Equal(b != a, !expectEqual);
+
+            // IEquatable<T>
+            Assert.Equal(a.Equals(b), expectEqual);
+            Assert.Equal(b.Equals(a), expectEqual);
+
+            // IEquatable
+            Assert.Equal(a.Equals((object)b), expectEqual);
+            Assert.Equal(b.Equals((object)a), expectEqual);
+
+            // "The result of the expression is always 'false'..."
+            #pragma warning disable CS8073
+            Assert.False(a == null);
+            Assert.False(null == a);
+            #pragma warning restore CS8073
+        }
+
+        [Fact]
+        public void Equals_Object_ReturnsFalseIfNull()
+        {
+            var a = Duration.Zero;
+            Assert.False(a.Equals((object)null));
         }
 
         [Fact]

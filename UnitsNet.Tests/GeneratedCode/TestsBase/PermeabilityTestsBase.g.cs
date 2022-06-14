@@ -237,7 +237,7 @@ namespace UnitsNet.Tests
         public void ToUnit_FromNonBaseUnit_ReturnsQuantityWithGivenUnit(PermeabilityUnit unit)
         {
             // See if there is a unit available that is not the base unit, fallback to base unit if it has only a single unit.
-            var fromUnit = Permeability.Units.Where(u => u != Permeability.BaseUnit).DefaultIfEmpty(Permeability.BaseUnit).FirstOrDefault();
+            var fromUnit = Permeability.Units.Where(u => u != Permeability.BaseUnit).DefaultIfEmpty(Permeability.BaseUnit).First();
 
             var quantity = Permeability.From(3.0, fromUnit);
             var converted = quantity.ToUnit(unit);
@@ -302,6 +302,43 @@ namespace UnitsNet.Tests
         {
             Permeability henrypermeter = Permeability.FromHenriesPerMeter(1);
             Assert.Throws<ArgumentNullException>(() => henrypermeter.CompareTo(null));
+        }
+
+        [Theory]
+        [InlineData(1, PermeabilityUnit.HenryPerMeter, 1, PermeabilityUnit.HenryPerMeter, true)]  // Same value and unit.
+        [InlineData(1, PermeabilityUnit.HenryPerMeter, 2, PermeabilityUnit.HenryPerMeter, false)] // Different value.
+        [InlineData(2, PermeabilityUnit.HenryPerMeter, 1, PermeabilityUnit.HenryPerMeter, false)] // Different value and unit.
+        public void Equality_MatchesOnValueAndUnit(double valueA, PermeabilityUnit unitA, double valueB, PermeabilityUnit unitB, bool expectEqual)
+        {
+            var a = new Permeability(valueA, unitA);
+            var b = new Permeability(valueB, unitB);
+
+            // Operator overloads.
+            Assert.Equal(a == b, expectEqual);
+            Assert.Equal(b == a, expectEqual);
+            Assert.Equal(a != b, !expectEqual);
+            Assert.Equal(b != a, !expectEqual);
+
+            // IEquatable<T>
+            Assert.Equal(a.Equals(b), expectEqual);
+            Assert.Equal(b.Equals(a), expectEqual);
+
+            // IEquatable
+            Assert.Equal(a.Equals((object)b), expectEqual);
+            Assert.Equal(b.Equals((object)a), expectEqual);
+
+            // "The result of the expression is always 'false'..."
+            #pragma warning disable CS8073
+            Assert.False(a == null);
+            Assert.False(null == a);
+            #pragma warning restore CS8073
+        }
+
+        [Fact]
+        public void Equals_Object_ReturnsFalseIfNull()
+        {
+            var a = Permeability.Zero;
+            Assert.False(a.Equals((object)null));
         }
 
         [Fact]

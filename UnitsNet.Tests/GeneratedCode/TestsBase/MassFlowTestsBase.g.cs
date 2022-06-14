@@ -1567,7 +1567,7 @@ namespace UnitsNet.Tests
         public void ToUnit_FromNonBaseUnit_ReturnsQuantityWithGivenUnit(MassFlowUnit unit)
         {
             // See if there is a unit available that is not the base unit, fallback to base unit if it has only a single unit.
-            var fromUnit = MassFlow.Units.Where(u => u != MassFlow.BaseUnit).DefaultIfEmpty(MassFlow.BaseUnit).FirstOrDefault();
+            var fromUnit = MassFlow.Units.Where(u => u != MassFlow.BaseUnit).DefaultIfEmpty(MassFlow.BaseUnit).First();
 
             var quantity = MassFlow.From(3.0, fromUnit);
             var converted = quantity.ToUnit(unit);
@@ -1664,6 +1664,44 @@ namespace UnitsNet.Tests
         {
             MassFlow grampersecond = MassFlow.FromGramsPerSecond(1);
             Assert.Throws<ArgumentNullException>(() => grampersecond.CompareTo(null));
+        }
+
+        [Theory]
+        [InlineData(1, MassFlowUnit.GramPerSecond, 1, MassFlowUnit.GramPerSecond, true)]  // Same value and unit.
+        [InlineData(1, MassFlowUnit.GramPerSecond, 2, MassFlowUnit.GramPerSecond, false)] // Different value.
+        [InlineData(2, MassFlowUnit.GramPerSecond, 1, MassFlowUnit.CentigramPerDay, false)] // Different value and unit.
+        [InlineData(1, MassFlowUnit.GramPerSecond, 1, MassFlowUnit.CentigramPerDay, false)] // Different unit.
+        public void Equality_MatchesOnValueAndUnit(double valueA, MassFlowUnit unitA, double valueB, MassFlowUnit unitB, bool expectEqual)
+        {
+            var a = new MassFlow(valueA, unitA);
+            var b = new MassFlow(valueB, unitB);
+
+            // Operator overloads.
+            Assert.Equal(a == b, expectEqual);
+            Assert.Equal(b == a, expectEqual);
+            Assert.Equal(a != b, !expectEqual);
+            Assert.Equal(b != a, !expectEqual);
+
+            // IEquatable<T>
+            Assert.Equal(a.Equals(b), expectEqual);
+            Assert.Equal(b.Equals(a), expectEqual);
+
+            // IEquatable
+            Assert.Equal(a.Equals((object)b), expectEqual);
+            Assert.Equal(b.Equals((object)a), expectEqual);
+
+            // "The result of the expression is always 'false'..."
+            #pragma warning disable CS8073
+            Assert.False(a == null);
+            Assert.False(null == a);
+            #pragma warning restore CS8073
+        }
+
+        [Fact]
+        public void Equals_Object_ReturnsFalseIfNull()
+        {
+            var a = MassFlow.Zero;
+            Assert.False(a.Equals((object)null));
         }
 
         [Fact]

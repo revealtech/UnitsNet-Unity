@@ -305,7 +305,7 @@ namespace UnitsNet.Tests
         public void ToUnit_FromNonBaseUnit_ReturnsQuantityWithGivenUnit(ApparentEnergyUnit unit)
         {
             // See if there is a unit available that is not the base unit, fallback to base unit if it has only a single unit.
-            var fromUnit = ApparentEnergy.Units.Where(u => u != ApparentEnergy.BaseUnit).DefaultIfEmpty(ApparentEnergy.BaseUnit).FirstOrDefault();
+            var fromUnit = ApparentEnergy.Units.Where(u => u != ApparentEnergy.BaseUnit).DefaultIfEmpty(ApparentEnergy.BaseUnit).First();
 
             var quantity = ApparentEnergy.From(3.0, fromUnit);
             var converted = quantity.ToUnit(unit);
@@ -372,6 +372,44 @@ namespace UnitsNet.Tests
         {
             ApparentEnergy voltamperehour = ApparentEnergy.FromVoltampereHours(1);
             Assert.Throws<ArgumentNullException>(() => voltamperehour.CompareTo(null));
+        }
+
+        [Theory]
+        [InlineData(1, ApparentEnergyUnit.VoltampereHour, 1, ApparentEnergyUnit.VoltampereHour, true)]  // Same value and unit.
+        [InlineData(1, ApparentEnergyUnit.VoltampereHour, 2, ApparentEnergyUnit.VoltampereHour, false)] // Different value.
+        [InlineData(2, ApparentEnergyUnit.VoltampereHour, 1, ApparentEnergyUnit.KilovoltampereHour, false)] // Different value and unit.
+        [InlineData(1, ApparentEnergyUnit.VoltampereHour, 1, ApparentEnergyUnit.KilovoltampereHour, false)] // Different unit.
+        public void Equality_MatchesOnValueAndUnit(double valueA, ApparentEnergyUnit unitA, double valueB, ApparentEnergyUnit unitB, bool expectEqual)
+        {
+            var a = new ApparentEnergy(valueA, unitA);
+            var b = new ApparentEnergy(valueB, unitB);
+
+            // Operator overloads.
+            Assert.Equal(a == b, expectEqual);
+            Assert.Equal(b == a, expectEqual);
+            Assert.Equal(a != b, !expectEqual);
+            Assert.Equal(b != a, !expectEqual);
+
+            // IEquatable<T>
+            Assert.Equal(a.Equals(b), expectEqual);
+            Assert.Equal(b.Equals(a), expectEqual);
+
+            // IEquatable
+            Assert.Equal(a.Equals((object)b), expectEqual);
+            Assert.Equal(b.Equals((object)a), expectEqual);
+
+            // "The result of the expression is always 'false'..."
+            #pragma warning disable CS8073
+            Assert.False(a == null);
+            Assert.False(null == a);
+            #pragma warning restore CS8073
+        }
+
+        [Fact]
+        public void Equals_Object_ReturnsFalseIfNull()
+        {
+            var a = ApparentEnergy.Zero;
+            Assert.False(a.Equals((object)null));
         }
 
         [Fact]

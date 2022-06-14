@@ -1909,7 +1909,7 @@ namespace UnitsNet.Tests
         public void ToUnit_FromNonBaseUnit_ReturnsQuantityWithGivenUnit(EnergyUnit unit)
         {
             // See if there is a unit available that is not the base unit, fallback to base unit if it has only a single unit.
-            var fromUnit = Energy.Units.Where(u => u != Energy.BaseUnit).DefaultIfEmpty(Energy.BaseUnit).FirstOrDefault();
+            var fromUnit = Energy.Units.Where(u => u != Energy.BaseUnit).DefaultIfEmpty(Energy.BaseUnit).First();
 
             var quantity = Energy.From(3.0, fromUnit);
             var converted = quantity.ToUnit(unit);
@@ -2009,6 +2009,44 @@ namespace UnitsNet.Tests
         {
             Energy joule = Energy.FromJoules(1);
             Assert.Throws<ArgumentNullException>(() => joule.CompareTo(null));
+        }
+
+        [Theory]
+        [InlineData(1, EnergyUnit.Joule, 1, EnergyUnit.Joule, true)]  // Same value and unit.
+        [InlineData(1, EnergyUnit.Joule, 2, EnergyUnit.Joule, false)] // Different value.
+        [InlineData(2, EnergyUnit.Joule, 1, EnergyUnit.BritishThermalUnit, false)] // Different value and unit.
+        [InlineData(1, EnergyUnit.Joule, 1, EnergyUnit.BritishThermalUnit, false)] // Different unit.
+        public void Equality_MatchesOnValueAndUnit(double valueA, EnergyUnit unitA, double valueB, EnergyUnit unitB, bool expectEqual)
+        {
+            var a = new Energy(valueA, unitA);
+            var b = new Energy(valueB, unitB);
+
+            // Operator overloads.
+            Assert.Equal(a == b, expectEqual);
+            Assert.Equal(b == a, expectEqual);
+            Assert.Equal(a != b, !expectEqual);
+            Assert.Equal(b != a, !expectEqual);
+
+            // IEquatable<T>
+            Assert.Equal(a.Equals(b), expectEqual);
+            Assert.Equal(b.Equals(a), expectEqual);
+
+            // IEquatable
+            Assert.Equal(a.Equals((object)b), expectEqual);
+            Assert.Equal(b.Equals((object)a), expectEqual);
+
+            // "The result of the expression is always 'false'..."
+            #pragma warning disable CS8073
+            Assert.False(a == null);
+            Assert.False(null == a);
+            #pragma warning restore CS8073
+        }
+
+        [Fact]
+        public void Equals_Object_ReturnsFalseIfNull()
+        {
+            var a = Energy.Zero;
+            Assert.False(a.Equals((object)null));
         }
 
         [Fact]

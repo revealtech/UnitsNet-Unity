@@ -339,7 +339,7 @@ namespace UnitsNet.Tests
         public void ToUnit_FromNonBaseUnit_ReturnsQuantityWithGivenUnit(ReactivePowerUnit unit)
         {
             // See if there is a unit available that is not the base unit, fallback to base unit if it has only a single unit.
-            var fromUnit = ReactivePower.Units.Where(u => u != ReactivePower.BaseUnit).DefaultIfEmpty(ReactivePower.BaseUnit).FirstOrDefault();
+            var fromUnit = ReactivePower.Units.Where(u => u != ReactivePower.BaseUnit).DefaultIfEmpty(ReactivePower.BaseUnit).First();
 
             var quantity = ReactivePower.From(3.0, fromUnit);
             var converted = quantity.ToUnit(unit);
@@ -407,6 +407,44 @@ namespace UnitsNet.Tests
         {
             ReactivePower voltamperereactive = ReactivePower.FromVoltamperesReactive(1);
             Assert.Throws<ArgumentNullException>(() => voltamperereactive.CompareTo(null));
+        }
+
+        [Theory]
+        [InlineData(1, ReactivePowerUnit.VoltampereReactive, 1, ReactivePowerUnit.VoltampereReactive, true)]  // Same value and unit.
+        [InlineData(1, ReactivePowerUnit.VoltampereReactive, 2, ReactivePowerUnit.VoltampereReactive, false)] // Different value.
+        [InlineData(2, ReactivePowerUnit.VoltampereReactive, 1, ReactivePowerUnit.GigavoltampereReactive, false)] // Different value and unit.
+        [InlineData(1, ReactivePowerUnit.VoltampereReactive, 1, ReactivePowerUnit.GigavoltampereReactive, false)] // Different unit.
+        public void Equality_MatchesOnValueAndUnit(double valueA, ReactivePowerUnit unitA, double valueB, ReactivePowerUnit unitB, bool expectEqual)
+        {
+            var a = new ReactivePower(valueA, unitA);
+            var b = new ReactivePower(valueB, unitB);
+
+            // Operator overloads.
+            Assert.Equal(a == b, expectEqual);
+            Assert.Equal(b == a, expectEqual);
+            Assert.Equal(a != b, !expectEqual);
+            Assert.Equal(b != a, !expectEqual);
+
+            // IEquatable<T>
+            Assert.Equal(a.Equals(b), expectEqual);
+            Assert.Equal(b.Equals(a), expectEqual);
+
+            // IEquatable
+            Assert.Equal(a.Equals((object)b), expectEqual);
+            Assert.Equal(b.Equals((object)a), expectEqual);
+
+            // "The result of the expression is always 'false'..."
+            #pragma warning disable CS8073
+            Assert.False(a == null);
+            Assert.False(null == a);
+            #pragma warning restore CS8073
+        }
+
+        [Fact]
+        public void Equals_Object_ReturnsFalseIfNull()
+        {
+            var a = ReactivePower.Zero;
+            Assert.False(a.Equals((object)null));
         }
 
         [Fact]

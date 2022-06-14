@@ -1155,7 +1155,7 @@ namespace UnitsNet.Tests
         public void ToUnit_FromNonBaseUnit_ReturnsQuantityWithGivenUnit(MassMomentOfInertiaUnit unit)
         {
             // See if there is a unit available that is not the base unit, fallback to base unit if it has only a single unit.
-            var fromUnit = MassMomentOfInertia.Units.Where(u => u != MassMomentOfInertia.BaseUnit).DefaultIfEmpty(MassMomentOfInertia.BaseUnit).FirstOrDefault();
+            var fromUnit = MassMomentOfInertia.Units.Where(u => u != MassMomentOfInertia.BaseUnit).DefaultIfEmpty(MassMomentOfInertia.BaseUnit).First();
 
             var quantity = MassMomentOfInertia.From(3.0, fromUnit);
             var converted = quantity.ToUnit(unit);
@@ -1247,6 +1247,44 @@ namespace UnitsNet.Tests
         {
             MassMomentOfInertia kilogramsquaremeter = MassMomentOfInertia.FromKilogramSquareMeters(1);
             Assert.Throws<ArgumentNullException>(() => kilogramsquaremeter.CompareTo(null));
+        }
+
+        [Theory]
+        [InlineData(1, MassMomentOfInertiaUnit.KilogramSquareMeter, 1, MassMomentOfInertiaUnit.KilogramSquareMeter, true)]  // Same value and unit.
+        [InlineData(1, MassMomentOfInertiaUnit.KilogramSquareMeter, 2, MassMomentOfInertiaUnit.KilogramSquareMeter, false)] // Different value.
+        [InlineData(2, MassMomentOfInertiaUnit.KilogramSquareMeter, 1, MassMomentOfInertiaUnit.GramSquareCentimeter, false)] // Different value and unit.
+        [InlineData(1, MassMomentOfInertiaUnit.KilogramSquareMeter, 1, MassMomentOfInertiaUnit.GramSquareCentimeter, false)] // Different unit.
+        public void Equality_MatchesOnValueAndUnit(double valueA, MassMomentOfInertiaUnit unitA, double valueB, MassMomentOfInertiaUnit unitB, bool expectEqual)
+        {
+            var a = new MassMomentOfInertia(valueA, unitA);
+            var b = new MassMomentOfInertia(valueB, unitB);
+
+            // Operator overloads.
+            Assert.Equal(a == b, expectEqual);
+            Assert.Equal(b == a, expectEqual);
+            Assert.Equal(a != b, !expectEqual);
+            Assert.Equal(b != a, !expectEqual);
+
+            // IEquatable<T>
+            Assert.Equal(a.Equals(b), expectEqual);
+            Assert.Equal(b.Equals(a), expectEqual);
+
+            // IEquatable
+            Assert.Equal(a.Equals((object)b), expectEqual);
+            Assert.Equal(b.Equals((object)a), expectEqual);
+
+            // "The result of the expression is always 'false'..."
+            #pragma warning disable CS8073
+            Assert.False(a == null);
+            Assert.False(null == a);
+            #pragma warning restore CS8073
+        }
+
+        [Fact]
+        public void Equals_Object_ReturnsFalseIfNull()
+        {
+            var a = MassMomentOfInertia.Zero;
+            Assert.False(a.Equals((object)null));
         }
 
         [Fact]

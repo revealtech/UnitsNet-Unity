@@ -271,7 +271,7 @@ namespace UnitsNet.Tests
         public void ToUnit_FromNonBaseUnit_ReturnsQuantityWithGivenUnit(RatioChangeRateUnit unit)
         {
             // See if there is a unit available that is not the base unit, fallback to base unit if it has only a single unit.
-            var fromUnit = RatioChangeRate.Units.Where(u => u != RatioChangeRate.BaseUnit).DefaultIfEmpty(RatioChangeRate.BaseUnit).FirstOrDefault();
+            var fromUnit = RatioChangeRate.Units.Where(u => u != RatioChangeRate.BaseUnit).DefaultIfEmpty(RatioChangeRate.BaseUnit).First();
 
             var quantity = RatioChangeRate.From(3.0, fromUnit);
             var converted = quantity.ToUnit(unit);
@@ -337,6 +337,44 @@ namespace UnitsNet.Tests
         {
             RatioChangeRate decimalfractionpersecond = RatioChangeRate.FromDecimalFractionsPerSecond(1);
             Assert.Throws<ArgumentNullException>(() => decimalfractionpersecond.CompareTo(null));
+        }
+
+        [Theory]
+        [InlineData(1, RatioChangeRateUnit.DecimalFractionPerSecond, 1, RatioChangeRateUnit.DecimalFractionPerSecond, true)]  // Same value and unit.
+        [InlineData(1, RatioChangeRateUnit.DecimalFractionPerSecond, 2, RatioChangeRateUnit.DecimalFractionPerSecond, false)] // Different value.
+        [InlineData(2, RatioChangeRateUnit.DecimalFractionPerSecond, 1, RatioChangeRateUnit.PercentPerSecond, false)] // Different value and unit.
+        [InlineData(1, RatioChangeRateUnit.DecimalFractionPerSecond, 1, RatioChangeRateUnit.PercentPerSecond, false)] // Different unit.
+        public void Equality_MatchesOnValueAndUnit(double valueA, RatioChangeRateUnit unitA, double valueB, RatioChangeRateUnit unitB, bool expectEqual)
+        {
+            var a = new RatioChangeRate(valueA, unitA);
+            var b = new RatioChangeRate(valueB, unitB);
+
+            // Operator overloads.
+            Assert.Equal(a == b, expectEqual);
+            Assert.Equal(b == a, expectEqual);
+            Assert.Equal(a != b, !expectEqual);
+            Assert.Equal(b != a, !expectEqual);
+
+            // IEquatable<T>
+            Assert.Equal(a.Equals(b), expectEqual);
+            Assert.Equal(b.Equals(a), expectEqual);
+
+            // IEquatable
+            Assert.Equal(a.Equals((object)b), expectEqual);
+            Assert.Equal(b.Equals((object)a), expectEqual);
+
+            // "The result of the expression is always 'false'..."
+            #pragma warning disable CS8073
+            Assert.False(a == null);
+            Assert.False(null == a);
+            #pragma warning restore CS8073
+        }
+
+        [Fact]
+        public void Equals_Object_ReturnsFalseIfNull()
+        {
+            var a = RatioChangeRate.Zero;
+            Assert.False(a.Equals((object)null));
         }
 
         [Fact]

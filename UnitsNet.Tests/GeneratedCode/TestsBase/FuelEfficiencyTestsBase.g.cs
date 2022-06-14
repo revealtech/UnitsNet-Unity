@@ -339,7 +339,7 @@ namespace UnitsNet.Tests
         public void ToUnit_FromNonBaseUnit_ReturnsQuantityWithGivenUnit(FuelEfficiencyUnit unit)
         {
             // See if there is a unit available that is not the base unit, fallback to base unit if it has only a single unit.
-            var fromUnit = FuelEfficiency.Units.Where(u => u != FuelEfficiency.BaseUnit).DefaultIfEmpty(FuelEfficiency.BaseUnit).FirstOrDefault();
+            var fromUnit = FuelEfficiency.Units.Where(u => u != FuelEfficiency.BaseUnit).DefaultIfEmpty(FuelEfficiency.BaseUnit).First();
 
             var quantity = FuelEfficiency.From(3.0, fromUnit);
             var converted = quantity.ToUnit(unit);
@@ -407,6 +407,44 @@ namespace UnitsNet.Tests
         {
             FuelEfficiency literper100kilometers = FuelEfficiency.FromLitersPer100Kilometers(1);
             Assert.Throws<ArgumentNullException>(() => literper100kilometers.CompareTo(null));
+        }
+
+        [Theory]
+        [InlineData(1, FuelEfficiencyUnit.LiterPer100Kilometers, 1, FuelEfficiencyUnit.LiterPer100Kilometers, true)]  // Same value and unit.
+        [InlineData(1, FuelEfficiencyUnit.LiterPer100Kilometers, 2, FuelEfficiencyUnit.LiterPer100Kilometers, false)] // Different value.
+        [InlineData(2, FuelEfficiencyUnit.LiterPer100Kilometers, 1, FuelEfficiencyUnit.KilometerPerLiter, false)] // Different value and unit.
+        [InlineData(1, FuelEfficiencyUnit.LiterPer100Kilometers, 1, FuelEfficiencyUnit.KilometerPerLiter, false)] // Different unit.
+        public void Equality_MatchesOnValueAndUnit(double valueA, FuelEfficiencyUnit unitA, double valueB, FuelEfficiencyUnit unitB, bool expectEqual)
+        {
+            var a = new FuelEfficiency(valueA, unitA);
+            var b = new FuelEfficiency(valueB, unitB);
+
+            // Operator overloads.
+            Assert.Equal(a == b, expectEqual);
+            Assert.Equal(b == a, expectEqual);
+            Assert.Equal(a != b, !expectEqual);
+            Assert.Equal(b != a, !expectEqual);
+
+            // IEquatable<T>
+            Assert.Equal(a.Equals(b), expectEqual);
+            Assert.Equal(b.Equals(a), expectEqual);
+
+            // IEquatable
+            Assert.Equal(a.Equals((object)b), expectEqual);
+            Assert.Equal(b.Equals((object)a), expectEqual);
+
+            // "The result of the expression is always 'false'..."
+            #pragma warning disable CS8073
+            Assert.False(a == null);
+            Assert.False(null == a);
+            #pragma warning restore CS8073
+        }
+
+        [Fact]
+        public void Equals_Object_ReturnsFalseIfNull()
+        {
+            var a = FuelEfficiency.Zero;
+            Assert.False(a.Equals((object)null));
         }
 
         [Fact]

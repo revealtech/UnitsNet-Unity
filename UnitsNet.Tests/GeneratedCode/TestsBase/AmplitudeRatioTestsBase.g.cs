@@ -339,7 +339,7 @@ namespace UnitsNet.Tests
         public void ToUnit_FromNonBaseUnit_ReturnsQuantityWithGivenUnit(AmplitudeRatioUnit unit)
         {
             // See if there is a unit available that is not the base unit, fallback to base unit if it has only a single unit.
-            var fromUnit = AmplitudeRatio.Units.Where(u => u != AmplitudeRatio.BaseUnit).DefaultIfEmpty(AmplitudeRatio.BaseUnit).FirstOrDefault();
+            var fromUnit = AmplitudeRatio.Units.Where(u => u != AmplitudeRatio.BaseUnit).DefaultIfEmpty(AmplitudeRatio.BaseUnit).First();
 
             var quantity = AmplitudeRatio.From(3.0, fromUnit);
             var converted = quantity.ToUnit(unit);
@@ -411,6 +411,44 @@ namespace UnitsNet.Tests
         {
             AmplitudeRatio decibelvolt = AmplitudeRatio.FromDecibelVolts(1);
             Assert.Throws<ArgumentNullException>(() => decibelvolt.CompareTo(null));
+        }
+
+        [Theory]
+        [InlineData(1, AmplitudeRatioUnit.DecibelVolt, 1, AmplitudeRatioUnit.DecibelVolt, true)]  // Same value and unit.
+        [InlineData(1, AmplitudeRatioUnit.DecibelVolt, 2, AmplitudeRatioUnit.DecibelVolt, false)] // Different value.
+        [InlineData(2, AmplitudeRatioUnit.DecibelVolt, 1, AmplitudeRatioUnit.DecibelMicrovolt, false)] // Different value and unit.
+        [InlineData(1, AmplitudeRatioUnit.DecibelVolt, 1, AmplitudeRatioUnit.DecibelMicrovolt, false)] // Different unit.
+        public void Equality_MatchesOnValueAndUnit(double valueA, AmplitudeRatioUnit unitA, double valueB, AmplitudeRatioUnit unitB, bool expectEqual)
+        {
+            var a = new AmplitudeRatio(valueA, unitA);
+            var b = new AmplitudeRatio(valueB, unitB);
+
+            // Operator overloads.
+            Assert.Equal(a == b, expectEqual);
+            Assert.Equal(b == a, expectEqual);
+            Assert.Equal(a != b, !expectEqual);
+            Assert.Equal(b != a, !expectEqual);
+
+            // IEquatable<T>
+            Assert.Equal(a.Equals(b), expectEqual);
+            Assert.Equal(b.Equals(a), expectEqual);
+
+            // IEquatable
+            Assert.Equal(a.Equals((object)b), expectEqual);
+            Assert.Equal(b.Equals((object)a), expectEqual);
+
+            // "The result of the expression is always 'false'..."
+            #pragma warning disable CS8073
+            Assert.False(a == null);
+            Assert.False(null == a);
+            #pragma warning restore CS8073
+        }
+
+        [Fact]
+        public void Equals_Object_ReturnsFalseIfNull()
+        {
+            var a = AmplitudeRatio.Zero;
+            Assert.False(a.Equals((object)null));
         }
 
         [Fact]

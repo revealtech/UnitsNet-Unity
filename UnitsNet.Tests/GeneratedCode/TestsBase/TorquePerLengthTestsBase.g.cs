@@ -989,7 +989,7 @@ namespace UnitsNet.Tests
         public void ToUnit_FromNonBaseUnit_ReturnsQuantityWithGivenUnit(TorquePerLengthUnit unit)
         {
             // See if there is a unit available that is not the base unit, fallback to base unit if it has only a single unit.
-            var fromUnit = TorquePerLength.Units.Where(u => u != TorquePerLength.BaseUnit).DefaultIfEmpty(TorquePerLength.BaseUnit).FirstOrDefault();
+            var fromUnit = TorquePerLength.Units.Where(u => u != TorquePerLength.BaseUnit).DefaultIfEmpty(TorquePerLength.BaseUnit).First();
 
             var quantity = TorquePerLength.From(3.0, fromUnit);
             var converted = quantity.ToUnit(unit);
@@ -1074,6 +1074,44 @@ namespace UnitsNet.Tests
         {
             TorquePerLength newtonmeterpermeter = TorquePerLength.FromNewtonMetersPerMeter(1);
             Assert.Throws<ArgumentNullException>(() => newtonmeterpermeter.CompareTo(null));
+        }
+
+        [Theory]
+        [InlineData(1, TorquePerLengthUnit.NewtonMeterPerMeter, 1, TorquePerLengthUnit.NewtonMeterPerMeter, true)]  // Same value and unit.
+        [InlineData(1, TorquePerLengthUnit.NewtonMeterPerMeter, 2, TorquePerLengthUnit.NewtonMeterPerMeter, false)] // Different value.
+        [InlineData(2, TorquePerLengthUnit.NewtonMeterPerMeter, 1, TorquePerLengthUnit.KilogramForceCentimeterPerMeter, false)] // Different value and unit.
+        [InlineData(1, TorquePerLengthUnit.NewtonMeterPerMeter, 1, TorquePerLengthUnit.KilogramForceCentimeterPerMeter, false)] // Different unit.
+        public void Equality_MatchesOnValueAndUnit(double valueA, TorquePerLengthUnit unitA, double valueB, TorquePerLengthUnit unitB, bool expectEqual)
+        {
+            var a = new TorquePerLength(valueA, unitA);
+            var b = new TorquePerLength(valueB, unitB);
+
+            // Operator overloads.
+            Assert.Equal(a == b, expectEqual);
+            Assert.Equal(b == a, expectEqual);
+            Assert.Equal(a != b, !expectEqual);
+            Assert.Equal(b != a, !expectEqual);
+
+            // IEquatable<T>
+            Assert.Equal(a.Equals(b), expectEqual);
+            Assert.Equal(b.Equals(a), expectEqual);
+
+            // IEquatable
+            Assert.Equal(a.Equals((object)b), expectEqual);
+            Assert.Equal(b.Equals((object)a), expectEqual);
+
+            // "The result of the expression is always 'false'..."
+            #pragma warning disable CS8073
+            Assert.False(a == null);
+            Assert.False(null == a);
+            #pragma warning restore CS8073
+        }
+
+        [Fact]
+        public void Equals_Object_ReturnsFalseIfNull()
+        {
+            var a = TorquePerLength.Zero;
+            Assert.False(a.Equals((object)null));
         }
 
         [Fact]
