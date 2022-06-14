@@ -696,7 +696,7 @@ namespace UnitsNet.Tests
         [InlineData(1, DynamicViscosityUnit.NewtonSecondPerMeterSquared, 2, DynamicViscosityUnit.NewtonSecondPerMeterSquared, false)] // Different value.
         [InlineData(2, DynamicViscosityUnit.NewtonSecondPerMeterSquared, 1, DynamicViscosityUnit.Centipoise, false)] // Different value and unit.
         [InlineData(1, DynamicViscosityUnit.NewtonSecondPerMeterSquared, 1, DynamicViscosityUnit.Centipoise, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, DynamicViscosityUnit unitA, double valueB, DynamicViscosityUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, DynamicViscosityUnit unitA, double valueB, DynamicViscosityUnit unitB, bool expectEqual)
         {
             var a = new DynamicViscosity(valueA, unitA);
             var b = new DynamicViscosity(valueB, unitB);

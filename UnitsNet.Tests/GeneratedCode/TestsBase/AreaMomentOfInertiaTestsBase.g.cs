@@ -628,7 +628,7 @@ namespace UnitsNet.Tests
         [InlineData(1, AreaMomentOfInertiaUnit.MeterToTheFourth, 2, AreaMomentOfInertiaUnit.MeterToTheFourth, false)] // Different value.
         [InlineData(2, AreaMomentOfInertiaUnit.MeterToTheFourth, 1, AreaMomentOfInertiaUnit.CentimeterToTheFourth, false)] // Different value and unit.
         [InlineData(1, AreaMomentOfInertiaUnit.MeterToTheFourth, 1, AreaMomentOfInertiaUnit.CentimeterToTheFourth, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, AreaMomentOfInertiaUnit unitA, double valueB, AreaMomentOfInertiaUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, AreaMomentOfInertiaUnit unitA, double valueB, AreaMomentOfInertiaUnit unitB, bool expectEqual)
         {
             var a = new AreaMomentOfInertia(valueA, unitA);
             var b = new AreaMomentOfInertia(valueB, unitB);

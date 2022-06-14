@@ -308,7 +308,7 @@ namespace UnitsNet.Tests
         [InlineData(1, LuminousFluxUnit.Lumen, 1, LuminousFluxUnit.Lumen, true)]  // Same value and unit.
         [InlineData(1, LuminousFluxUnit.Lumen, 2, LuminousFluxUnit.Lumen, false)] // Different value.
         [InlineData(2, LuminousFluxUnit.Lumen, 1, LuminousFluxUnit.Lumen, false)] // Different value and unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, LuminousFluxUnit unitA, double valueB, LuminousFluxUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, LuminousFluxUnit unitA, double valueB, LuminousFluxUnit unitB, bool expectEqual)
         {
             var a = new LuminousFlux(valueA, unitA);
             var b = new LuminousFlux(valueB, unitB);

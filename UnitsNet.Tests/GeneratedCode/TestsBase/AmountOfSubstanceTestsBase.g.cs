@@ -777,7 +777,7 @@ namespace UnitsNet.Tests
         [InlineData(1, AmountOfSubstanceUnit.Mole, 2, AmountOfSubstanceUnit.Mole, false)] // Different value.
         [InlineData(2, AmountOfSubstanceUnit.Mole, 1, AmountOfSubstanceUnit.Centimole, false)] // Different value and unit.
         [InlineData(1, AmountOfSubstanceUnit.Mole, 1, AmountOfSubstanceUnit.Centimole, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, AmountOfSubstanceUnit unitA, double valueB, AmountOfSubstanceUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, AmountOfSubstanceUnit unitA, double valueB, AmountOfSubstanceUnit unitB, bool expectEqual)
         {
             var a = new AmountOfSubstance(valueA, unitA);
             var b = new AmountOfSubstance(valueB, unitB);

@@ -2913,7 +2913,7 @@ namespace UnitsNet.Tests
         [InlineData(1, RotationalStiffnessUnit.NewtonMeterPerRadian, 2, RotationalStiffnessUnit.NewtonMeterPerRadian, false)] // Different value.
         [InlineData(2, RotationalStiffnessUnit.NewtonMeterPerRadian, 1, RotationalStiffnessUnit.CentinewtonMeterPerDegree, false)] // Different value and unit.
         [InlineData(1, RotationalStiffnessUnit.NewtonMeterPerRadian, 1, RotationalStiffnessUnit.CentinewtonMeterPerDegree, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, RotationalStiffnessUnit unitA, double valueB, RotationalStiffnessUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, RotationalStiffnessUnit unitA, double valueB, RotationalStiffnessUnit unitB, bool expectEqual)
         {
             var a = new RotationalStiffness(valueA, unitA);
             var b = new RotationalStiffness(valueB, unitB);

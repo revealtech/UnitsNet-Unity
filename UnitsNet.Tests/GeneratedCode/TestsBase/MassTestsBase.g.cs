@@ -2137,7 +2137,7 @@ namespace UnitsNet.Tests
         [InlineData(1, MassUnit.Kilogram, 2, MassUnit.Kilogram, false)] // Different value.
         [InlineData(2, MassUnit.Kilogram, 1, MassUnit.Centigram, false)] // Different value and unit.
         [InlineData(1, MassUnit.Kilogram, 1, MassUnit.Centigram, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, MassUnit unitA, double valueB, MassUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, MassUnit unitA, double valueB, MassUnit unitB, bool expectEqual)
         {
             var a = new Mass(valueA, unitA);
             var b = new Mass(valueB, unitB);

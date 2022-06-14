@@ -694,7 +694,7 @@ namespace UnitsNet.Tests
         [InlineData(1, MassFluxUnit.KilogramPerSecondPerSquareMeter, 2, MassFluxUnit.KilogramPerSecondPerSquareMeter, false)] // Different value.
         [InlineData(2, MassFluxUnit.KilogramPerSecondPerSquareMeter, 1, MassFluxUnit.GramPerHourPerSquareCentimeter, false)] // Different value and unit.
         [InlineData(1, MassFluxUnit.KilogramPerSecondPerSquareMeter, 1, MassFluxUnit.GramPerHourPerSquareCentimeter, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, MassFluxUnit unitA, double valueB, MassFluxUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, MassFluxUnit unitA, double valueB, MassFluxUnit unitB, bool expectEqual)
         {
             var a = new MassFlux(valueA, unitA);
             var b = new MassFlux(valueB, unitB);

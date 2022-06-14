@@ -864,7 +864,7 @@ namespace UnitsNet.Tests
         [InlineData(1, ReciprocalLengthUnit.InverseMeter, 2, ReciprocalLengthUnit.InverseMeter, false)] // Different value.
         [InlineData(2, ReciprocalLengthUnit.InverseMeter, 1, ReciprocalLengthUnit.InverseCentimeter, false)] // Different value and unit.
         [InlineData(1, ReciprocalLengthUnit.InverseMeter, 1, ReciprocalLengthUnit.InverseCentimeter, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, ReciprocalLengthUnit unitA, double valueB, ReciprocalLengthUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, ReciprocalLengthUnit unitA, double valueB, ReciprocalLengthUnit unitB, bool expectEqual)
         {
             var a = new ReciprocalLength(valueA, unitA);
             var b = new ReciprocalLength(valueB, unitB);

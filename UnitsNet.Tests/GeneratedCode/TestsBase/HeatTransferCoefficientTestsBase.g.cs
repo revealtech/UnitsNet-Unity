@@ -379,7 +379,7 @@ namespace UnitsNet.Tests
         [InlineData(1, HeatTransferCoefficientUnit.WattPerSquareMeterKelvin, 2, HeatTransferCoefficientUnit.WattPerSquareMeterKelvin, false)] // Different value.
         [InlineData(2, HeatTransferCoefficientUnit.WattPerSquareMeterKelvin, 1, HeatTransferCoefficientUnit.BtuPerSquareFootDegreeFahrenheit, false)] // Different value and unit.
         [InlineData(1, HeatTransferCoefficientUnit.WattPerSquareMeterKelvin, 1, HeatTransferCoefficientUnit.BtuPerSquareFootDegreeFahrenheit, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, HeatTransferCoefficientUnit unitA, double valueB, HeatTransferCoefficientUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, HeatTransferCoefficientUnit unitA, double valueB, HeatTransferCoefficientUnit unitB, bool expectEqual)
         {
             var a = new HeatTransferCoefficient(valueA, unitA);
             var b = new HeatTransferCoefficient(valueB, unitB);

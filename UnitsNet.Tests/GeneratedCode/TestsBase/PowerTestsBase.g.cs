@@ -1165,7 +1165,7 @@ namespace UnitsNet.Tests
         [InlineData(1, PowerUnit.Watt, 2, PowerUnit.Watt, false)] // Different value.
         [InlineData(2, PowerUnit.Watt, 1, PowerUnit.BoilerHorsepower, false)] // Different value and unit.
         [InlineData(1, PowerUnit.Watt, 1, PowerUnit.BoilerHorsepower, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(decimal valueA, PowerUnit unitA, decimal valueB, PowerUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(decimal valueA, PowerUnit unitA, decimal valueB, PowerUnit unitB, bool expectEqual)
         {
             var a = new Power(valueA, unitA);
             var b = new Power(valueB, unitB);

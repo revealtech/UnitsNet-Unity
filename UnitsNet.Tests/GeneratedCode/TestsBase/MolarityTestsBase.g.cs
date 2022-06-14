@@ -688,7 +688,7 @@ namespace UnitsNet.Tests
         [InlineData(1, MolarityUnit.MolesPerCubicMeter, 2, MolarityUnit.MolesPerCubicMeter, false)] // Different value.
         [InlineData(2, MolarityUnit.MolesPerCubicMeter, 1, MolarityUnit.CentimolePerLiter, false)] // Different value and unit.
         [InlineData(1, MolarityUnit.MolesPerCubicMeter, 1, MolarityUnit.CentimolePerLiter, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, MolarityUnit unitA, double valueB, MolarityUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, MolarityUnit unitA, double valueB, MolarityUnit unitB, bool expectEqual)
         {
             var a = new Molarity(valueA, unitA);
             var b = new Molarity(valueB, unitB);

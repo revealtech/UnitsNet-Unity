@@ -827,7 +827,7 @@ namespace UnitsNet.Tests
         [InlineData(1, FrequencyUnit.Hertz, 2, FrequencyUnit.Hertz, false)] // Different value.
         [InlineData(2, FrequencyUnit.Hertz, 1, FrequencyUnit.BeatPerMinute, false)] // Different value and unit.
         [InlineData(1, FrequencyUnit.Hertz, 1, FrequencyUnit.BeatPerMinute, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, FrequencyUnit unitA, double valueB, FrequencyUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, FrequencyUnit unitA, double valueB, FrequencyUnit unitB, bool expectEqual)
         {
             var a = new Frequency(valueA, unitA);
             var b = new Frequency(valueB, unitB);

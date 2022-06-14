@@ -308,7 +308,7 @@ namespace UnitsNet.Tests
         [InlineData(1, ScalarUnit.Amount, 1, ScalarUnit.Amount, true)]  // Same value and unit.
         [InlineData(1, ScalarUnit.Amount, 2, ScalarUnit.Amount, false)] // Different value.
         [InlineData(2, ScalarUnit.Amount, 1, ScalarUnit.Amount, false)] // Different value and unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, ScalarUnit unitA, double valueB, ScalarUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, ScalarUnit unitA, double valueB, ScalarUnit unitB, bool expectEqual)
         {
             var a = new Scalar(valueA, unitA);
             var b = new Scalar(valueB, unitB);

@@ -497,7 +497,7 @@ namespace UnitsNet.Tests
         [InlineData(1, CapacitanceUnit.Farad, 2, CapacitanceUnit.Farad, false)] // Different value.
         [InlineData(2, CapacitanceUnit.Farad, 1, CapacitanceUnit.Kilofarad, false)] // Different value and unit.
         [InlineData(1, CapacitanceUnit.Farad, 1, CapacitanceUnit.Kilofarad, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, CapacitanceUnit unitA, double valueB, CapacitanceUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, CapacitanceUnit unitA, double valueB, CapacitanceUnit unitB, bool expectEqual)
         {
             var a = new Capacitance(valueA, unitA);
             var b = new Capacitance(valueB, unitB);

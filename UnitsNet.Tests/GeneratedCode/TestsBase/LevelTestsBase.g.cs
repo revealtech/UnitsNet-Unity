@@ -348,7 +348,7 @@ namespace UnitsNet.Tests
         [InlineData(1, LevelUnit.Decibel, 2, LevelUnit.Decibel, false)] // Different value.
         [InlineData(2, LevelUnit.Decibel, 1, LevelUnit.Neper, false)] // Different value and unit.
         [InlineData(1, LevelUnit.Decibel, 1, LevelUnit.Neper, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, LevelUnit unitA, double valueB, LevelUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, LevelUnit unitA, double valueB, LevelUnit unitB, bool expectEqual)
         {
             var a = new Level(valueA, unitA);
             var b = new Level(valueB, unitB);

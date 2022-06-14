@@ -1778,7 +1778,7 @@ namespace UnitsNet.Tests
         [InlineData(1, ForcePerLengthUnit.NewtonPerMeter, 2, ForcePerLengthUnit.NewtonPerMeter, false)] // Different value.
         [InlineData(2, ForcePerLengthUnit.NewtonPerMeter, 1, ForcePerLengthUnit.CentinewtonPerCentimeter, false)] // Different value and unit.
         [InlineData(1, ForcePerLengthUnit.NewtonPerMeter, 1, ForcePerLengthUnit.CentinewtonPerCentimeter, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, ForcePerLengthUnit unitA, double valueB, ForcePerLengthUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, ForcePerLengthUnit unitA, double valueB, ForcePerLengthUnit unitB, bool expectEqual)
         {
             var a = new ForcePerLength(valueA, unitA);
             var b = new ForcePerLength(valueB, unitB);

@@ -379,7 +379,7 @@ namespace UnitsNet.Tests
         [InlineData(1, SpecificVolumeUnit.CubicMeterPerKilogram, 2, SpecificVolumeUnit.CubicMeterPerKilogram, false)] // Different value.
         [InlineData(2, SpecificVolumeUnit.CubicMeterPerKilogram, 1, SpecificVolumeUnit.CubicFootPerPound, false)] // Different value and unit.
         [InlineData(1, SpecificVolumeUnit.CubicMeterPerKilogram, 1, SpecificVolumeUnit.CubicFootPerPound, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, SpecificVolumeUnit unitA, double valueB, SpecificVolumeUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, SpecificVolumeUnit unitA, double valueB, SpecificVolumeUnit unitB, bool expectEqual)
         {
             var a = new SpecificVolume(valueA, unitA);
             var b = new SpecificVolume(valueB, unitB);

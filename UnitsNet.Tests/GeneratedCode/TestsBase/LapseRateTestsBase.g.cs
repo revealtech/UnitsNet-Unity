@@ -308,7 +308,7 @@ namespace UnitsNet.Tests
         [InlineData(1, LapseRateUnit.DegreeCelsiusPerKilometer, 1, LapseRateUnit.DegreeCelsiusPerKilometer, true)]  // Same value and unit.
         [InlineData(1, LapseRateUnit.DegreeCelsiusPerKilometer, 2, LapseRateUnit.DegreeCelsiusPerKilometer, false)] // Different value.
         [InlineData(2, LapseRateUnit.DegreeCelsiusPerKilometer, 1, LapseRateUnit.DegreeCelsiusPerKilometer, false)] // Different value and unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, LapseRateUnit unitA, double valueB, LapseRateUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, LapseRateUnit unitA, double valueB, LapseRateUnit unitB, bool expectEqual)
         {
             var a = new LapseRate(valueA, unitA);
             var b = new LapseRate(valueB, unitB);

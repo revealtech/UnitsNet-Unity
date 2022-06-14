@@ -308,7 +308,7 @@ namespace UnitsNet.Tests
         [InlineData(1, SolidAngleUnit.Steradian, 1, SolidAngleUnit.Steradian, true)]  // Same value and unit.
         [InlineData(1, SolidAngleUnit.Steradian, 2, SolidAngleUnit.Steradian, false)] // Different value.
         [InlineData(2, SolidAngleUnit.Steradian, 1, SolidAngleUnit.Steradian, false)] // Different value and unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, SolidAngleUnit unitA, double valueB, SolidAngleUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, SolidAngleUnit unitA, double valueB, SolidAngleUnit unitB, bool expectEqual)
         {
             var a = new SolidAngle(valueA, unitA);
             var b = new SolidAngle(valueB, unitB);

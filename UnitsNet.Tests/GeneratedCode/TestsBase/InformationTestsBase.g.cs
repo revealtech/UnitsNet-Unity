@@ -873,7 +873,7 @@ namespace UnitsNet.Tests
         [InlineData(1, InformationUnit.Bit, 2, InformationUnit.Bit, false)] // Different value.
         [InlineData(2, InformationUnit.Bit, 1, InformationUnit.Byte, false)] // Different value and unit.
         [InlineData(1, InformationUnit.Bit, 1, InformationUnit.Byte, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(decimal valueA, InformationUnit unitA, decimal valueB, InformationUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(decimal valueA, InformationUnit unitA, decimal valueB, InformationUnit unitB, bool expectEqual)
         {
             var a = new Information(valueA, unitA);
             var b = new Information(valueB, unitB);

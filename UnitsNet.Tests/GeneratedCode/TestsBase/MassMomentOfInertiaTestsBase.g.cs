@@ -1254,7 +1254,7 @@ namespace UnitsNet.Tests
         [InlineData(1, MassMomentOfInertiaUnit.KilogramSquareMeter, 2, MassMomentOfInertiaUnit.KilogramSquareMeter, false)] // Different value.
         [InlineData(2, MassMomentOfInertiaUnit.KilogramSquareMeter, 1, MassMomentOfInertiaUnit.GramSquareCentimeter, false)] // Different value and unit.
         [InlineData(1, MassMomentOfInertiaUnit.KilogramSquareMeter, 1, MassMomentOfInertiaUnit.GramSquareCentimeter, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, MassMomentOfInertiaUnit unitA, double valueB, MassMomentOfInertiaUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, MassMomentOfInertiaUnit unitA, double valueB, MassMomentOfInertiaUnit unitB, bool expectEqual)
         {
             var a = new MassMomentOfInertia(valueA, unitA);
             var b = new MassMomentOfInertia(valueB, unitB);

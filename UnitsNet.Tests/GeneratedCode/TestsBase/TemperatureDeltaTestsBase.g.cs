@@ -589,7 +589,7 @@ namespace UnitsNet.Tests
         [InlineData(1, TemperatureDeltaUnit.Kelvin, 2, TemperatureDeltaUnit.Kelvin, false)] // Different value.
         [InlineData(2, TemperatureDeltaUnit.Kelvin, 1, TemperatureDeltaUnit.DegreeCelsius, false)] // Different value and unit.
         [InlineData(1, TemperatureDeltaUnit.Kelvin, 1, TemperatureDeltaUnit.DegreeCelsius, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, TemperatureDeltaUnit unitA, double valueB, TemperatureDeltaUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, TemperatureDeltaUnit unitA, double valueB, TemperatureDeltaUnit unitB, bool expectEqual)
         {
             var a = new TemperatureDelta(valueA, unitA);
             var b = new TemperatureDelta(valueB, unitB);

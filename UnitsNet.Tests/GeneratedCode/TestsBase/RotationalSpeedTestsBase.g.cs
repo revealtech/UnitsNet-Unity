@@ -1161,7 +1161,7 @@ namespace UnitsNet.Tests
         [InlineData(1, RotationalSpeedUnit.RadianPerSecond, 2, RotationalSpeedUnit.RadianPerSecond, false)] // Different value.
         [InlineData(2, RotationalSpeedUnit.RadianPerSecond, 1, RotationalSpeedUnit.CentiradianPerSecond, false)] // Different value and unit.
         [InlineData(1, RotationalSpeedUnit.RadianPerSecond, 1, RotationalSpeedUnit.CentiradianPerSecond, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, RotationalSpeedUnit unitA, double valueB, RotationalSpeedUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, RotationalSpeedUnit unitA, double valueB, RotationalSpeedUnit unitB, bool expectEqual)
         {
             var a = new RotationalSpeed(valueA, unitA);
             var b = new RotationalSpeed(valueB, unitB);

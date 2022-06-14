@@ -379,7 +379,7 @@ namespace UnitsNet.Tests
         [InlineData(1, ElectricConductivityUnit.SiemensPerMeter, 2, ElectricConductivityUnit.SiemensPerMeter, false)] // Different value.
         [InlineData(2, ElectricConductivityUnit.SiemensPerMeter, 1, ElectricConductivityUnit.SiemensPerFoot, false)] // Different value and unit.
         [InlineData(1, ElectricConductivityUnit.SiemensPerMeter, 1, ElectricConductivityUnit.SiemensPerFoot, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, ElectricConductivityUnit unitA, double valueB, ElectricConductivityUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, ElectricConductivityUnit unitA, double valueB, ElectricConductivityUnit unitB, bool expectEqual)
         {
             var a = new ElectricConductivity(valueA, unitA);
             var b = new ElectricConductivity(valueB, unitB);

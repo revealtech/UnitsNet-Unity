@@ -308,7 +308,7 @@ namespace UnitsNet.Tests
         [InlineData(1, TurbidityUnit.NTU, 1, TurbidityUnit.NTU, true)]  // Same value and unit.
         [InlineData(1, TurbidityUnit.NTU, 2, TurbidityUnit.NTU, false)] // Different value.
         [InlineData(2, TurbidityUnit.NTU, 1, TurbidityUnit.NTU, false)] // Different value and unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, TurbidityUnit unitA, double valueB, TurbidityUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, TurbidityUnit unitA, double valueB, TurbidityUnit unitB, bool expectEqual)
         {
             var a = new Turbidity(valueA, unitA);
             var b = new Turbidity(valueB, unitB);

@@ -484,7 +484,7 @@ namespace UnitsNet.Tests
         [InlineData(1, MagneticFieldUnit.Tesla, 2, MagneticFieldUnit.Tesla, false)] // Different value.
         [InlineData(2, MagneticFieldUnit.Tesla, 1, MagneticFieldUnit.Gauss, false)] // Different value and unit.
         [InlineData(1, MagneticFieldUnit.Tesla, 1, MagneticFieldUnit.Gauss, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, MagneticFieldUnit unitA, double valueB, MagneticFieldUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, MagneticFieldUnit unitA, double valueB, MagneticFieldUnit unitB, bool expectEqual)
         {
             var a = new MagneticField(valueA, unitA);
             var b = new MagneticField(valueB, unitB);

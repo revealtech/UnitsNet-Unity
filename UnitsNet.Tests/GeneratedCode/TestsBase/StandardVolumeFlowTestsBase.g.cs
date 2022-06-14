@@ -589,7 +589,7 @@ namespace UnitsNet.Tests
         [InlineData(1, StandardVolumeFlowUnit.StandardCubicMeterPerSecond, 2, StandardVolumeFlowUnit.StandardCubicMeterPerSecond, false)] // Different value.
         [InlineData(2, StandardVolumeFlowUnit.StandardCubicMeterPerSecond, 1, StandardVolumeFlowUnit.StandardCubicCentimeterPerMinute, false)] // Different value and unit.
         [InlineData(1, StandardVolumeFlowUnit.StandardCubicMeterPerSecond, 1, StandardVolumeFlowUnit.StandardCubicCentimeterPerMinute, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, StandardVolumeFlowUnit unitA, double valueB, StandardVolumeFlowUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, StandardVolumeFlowUnit unitA, double valueB, StandardVolumeFlowUnit unitB, bool expectEqual)
         {
             var a = new StandardVolumeFlow(valueA, unitA);
             var b = new StandardVolumeFlow(valueB, unitB);

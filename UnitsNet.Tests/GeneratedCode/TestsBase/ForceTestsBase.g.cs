@@ -1213,7 +1213,7 @@ namespace UnitsNet.Tests
         [InlineData(1, ForceUnit.Newton, 2, ForceUnit.Newton, false)] // Different value.
         [InlineData(2, ForceUnit.Newton, 1, ForceUnit.Decanewton, false)] // Different value and unit.
         [InlineData(1, ForceUnit.Newton, 1, ForceUnit.Decanewton, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, ForceUnit unitA, double valueB, ForceUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, ForceUnit unitA, double valueB, ForceUnit unitB, bool expectEqual)
         {
             var a = new Force(valueA, unitA);
             var b = new Force(valueB, unitB);

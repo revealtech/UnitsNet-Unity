@@ -414,7 +414,7 @@ namespace UnitsNet.Tests
         [InlineData(1, ElectricInductanceUnit.Henry, 2, ElectricInductanceUnit.Henry, false)] // Different value.
         [InlineData(2, ElectricInductanceUnit.Henry, 1, ElectricInductanceUnit.Microhenry, false)] // Different value and unit.
         [InlineData(1, ElectricInductanceUnit.Henry, 1, ElectricInductanceUnit.Microhenry, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, ElectricInductanceUnit unitA, double valueB, ElectricInductanceUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, ElectricInductanceUnit unitA, double valueB, ElectricInductanceUnit unitB, bool expectEqual)
         {
             var a = new ElectricInductance(valueA, unitA);
             var b = new ElectricInductance(valueB, unitB);

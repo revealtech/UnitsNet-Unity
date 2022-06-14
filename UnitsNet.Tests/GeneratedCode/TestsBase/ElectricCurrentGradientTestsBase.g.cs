@@ -414,7 +414,7 @@ namespace UnitsNet.Tests
         [InlineData(1, ElectricCurrentGradientUnit.AmperePerSecond, 2, ElectricCurrentGradientUnit.AmperePerSecond, false)] // Different value.
         [InlineData(2, ElectricCurrentGradientUnit.AmperePerSecond, 1, ElectricCurrentGradientUnit.AmperePerMicrosecond, false)] // Different value and unit.
         [InlineData(1, ElectricCurrentGradientUnit.AmperePerSecond, 1, ElectricCurrentGradientUnit.AmperePerMicrosecond, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, ElectricCurrentGradientUnit unitA, double valueB, ElectricCurrentGradientUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, ElectricCurrentGradientUnit unitA, double valueB, ElectricCurrentGradientUnit unitB, bool expectEqual)
         {
             var a = new ElectricCurrentGradient(valueA, unitA);
             var b = new ElectricCurrentGradient(valueB, unitB);

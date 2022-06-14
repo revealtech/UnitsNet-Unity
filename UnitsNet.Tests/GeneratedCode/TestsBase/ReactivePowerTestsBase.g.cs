@@ -414,7 +414,7 @@ namespace UnitsNet.Tests
         [InlineData(1, ReactivePowerUnit.VoltampereReactive, 2, ReactivePowerUnit.VoltampereReactive, false)] // Different value.
         [InlineData(2, ReactivePowerUnit.VoltampereReactive, 1, ReactivePowerUnit.GigavoltampereReactive, false)] // Different value and unit.
         [InlineData(1, ReactivePowerUnit.VoltampereReactive, 1, ReactivePowerUnit.GigavoltampereReactive, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, ReactivePowerUnit unitA, double valueB, ReactivePowerUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, ReactivePowerUnit unitA, double valueB, ReactivePowerUnit unitB, bool expectEqual)
         {
             var a = new ReactivePower(valueA, unitA);
             var b = new ReactivePower(valueB, unitB);

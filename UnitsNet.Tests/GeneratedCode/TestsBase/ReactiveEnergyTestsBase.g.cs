@@ -379,7 +379,7 @@ namespace UnitsNet.Tests
         [InlineData(1, ReactiveEnergyUnit.VoltampereReactiveHour, 2, ReactiveEnergyUnit.VoltampereReactiveHour, false)] // Different value.
         [InlineData(2, ReactiveEnergyUnit.VoltampereReactiveHour, 1, ReactiveEnergyUnit.KilovoltampereReactiveHour, false)] // Different value and unit.
         [InlineData(1, ReactiveEnergyUnit.VoltampereReactiveHour, 1, ReactiveEnergyUnit.KilovoltampereReactiveHour, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, ReactiveEnergyUnit unitA, double valueB, ReactiveEnergyUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, ReactiveEnergyUnit unitA, double valueB, ReactiveEnergyUnit unitB, bool expectEqual)
         {
             var a = new ReactiveEnergy(valueA, unitA);
             var b = new ReactiveEnergy(valueB, unitB);

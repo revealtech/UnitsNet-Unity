@@ -519,7 +519,7 @@ namespace UnitsNet.Tests
         [InlineData(1, EntropyUnit.JoulePerKelvin, 2, EntropyUnit.JoulePerKelvin, false)] // Different value.
         [InlineData(2, EntropyUnit.JoulePerKelvin, 1, EntropyUnit.CaloriePerKelvin, false)] // Different value and unit.
         [InlineData(1, EntropyUnit.JoulePerKelvin, 1, EntropyUnit.CaloriePerKelvin, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, EntropyUnit unitA, double valueB, EntropyUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, EntropyUnit unitA, double valueB, EntropyUnit unitB, bool expectEqual)
         {
             var a = new Entropy(valueA, unitA);
             var b = new Entropy(valueB, unitB);

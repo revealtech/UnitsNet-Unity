@@ -379,7 +379,7 @@ namespace UnitsNet.Tests
         [InlineData(1, ElectricConductanceUnit.Siemens, 2, ElectricConductanceUnit.Siemens, false)] // Different value.
         [InlineData(2, ElectricConductanceUnit.Siemens, 1, ElectricConductanceUnit.Microsiemens, false)] // Different value and unit.
         [InlineData(1, ElectricConductanceUnit.Siemens, 1, ElectricConductanceUnit.Microsiemens, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, ElectricConductanceUnit unitA, double valueB, ElectricConductanceUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, ElectricConductanceUnit unitA, double valueB, ElectricConductanceUnit unitB, bool expectEqual)
         {
             var a = new ElectricConductance(valueA, unitA);
             var b = new ElectricConductance(valueB, unitB);

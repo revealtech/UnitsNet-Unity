@@ -589,7 +589,7 @@ namespace UnitsNet.Tests
         [InlineData(1, VolumetricHeatCapacityUnit.JoulePerCubicMeterKelvin, 2, VolumetricHeatCapacityUnit.JoulePerCubicMeterKelvin, false)] // Different value.
         [InlineData(2, VolumetricHeatCapacityUnit.JoulePerCubicMeterKelvin, 1, VolumetricHeatCapacityUnit.BtuPerCubicFootDegreeFahrenheit, false)] // Different value and unit.
         [InlineData(1, VolumetricHeatCapacityUnit.JoulePerCubicMeterKelvin, 1, VolumetricHeatCapacityUnit.BtuPerCubicFootDegreeFahrenheit, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, VolumetricHeatCapacityUnit unitA, double valueB, VolumetricHeatCapacityUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, VolumetricHeatCapacityUnit unitA, double valueB, VolumetricHeatCapacityUnit unitB, bool expectEqual)
         {
             var a = new VolumetricHeatCapacity(valueA, unitA);
             var b = new VolumetricHeatCapacity(valueB, unitB);

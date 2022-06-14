@@ -414,7 +414,7 @@ namespace UnitsNet.Tests
         [InlineData(1, ApparentPowerUnit.Voltampere, 2, ApparentPowerUnit.Voltampere, false)] // Different value.
         [InlineData(2, ApparentPowerUnit.Voltampere, 1, ApparentPowerUnit.Gigavoltampere, false)] // Different value and unit.
         [InlineData(1, ApparentPowerUnit.Voltampere, 1, ApparentPowerUnit.Gigavoltampere, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, ApparentPowerUnit unitA, double valueB, ApparentPowerUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, ApparentPowerUnit unitA, double valueB, ApparentPowerUnit unitB, bool expectEqual)
         {
             var a = new ApparentPower(valueA, unitA);
             var b = new ApparentPower(valueB, unitB);

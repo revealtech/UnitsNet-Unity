@@ -928,7 +928,7 @@ namespace UnitsNet.Tests
         [InlineData(1, HeatFluxUnit.WattPerSquareMeter, 2, HeatFluxUnit.WattPerSquareMeter, false)] // Different value.
         [InlineData(2, HeatFluxUnit.WattPerSquareMeter, 1, HeatFluxUnit.BtuPerHourSquareFoot, false)] // Different value and unit.
         [InlineData(1, HeatFluxUnit.WattPerSquareMeter, 1, HeatFluxUnit.BtuPerHourSquareFoot, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, HeatFluxUnit unitA, double valueB, HeatFluxUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, HeatFluxUnit unitA, double valueB, HeatFluxUnit unitB, bool expectEqual)
         {
             var a = new HeatFlux(valueA, unitA);
             var b = new HeatFlux(valueB, unitB);

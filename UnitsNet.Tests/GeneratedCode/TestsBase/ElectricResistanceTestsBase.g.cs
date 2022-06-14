@@ -462,7 +462,7 @@ namespace UnitsNet.Tests
         [InlineData(1, ElectricResistanceUnit.Ohm, 2, ElectricResistanceUnit.Ohm, false)] // Different value.
         [InlineData(2, ElectricResistanceUnit.Ohm, 1, ElectricResistanceUnit.Gigaohm, false)] // Different value and unit.
         [InlineData(1, ElectricResistanceUnit.Ohm, 1, ElectricResistanceUnit.Gigaohm, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, ElectricResistanceUnit unitA, double valueB, ElectricResistanceUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, ElectricResistanceUnit unitA, double valueB, ElectricResistanceUnit unitB, bool expectEqual)
         {
             var a = new ElectricResistance(valueA, unitA);
             var b = new ElectricResistance(valueB, unitB);

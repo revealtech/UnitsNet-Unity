@@ -392,7 +392,7 @@ namespace UnitsNet.Tests
         [InlineData(1, IlluminanceUnit.Lux, 2, IlluminanceUnit.Lux, false)] // Different value.
         [InlineData(2, IlluminanceUnit.Lux, 1, IlluminanceUnit.Kilolux, false)] // Different value and unit.
         [InlineData(1, IlluminanceUnit.Lux, 1, IlluminanceUnit.Kilolux, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, IlluminanceUnit unitA, double valueB, IlluminanceUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, IlluminanceUnit unitA, double valueB, IlluminanceUnit unitB, bool expectEqual)
         {
             var a = new Illuminance(valueA, unitA);
             var b = new Illuminance(valueB, unitB);

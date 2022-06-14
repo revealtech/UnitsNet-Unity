@@ -781,7 +781,7 @@ namespace UnitsNet.Tests
         [InlineData(1, KinematicViscosityUnit.SquareMeterPerSecond, 2, KinematicViscosityUnit.SquareMeterPerSecond, false)] // Different value.
         [InlineData(2, KinematicViscosityUnit.SquareMeterPerSecond, 1, KinematicViscosityUnit.Centistokes, false)] // Different value and unit.
         [InlineData(1, KinematicViscosityUnit.SquareMeterPerSecond, 1, KinematicViscosityUnit.Centistokes, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, KinematicViscosityUnit unitA, double valueB, KinematicViscosityUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, KinematicViscosityUnit unitA, double valueB, KinematicViscosityUnit unitB, bool expectEqual)
         {
             var a = new KinematicViscosity(valueA, unitA);
             var b = new KinematicViscosity(valueB, unitB);

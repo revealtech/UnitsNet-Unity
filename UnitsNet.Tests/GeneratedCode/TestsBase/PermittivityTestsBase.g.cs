@@ -308,7 +308,7 @@ namespace UnitsNet.Tests
         [InlineData(1, PermittivityUnit.FaradPerMeter, 1, PermittivityUnit.FaradPerMeter, true)]  // Same value and unit.
         [InlineData(1, PermittivityUnit.FaradPerMeter, 2, PermittivityUnit.FaradPerMeter, false)] // Different value.
         [InlineData(2, PermittivityUnit.FaradPerMeter, 1, PermittivityUnit.FaradPerMeter, false)] // Different value and unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, PermittivityUnit unitA, double valueB, PermittivityUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, PermittivityUnit unitA, double valueB, PermittivityUnit unitB, bool expectEqual)
         {
             var a = new Permittivity(valueA, unitA);
             var b = new Permittivity(valueB, unitB);

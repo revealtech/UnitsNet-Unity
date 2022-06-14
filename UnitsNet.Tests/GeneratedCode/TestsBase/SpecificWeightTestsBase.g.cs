@@ -869,7 +869,7 @@ namespace UnitsNet.Tests
         [InlineData(1, SpecificWeightUnit.NewtonPerCubicMeter, 2, SpecificWeightUnit.NewtonPerCubicMeter, false)] // Different value.
         [InlineData(2, SpecificWeightUnit.NewtonPerCubicMeter, 1, SpecificWeightUnit.KilogramForcePerCubicCentimeter, false)] // Different value and unit.
         [InlineData(1, SpecificWeightUnit.NewtonPerCubicMeter, 1, SpecificWeightUnit.KilogramForcePerCubicCentimeter, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, SpecificWeightUnit unitA, double valueB, SpecificWeightUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, SpecificWeightUnit unitA, double valueB, SpecificWeightUnit unitB, bool expectEqual)
         {
             var a = new SpecificWeight(valueA, unitA);
             var b = new SpecificWeight(valueB, unitB);

@@ -1289,7 +1289,7 @@ namespace UnitsNet.Tests
         [InlineData(1, SpecificEnergyUnit.JoulePerKilogram, 2, SpecificEnergyUnit.JoulePerKilogram, false)] // Different value.
         [InlineData(2, SpecificEnergyUnit.JoulePerKilogram, 1, SpecificEnergyUnit.BtuPerPound, false)] // Different value and unit.
         [InlineData(1, SpecificEnergyUnit.JoulePerKilogram, 1, SpecificEnergyUnit.BtuPerPound, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, SpecificEnergyUnit unitA, double valueB, SpecificEnergyUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, SpecificEnergyUnit unitA, double valueB, SpecificEnergyUnit unitB, bool expectEqual)
         {
             var a = new SpecificEnergy(valueA, unitA);
             var b = new SpecificEnergy(valueB, unitB);

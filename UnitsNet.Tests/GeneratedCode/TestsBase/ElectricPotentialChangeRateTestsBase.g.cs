@@ -886,7 +886,7 @@ namespace UnitsNet.Tests
         [InlineData(1, ElectricPotentialChangeRateUnit.VoltPerSecond, 2, ElectricPotentialChangeRateUnit.VoltPerSecond, false)] // Different value.
         [InlineData(2, ElectricPotentialChangeRateUnit.VoltPerSecond, 1, ElectricPotentialChangeRateUnit.KilovoltPerHour, false)] // Different value and unit.
         [InlineData(1, ElectricPotentialChangeRateUnit.VoltPerSecond, 1, ElectricPotentialChangeRateUnit.KilovoltPerHour, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, ElectricPotentialChangeRateUnit unitA, double valueB, ElectricPotentialChangeRateUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, ElectricPotentialChangeRateUnit unitA, double valueB, ElectricPotentialChangeRateUnit unitB, bool expectEqual)
         {
             var a = new ElectricPotentialChangeRate(valueA, unitA);
             var b = new ElectricPotentialChangeRate(valueB, unitB);

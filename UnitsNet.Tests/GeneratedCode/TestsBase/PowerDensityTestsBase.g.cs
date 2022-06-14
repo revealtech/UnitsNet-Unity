@@ -1726,7 +1726,7 @@ namespace UnitsNet.Tests
         [InlineData(1, PowerDensityUnit.WattPerCubicMeter, 2, PowerDensityUnit.WattPerCubicMeter, false)] // Different value.
         [InlineData(2, PowerDensityUnit.WattPerCubicMeter, 1, PowerDensityUnit.DecawattPerCubicFoot, false)] // Different value and unit.
         [InlineData(1, PowerDensityUnit.WattPerCubicMeter, 1, PowerDensityUnit.DecawattPerCubicFoot, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, PowerDensityUnit unitA, double valueB, PowerDensityUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, PowerDensityUnit unitA, double valueB, PowerDensityUnit unitB, bool expectEqual)
         {
             var a = new PowerDensity(valueA, unitA);
             var b = new PowerDensity(valueB, unitB);

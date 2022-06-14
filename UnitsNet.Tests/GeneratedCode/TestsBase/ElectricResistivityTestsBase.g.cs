@@ -720,7 +720,7 @@ namespace UnitsNet.Tests
         [InlineData(1, ElectricResistivityUnit.OhmMeter, 2, ElectricResistivityUnit.OhmMeter, false)] // Different value.
         [InlineData(2, ElectricResistivityUnit.OhmMeter, 1, ElectricResistivityUnit.KiloohmCentimeter, false)] // Different value and unit.
         [InlineData(1, ElectricResistivityUnit.OhmMeter, 1, ElectricResistivityUnit.KiloohmCentimeter, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, ElectricResistivityUnit unitA, double valueB, ElectricResistivityUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, ElectricResistivityUnit unitA, double valueB, ElectricResistivityUnit unitB, bool expectEqual)
         {
             var a = new ElectricResistivity(valueA, unitA);
             var b = new ElectricResistivity(valueB, unitB);

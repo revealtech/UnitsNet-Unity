@@ -998,7 +998,7 @@ namespace UnitsNet.Tests
         [InlineData(1, VolumeConcentrationUnit.DecimalFraction, 2, VolumeConcentrationUnit.DecimalFraction, false)] // Different value.
         [InlineData(2, VolumeConcentrationUnit.DecimalFraction, 1, VolumeConcentrationUnit.CentilitersPerLiter, false)] // Different value and unit.
         [InlineData(1, VolumeConcentrationUnit.DecimalFraction, 1, VolumeConcentrationUnit.CentilitersPerLiter, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, VolumeConcentrationUnit unitA, double valueB, VolumeConcentrationUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, VolumeConcentrationUnit unitA, double valueB, VolumeConcentrationUnit unitB, bool expectEqual)
         {
             var a = new VolumeConcentration(valueA, unitA);
             var b = new VolumeConcentration(valueB, unitB);

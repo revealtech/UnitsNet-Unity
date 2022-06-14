@@ -2338,7 +2338,7 @@ namespace UnitsNet.Tests
         [InlineData(1, LengthUnit.Meter, 2, LengthUnit.Meter, false)] // Different value.
         [InlineData(2, LengthUnit.Meter, 1, LengthUnit.Angstrom, false)] // Different value and unit.
         [InlineData(1, LengthUnit.Meter, 1, LengthUnit.Angstrom, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, LengthUnit unitA, double valueB, LengthUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, LengthUnit unitA, double valueB, LengthUnit unitB, bool expectEqual)
         {
             var a = new Length(valueA, unitA);
             var b = new Length(valueB, unitB);

@@ -2018,7 +2018,7 @@ namespace UnitsNet.Tests
         [InlineData(1, SpeedUnit.MeterPerSecond, 2, SpeedUnit.MeterPerSecond, false)] // Different value.
         [InlineData(2, SpeedUnit.MeterPerSecond, 1, SpeedUnit.CentimeterPerHour, false)] // Different value and unit.
         [InlineData(1, SpeedUnit.MeterPerSecond, 1, SpeedUnit.CentimeterPerHour, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, SpeedUnit unitA, double valueB, SpeedUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, SpeedUnit unitA, double valueB, SpeedUnit unitB, bool expectEqual)
         {
             var a = new Speed(valueA, unitA);
             var b = new Speed(valueB, unitB);

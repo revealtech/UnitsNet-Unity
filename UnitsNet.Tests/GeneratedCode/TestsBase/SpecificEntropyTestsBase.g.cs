@@ -613,7 +613,7 @@ namespace UnitsNet.Tests
         [InlineData(1, SpecificEntropyUnit.JoulePerKilogramKelvin, 2, SpecificEntropyUnit.JoulePerKilogramKelvin, false)] // Different value.
         [InlineData(2, SpecificEntropyUnit.JoulePerKilogramKelvin, 1, SpecificEntropyUnit.BtuPerPoundFahrenheit, false)] // Different value and unit.
         [InlineData(1, SpecificEntropyUnit.JoulePerKilogramKelvin, 1, SpecificEntropyUnit.BtuPerPoundFahrenheit, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, SpecificEntropyUnit unitA, double valueB, SpecificEntropyUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, SpecificEntropyUnit unitA, double valueB, SpecificEntropyUnit unitB, bool expectEqual)
         {
             var a = new SpecificEntropy(valueA, unitA);
             var b = new SpecificEntropy(valueB, unitB);

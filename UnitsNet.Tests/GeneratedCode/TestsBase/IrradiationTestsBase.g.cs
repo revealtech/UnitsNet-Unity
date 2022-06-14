@@ -519,7 +519,7 @@ namespace UnitsNet.Tests
         [InlineData(1, IrradiationUnit.JoulePerSquareMeter, 2, IrradiationUnit.JoulePerSquareMeter, false)] // Different value.
         [InlineData(2, IrradiationUnit.JoulePerSquareMeter, 1, IrradiationUnit.JoulePerSquareCentimeter, false)] // Different value and unit.
         [InlineData(1, IrradiationUnit.JoulePerSquareMeter, 1, IrradiationUnit.JoulePerSquareCentimeter, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, IrradiationUnit unitA, double valueB, IrradiationUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, IrradiationUnit unitA, double valueB, IrradiationUnit unitB, bool expectEqual)
         {
             var a = new Irradiation(valueA, unitA);
             var b = new Irradiation(valueB, unitB);

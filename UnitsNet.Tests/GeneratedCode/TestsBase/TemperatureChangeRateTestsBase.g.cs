@@ -624,7 +624,7 @@ namespace UnitsNet.Tests
         [InlineData(1, TemperatureChangeRateUnit.DegreeCelsiusPerSecond, 2, TemperatureChangeRateUnit.DegreeCelsiusPerSecond, false)] // Different value.
         [InlineData(2, TemperatureChangeRateUnit.DegreeCelsiusPerSecond, 1, TemperatureChangeRateUnit.CentidegreeCelsiusPerSecond, false)] // Different value and unit.
         [InlineData(1, TemperatureChangeRateUnit.DegreeCelsiusPerSecond, 1, TemperatureChangeRateUnit.CentidegreeCelsiusPerSecond, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, TemperatureChangeRateUnit unitA, double valueB, TemperatureChangeRateUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, TemperatureChangeRateUnit unitA, double valueB, TemperatureChangeRateUnit unitB, bool expectEqual)
         {
             var a = new TemperatureChangeRate(valueA, unitA);
             var b = new TemperatureChangeRate(valueB, unitB);

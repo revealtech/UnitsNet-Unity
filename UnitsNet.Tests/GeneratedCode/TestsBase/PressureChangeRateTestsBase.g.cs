@@ -1388,7 +1388,7 @@ namespace UnitsNet.Tests
         [InlineData(1, PressureChangeRateUnit.PascalPerSecond, 2, PressureChangeRateUnit.PascalPerSecond, false)] // Different value.
         [InlineData(2, PressureChangeRateUnit.PascalPerSecond, 1, PressureChangeRateUnit.AtmospherePerSecond, false)] // Different value and unit.
         [InlineData(1, PressureChangeRateUnit.PascalPerSecond, 1, PressureChangeRateUnit.AtmospherePerSecond, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, PressureChangeRateUnit unitA, double valueB, PressureChangeRateUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, PressureChangeRateUnit unitA, double valueB, PressureChangeRateUnit unitB, bool expectEqual)
         {
             var a = new PressureChangeRate(valueA, unitA);
             var b = new PressureChangeRate(valueB, unitB);

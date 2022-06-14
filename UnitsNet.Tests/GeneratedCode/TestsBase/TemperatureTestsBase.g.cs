@@ -612,7 +612,7 @@ namespace UnitsNet.Tests
         [InlineData(1, TemperatureUnit.Kelvin, 2, TemperatureUnit.Kelvin, false)] // Different value.
         [InlineData(2, TemperatureUnit.Kelvin, 1, TemperatureUnit.DegreeCelsius, false)] // Different value and unit.
         [InlineData(1, TemperatureUnit.Kelvin, 1, TemperatureUnit.DegreeCelsius, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, TemperatureUnit unitA, double valueB, TemperatureUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, TemperatureUnit unitA, double valueB, TemperatureUnit unitB, bool expectEqual)
         {
             var a = new Temperature(valueA, unitA);
             var b = new Temperature(valueB, unitB);

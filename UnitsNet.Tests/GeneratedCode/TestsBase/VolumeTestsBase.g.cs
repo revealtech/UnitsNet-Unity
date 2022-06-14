@@ -3090,7 +3090,7 @@ namespace UnitsNet.Tests
         [InlineData(1, VolumeUnit.CubicMeter, 2, VolumeUnit.CubicMeter, false)] // Different value.
         [InlineData(2, VolumeUnit.CubicMeter, 1, VolumeUnit.AcreFoot, false)] // Different value and unit.
         [InlineData(1, VolumeUnit.CubicMeter, 1, VolumeUnit.AcreFoot, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, VolumeUnit unitA, double valueB, VolumeUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, VolumeUnit unitA, double valueB, VolumeUnit unitB, bool expectEqual)
         {
             var a = new Volume(valueA, unitA);
             var b = new Volume(valueB, unitB);

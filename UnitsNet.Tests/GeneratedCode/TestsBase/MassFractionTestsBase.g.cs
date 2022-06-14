@@ -1138,7 +1138,7 @@ namespace UnitsNet.Tests
         [InlineData(1, MassFractionUnit.DecimalFraction, 2, MassFractionUnit.DecimalFraction, false)] // Different value.
         [InlineData(2, MassFractionUnit.DecimalFraction, 1, MassFractionUnit.CentigramPerGram, false)] // Different value and unit.
         [InlineData(1, MassFractionUnit.DecimalFraction, 1, MassFractionUnit.CentigramPerGram, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, MassFractionUnit unitA, double valueB, MassFractionUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, MassFractionUnit unitA, double valueB, MassFractionUnit unitB, bool expectEqual)
         {
             var a = new MassFraction(valueA, unitA);
             var b = new MassFraction(valueB, unitB);

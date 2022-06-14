@@ -2085,7 +2085,7 @@ namespace UnitsNet.Tests
         [InlineData(1, MassConcentrationUnit.KilogramPerCubicMeter, 2, MassConcentrationUnit.KilogramPerCubicMeter, false)] // Different value.
         [InlineData(2, MassConcentrationUnit.KilogramPerCubicMeter, 1, MassConcentrationUnit.CentigramPerDeciliter, false)] // Different value and unit.
         [InlineData(1, MassConcentrationUnit.KilogramPerCubicMeter, 1, MassConcentrationUnit.CentigramPerDeciliter, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, MassConcentrationUnit unitA, double valueB, MassConcentrationUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, MassConcentrationUnit unitA, double valueB, MassConcentrationUnit unitB, bool expectEqual)
         {
             var a = new MassConcentration(valueA, unitA);
             var b = new MassConcentration(valueB, unitB);

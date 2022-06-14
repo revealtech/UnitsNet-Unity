@@ -659,7 +659,7 @@ namespace UnitsNet.Tests
         [InlineData(1, ReciprocalAreaUnit.InverseSquareMeter, 2, ReciprocalAreaUnit.InverseSquareMeter, false)] // Different value.
         [InlineData(2, ReciprocalAreaUnit.InverseSquareMeter, 1, ReciprocalAreaUnit.InverseSquareCentimeter, false)] // Different value and unit.
         [InlineData(1, ReciprocalAreaUnit.InverseSquareMeter, 1, ReciprocalAreaUnit.InverseSquareCentimeter, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, ReciprocalAreaUnit unitA, double valueB, ReciprocalAreaUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, ReciprocalAreaUnit unitA, double valueB, ReciprocalAreaUnit unitB, bool expectEqual)
         {
             var a = new ReciprocalArea(valueA, unitA);
             var b = new ReciprocalArea(valueB, unitB);

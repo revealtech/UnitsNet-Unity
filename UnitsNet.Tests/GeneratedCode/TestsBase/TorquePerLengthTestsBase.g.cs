@@ -1081,7 +1081,7 @@ namespace UnitsNet.Tests
         [InlineData(1, TorquePerLengthUnit.NewtonMeterPerMeter, 2, TorquePerLengthUnit.NewtonMeterPerMeter, false)] // Different value.
         [InlineData(2, TorquePerLengthUnit.NewtonMeterPerMeter, 1, TorquePerLengthUnit.KilogramForceCentimeterPerMeter, false)] // Different value and unit.
         [InlineData(1, TorquePerLengthUnit.NewtonMeterPerMeter, 1, TorquePerLengthUnit.KilogramForceCentimeterPerMeter, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, TorquePerLengthUnit unitA, double valueB, TorquePerLengthUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, TorquePerLengthUnit unitA, double valueB, TorquePerLengthUnit unitB, bool expectEqual)
         {
             var a = new TorquePerLength(valueA, unitA);
             var b = new TorquePerLength(valueB, unitB);

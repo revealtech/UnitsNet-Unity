@@ -1671,7 +1671,7 @@ namespace UnitsNet.Tests
         [InlineData(1, MassFlowUnit.GramPerSecond, 2, MassFlowUnit.GramPerSecond, false)] // Different value.
         [InlineData(2, MassFlowUnit.GramPerSecond, 1, MassFlowUnit.CentigramPerDay, false)] // Different value and unit.
         [InlineData(1, MassFlowUnit.GramPerSecond, 1, MassFlowUnit.CentigramPerDay, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, MassFlowUnit unitA, double valueB, MassFlowUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, MassFlowUnit unitA, double valueB, MassFlowUnit unitB, bool expectEqual)
         {
             var a = new MassFlow(valueA, unitA);
             var b = new MassFlow(valueB, unitB);

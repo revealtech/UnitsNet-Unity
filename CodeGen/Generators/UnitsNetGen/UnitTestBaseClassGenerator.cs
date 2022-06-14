@@ -501,7 +501,7 @@ namespace UnitsNet.Tests
         [InlineData(1, {_baseUnitFullName}, 1, {_otherOrBaseUnitFullName}, false)] // Different unit.");
             }
             Writer.WL($@"
-        public void Equality_MatchesOnValueAndUnit({_quantity.ValueType} valueA, {_unitEnumName} unitA, {_quantity.ValueType} valueB, {_unitEnumName} unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual({_quantity.ValueType} valueA, {_unitEnumName} unitA, {_quantity.ValueType} valueB, {_unitEnumName} unitB, bool expectEqual)
         {{
             var a = new {_quantity.Name}(valueA, unitA);
             var b = new {_quantity.Name}(valueB, unitB);

@@ -379,7 +379,7 @@ namespace UnitsNet.Tests
         [InlineData(1, ApparentEnergyUnit.VoltampereHour, 2, ApparentEnergyUnit.VoltampereHour, false)] // Different value.
         [InlineData(2, ApparentEnergyUnit.VoltampereHour, 1, ApparentEnergyUnit.KilovoltampereHour, false)] // Different value and unit.
         [InlineData(1, ApparentEnergyUnit.VoltampereHour, 1, ApparentEnergyUnit.KilovoltampereHour, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, ApparentEnergyUnit unitA, double valueB, ApparentEnergyUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, ApparentEnergyUnit unitA, double valueB, ApparentEnergyUnit unitB, bool expectEqual)
         {
             var a = new ApparentEnergy(valueA, unitA);
             var b = new ApparentEnergy(valueB, unitB);

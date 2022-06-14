@@ -2016,7 +2016,7 @@ namespace UnitsNet.Tests
         [InlineData(1, EnergyUnit.Joule, 2, EnergyUnit.Joule, false)] // Different value.
         [InlineData(2, EnergyUnit.Joule, 1, EnergyUnit.BritishThermalUnit, false)] // Different value and unit.
         [InlineData(1, EnergyUnit.Joule, 1, EnergyUnit.BritishThermalUnit, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, EnergyUnit unitA, double valueB, EnergyUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, EnergyUnit unitA, double valueB, EnergyUnit unitB, bool expectEqual)
         {
             var a = new Energy(valueA, unitA);
             var b = new Energy(valueB, unitB);

@@ -1039,7 +1039,7 @@ namespace UnitsNet.Tests
         [InlineData(1, LinearPowerDensityUnit.WattPerMeter, 2, LinearPowerDensityUnit.WattPerMeter, false)] // Different value.
         [InlineData(2, LinearPowerDensityUnit.WattPerMeter, 1, LinearPowerDensityUnit.GigawattPerCentimeter, false)] // Different value and unit.
         [InlineData(1, LinearPowerDensityUnit.WattPerMeter, 1, LinearPowerDensityUnit.GigawattPerCentimeter, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, LinearPowerDensityUnit unitA, double valueB, LinearPowerDensityUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, LinearPowerDensityUnit unitA, double valueB, LinearPowerDensityUnit unitB, bool expectEqual)
         {
             var a = new LinearPowerDensity(valueA, unitA);
             var b = new LinearPowerDensity(valueB, unitB);

@@ -1221,7 +1221,7 @@ namespace UnitsNet.Tests
         [InlineData(1, TorqueUnit.NewtonMeter, 2, TorqueUnit.NewtonMeter, false)] // Different value.
         [InlineData(2, TorqueUnit.NewtonMeter, 1, TorqueUnit.GramForceCentimeter, false)] // Different value and unit.
         [InlineData(1, TorqueUnit.NewtonMeter, 1, TorqueUnit.GramForceCentimeter, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, TorqueUnit unitA, double valueB, TorqueUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, TorqueUnit unitA, double valueB, TorqueUnit unitB, bool expectEqual)
         {
             var a = new Torque(valueA, unitA);
             var b = new Torque(valueB, unitB);

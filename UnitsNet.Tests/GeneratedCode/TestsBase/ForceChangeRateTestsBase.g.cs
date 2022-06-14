@@ -895,7 +895,7 @@ namespace UnitsNet.Tests
         [InlineData(1, ForceChangeRateUnit.NewtonPerSecond, 2, ForceChangeRateUnit.NewtonPerSecond, false)] // Different value.
         [InlineData(2, ForceChangeRateUnit.NewtonPerSecond, 1, ForceChangeRateUnit.CentinewtonPerSecond, false)] // Different value and unit.
         [InlineData(1, ForceChangeRateUnit.NewtonPerSecond, 1, ForceChangeRateUnit.CentinewtonPerSecond, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, ForceChangeRateUnit unitA, double valueB, ForceChangeRateUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, ForceChangeRateUnit unitA, double valueB, ForceChangeRateUnit unitB, bool expectEqual)
         {
             var a = new ForceChangeRate(valueA, unitA);
             var b = new ForceChangeRate(valueB, unitB);

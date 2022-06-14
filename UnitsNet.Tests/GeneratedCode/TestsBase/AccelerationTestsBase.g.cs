@@ -1100,7 +1100,7 @@ namespace UnitsNet.Tests
         [InlineData(1, AccelerationUnit.MeterPerSecondSquared, 2, AccelerationUnit.MeterPerSecondSquared, false)] // Different value.
         [InlineData(2, AccelerationUnit.MeterPerSecondSquared, 1, AccelerationUnit.CentimeterPerSecondSquared, false)] // Different value and unit.
         [InlineData(1, AccelerationUnit.MeterPerSecondSquared, 1, AccelerationUnit.CentimeterPerSecondSquared, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, AccelerationUnit unitA, double valueB, AccelerationUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, AccelerationUnit unitA, double valueB, AccelerationUnit unitB, bool expectEqual)
         {
             var a = new Acceleration(valueA, unitA);
             var b = new Acceleration(valueB, unitB);

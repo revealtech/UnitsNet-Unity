@@ -764,7 +764,7 @@ namespace UnitsNet.Tests
         [InlineData(1, LinearDensityUnit.KilogramPerMeter, 2, LinearDensityUnit.KilogramPerMeter, false)] // Different value.
         [InlineData(2, LinearDensityUnit.KilogramPerMeter, 1, LinearDensityUnit.GramPerCentimeter, false)] // Different value and unit.
         [InlineData(1, LinearDensityUnit.KilogramPerMeter, 1, LinearDensityUnit.GramPerCentimeter, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, LinearDensityUnit unitA, double valueB, LinearDensityUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, LinearDensityUnit unitA, double valueB, LinearDensityUnit unitB, bool expectEqual)
         {
             var a = new LinearDensity(valueA, unitA);
             var b = new LinearDensity(valueB, unitB);

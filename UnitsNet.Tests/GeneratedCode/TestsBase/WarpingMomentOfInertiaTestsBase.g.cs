@@ -628,7 +628,7 @@ namespace UnitsNet.Tests
         [InlineData(1, WarpingMomentOfInertiaUnit.MeterToTheSixth, 2, WarpingMomentOfInertiaUnit.MeterToTheSixth, false)] // Different value.
         [InlineData(2, WarpingMomentOfInertiaUnit.MeterToTheSixth, 1, WarpingMomentOfInertiaUnit.CentimeterToTheSixth, false)] // Different value and unit.
         [InlineData(1, WarpingMomentOfInertiaUnit.MeterToTheSixth, 1, WarpingMomentOfInertiaUnit.CentimeterToTheSixth, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, WarpingMomentOfInertiaUnit unitA, double valueB, WarpingMomentOfInertiaUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, WarpingMomentOfInertiaUnit unitA, double valueB, WarpingMomentOfInertiaUnit unitB, bool expectEqual)
         {
             var a = new WarpingMomentOfInertia(valueA, unitA);
             var b = new WarpingMomentOfInertia(valueB, unitB);

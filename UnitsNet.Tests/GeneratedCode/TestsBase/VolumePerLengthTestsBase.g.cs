@@ -519,7 +519,7 @@ namespace UnitsNet.Tests
         [InlineData(1, VolumePerLengthUnit.CubicMeterPerMeter, 2, VolumePerLengthUnit.CubicMeterPerMeter, false)] // Different value.
         [InlineData(2, VolumePerLengthUnit.CubicMeterPerMeter, 1, VolumePerLengthUnit.CubicYardPerFoot, false)] // Different value and unit.
         [InlineData(1, VolumePerLengthUnit.CubicMeterPerMeter, 1, VolumePerLengthUnit.CubicYardPerFoot, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, VolumePerLengthUnit unitA, double valueB, VolumePerLengthUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, VolumePerLengthUnit unitA, double valueB, VolumePerLengthUnit unitB, bool expectEqual)
         {
             var a = new VolumePerLength(valueA, unitA);
             var b = new VolumePerLength(valueB, unitB);

@@ -308,7 +308,7 @@ namespace UnitsNet.Tests
         [InlineData(1, MagnetizationUnit.AmperePerMeter, 1, MagnetizationUnit.AmperePerMeter, true)]  // Same value and unit.
         [InlineData(1, MagnetizationUnit.AmperePerMeter, 2, MagnetizationUnit.AmperePerMeter, false)] // Different value.
         [InlineData(2, MagnetizationUnit.AmperePerMeter, 1, MagnetizationUnit.AmperePerMeter, false)] // Different value and unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, MagnetizationUnit unitA, double valueB, MagnetizationUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, MagnetizationUnit unitA, double valueB, MagnetizationUnit unitB, bool expectEqual)
         {
             var a = new Magnetization(valueA, unitA);
             var b = new Magnetization(valueB, unitB);

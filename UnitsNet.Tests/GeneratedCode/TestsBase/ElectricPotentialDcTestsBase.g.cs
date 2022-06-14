@@ -427,7 +427,7 @@ namespace UnitsNet.Tests
         [InlineData(1, ElectricPotentialDcUnit.VoltDc, 2, ElectricPotentialDcUnit.VoltDc, false)] // Different value.
         [InlineData(2, ElectricPotentialDcUnit.VoltDc, 1, ElectricPotentialDcUnit.KilovoltDc, false)] // Different value and unit.
         [InlineData(1, ElectricPotentialDcUnit.VoltDc, 1, ElectricPotentialDcUnit.KilovoltDc, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, ElectricPotentialDcUnit unitA, double valueB, ElectricPotentialDcUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, ElectricPotentialDcUnit unitA, double valueB, ElectricPotentialDcUnit unitB, bool expectEqual)
         {
             var a = new ElectricPotentialDc(valueA, unitA);
             var b = new ElectricPotentialDc(valueB, unitB);

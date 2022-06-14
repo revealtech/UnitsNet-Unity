@@ -1390,7 +1390,7 @@ namespace UnitsNet.Tests
         [InlineData(1, AreaUnit.SquareMeter, 2, AreaUnit.SquareMeter, false)] // Different value.
         [InlineData(2, AreaUnit.SquareMeter, 1, AreaUnit.Acre, false)] // Different value and unit.
         [InlineData(1, AreaUnit.SquareMeter, 1, AreaUnit.Acre, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, AreaUnit unitA, double valueB, AreaUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, AreaUnit unitA, double valueB, AreaUnit unitB, bool expectEqual)
         {
             var a = new Area(valueA, unitA);
             var b = new Area(valueB, unitB);

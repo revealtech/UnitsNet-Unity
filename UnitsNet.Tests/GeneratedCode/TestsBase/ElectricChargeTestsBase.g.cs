@@ -501,7 +501,7 @@ namespace UnitsNet.Tests
         [InlineData(1, ElectricChargeUnit.Coulomb, 2, ElectricChargeUnit.Coulomb, false)] // Different value.
         [InlineData(2, ElectricChargeUnit.Coulomb, 1, ElectricChargeUnit.AmpereHour, false)] // Different value and unit.
         [InlineData(1, ElectricChargeUnit.Coulomb, 1, ElectricChargeUnit.AmpereHour, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, ElectricChargeUnit unitA, double valueB, ElectricChargeUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, ElectricChargeUnit unitA, double valueB, ElectricChargeUnit unitB, bool expectEqual)
         {
             var a = new ElectricCharge(valueA, unitA);
             var b = new ElectricCharge(valueB, unitB);

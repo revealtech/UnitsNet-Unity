@@ -720,7 +720,7 @@ namespace UnitsNet.Tests
         [InlineData(1, LuminosityUnit.Watt, 2, LuminosityUnit.Watt, false)] // Different value.
         [InlineData(2, LuminosityUnit.Watt, 1, LuminosityUnit.Decawatt, false)] // Different value and unit.
         [InlineData(1, LuminosityUnit.Watt, 1, LuminosityUnit.Decawatt, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, LuminosityUnit unitA, double valueB, LuminosityUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, LuminosityUnit unitA, double valueB, LuminosityUnit unitB, bool expectEqual)
         {
             var a = new Luminosity(valueA, unitA);
             var b = new Luminosity(valueB, unitB);

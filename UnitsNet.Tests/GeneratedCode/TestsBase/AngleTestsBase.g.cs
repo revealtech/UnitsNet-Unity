@@ -1362,7 +1362,7 @@ namespace UnitsNet.Tests
         [InlineData(1, AngleUnit.Degree, 2, AngleUnit.Degree, false)] // Different value.
         [InlineData(2, AngleUnit.Degree, 1, AngleUnit.Arcminute, false)] // Different value and unit.
         [InlineData(1, AngleUnit.Degree, 1, AngleUnit.Arcminute, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, AngleUnit unitA, double valueB, AngleUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, AngleUnit unitA, double valueB, AngleUnit unitB, bool expectEqual)
         {
             var a = new Angle(valueA, unitA);
             var b = new Angle(valueB, unitB);

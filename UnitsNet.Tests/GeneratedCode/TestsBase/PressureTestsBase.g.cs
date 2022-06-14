@@ -2769,7 +2769,7 @@ namespace UnitsNet.Tests
         [InlineData(1, PressureUnit.Pascal, 2, PressureUnit.Pascal, false)] // Different value.
         [InlineData(2, PressureUnit.Pascal, 1, PressureUnit.Atmosphere, false)] // Different value and unit.
         [InlineData(1, PressureUnit.Pascal, 1, PressureUnit.Atmosphere, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, PressureUnit unitA, double valueB, PressureUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, PressureUnit unitA, double valueB, PressureUnit unitB, bool expectEqual)
         {
             var a = new Pressure(valueA, unitA);
             var b = new Pressure(valueB, unitB);

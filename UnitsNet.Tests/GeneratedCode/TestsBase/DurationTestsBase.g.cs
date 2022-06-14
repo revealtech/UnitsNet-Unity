@@ -1835,7 +1835,7 @@ namespace UnitsNet.Tests
         [InlineData(1, DurationUnit.Second, 2, DurationUnit.Second, false)] // Different value.
         [InlineData(2, DurationUnit.Second, 1, DurationUnit.Day, false)] // Different value and unit.
         [InlineData(1, DurationUnit.Second, 1, DurationUnit.Day, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, DurationUnit unitA, double valueB, DurationUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, DurationUnit unitA, double valueB, DurationUnit unitB, bool expectEqual)
         {
             var a = new Duration(valueA, unitA);
             var b = new Duration(valueB, unitB);

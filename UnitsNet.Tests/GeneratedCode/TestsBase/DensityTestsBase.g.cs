@@ -2155,7 +2155,7 @@ namespace UnitsNet.Tests
         [InlineData(1, DensityUnit.KilogramPerCubicMeter, 2, DensityUnit.KilogramPerCubicMeter, false)] // Different value.
         [InlineData(2, DensityUnit.KilogramPerCubicMeter, 1, DensityUnit.CentigramPerDeciliter, false)] // Different value and unit.
         [InlineData(1, DensityUnit.KilogramPerCubicMeter, 1, DensityUnit.CentigramPerDeciliter, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, DensityUnit unitA, double valueB, DensityUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, DensityUnit unitA, double valueB, DensityUnit unitB, bool expectEqual)
         {
             var a = new Density(valueA, unitA);
             var b = new Density(valueB, unitB);

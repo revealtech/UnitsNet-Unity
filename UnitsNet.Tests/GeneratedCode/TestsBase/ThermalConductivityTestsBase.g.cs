@@ -344,7 +344,7 @@ namespace UnitsNet.Tests
         [InlineData(1, ThermalConductivityUnit.WattPerMeterKelvin, 2, ThermalConductivityUnit.WattPerMeterKelvin, false)] // Different value.
         [InlineData(2, ThermalConductivityUnit.WattPerMeterKelvin, 1, ThermalConductivityUnit.BtuPerHourFootFahrenheit, false)] // Different value and unit.
         [InlineData(1, ThermalConductivityUnit.WattPerMeterKelvin, 1, ThermalConductivityUnit.BtuPerHourFootFahrenheit, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, ThermalConductivityUnit unitA, double valueB, ThermalConductivityUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, ThermalConductivityUnit unitA, double valueB, ThermalConductivityUnit unitB, bool expectEqual)
         {
             var a = new ThermalConductivity(valueA, unitA);
             var b = new ThermalConductivity(valueB, unitB);

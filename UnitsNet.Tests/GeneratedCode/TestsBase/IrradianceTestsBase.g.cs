@@ -720,7 +720,7 @@ namespace UnitsNet.Tests
         [InlineData(1, IrradianceUnit.WattPerSquareMeter, 2, IrradianceUnit.WattPerSquareMeter, false)] // Different value.
         [InlineData(2, IrradianceUnit.WattPerSquareMeter, 1, IrradianceUnit.KilowattPerSquareCentimeter, false)] // Different value and unit.
         [InlineData(1, IrradianceUnit.WattPerSquareMeter, 1, IrradianceUnit.KilowattPerSquareCentimeter, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, IrradianceUnit unitA, double valueB, IrradianceUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, IrradianceUnit unitA, double valueB, IrradianceUnit unitB, bool expectEqual)
         {
             var a = new Irradiance(valueA, unitA);
             var b = new Irradiance(valueB, unitB);

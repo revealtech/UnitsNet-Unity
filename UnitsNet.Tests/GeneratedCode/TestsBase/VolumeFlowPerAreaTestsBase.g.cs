@@ -344,7 +344,7 @@ namespace UnitsNet.Tests
         [InlineData(1, VolumeFlowPerAreaUnit.CubicMeterPerSecondPerSquareMeter, 2, VolumeFlowPerAreaUnit.CubicMeterPerSecondPerSquareMeter, false)] // Different value.
         [InlineData(2, VolumeFlowPerAreaUnit.CubicMeterPerSecondPerSquareMeter, 1, VolumeFlowPerAreaUnit.CubicFootPerMinutePerSquareFoot, false)] // Different value and unit.
         [InlineData(1, VolumeFlowPerAreaUnit.CubicMeterPerSecondPerSquareMeter, 1, VolumeFlowPerAreaUnit.CubicFootPerMinutePerSquareFoot, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, VolumeFlowPerAreaUnit unitA, double valueB, VolumeFlowPerAreaUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, VolumeFlowPerAreaUnit unitA, double valueB, VolumeFlowPerAreaUnit unitB, bool expectEqual)
         {
             var a = new VolumeFlowPerArea(valueA, unitA);
             var b = new VolumeFlowPerArea(valueB, unitB);

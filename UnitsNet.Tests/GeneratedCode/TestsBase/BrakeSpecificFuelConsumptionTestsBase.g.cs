@@ -379,7 +379,7 @@ namespace UnitsNet.Tests
         [InlineData(1, BrakeSpecificFuelConsumptionUnit.KilogramPerJoule, 2, BrakeSpecificFuelConsumptionUnit.KilogramPerJoule, false)] // Different value.
         [InlineData(2, BrakeSpecificFuelConsumptionUnit.KilogramPerJoule, 1, BrakeSpecificFuelConsumptionUnit.GramPerKiloWattHour, false)] // Different value and unit.
         [InlineData(1, BrakeSpecificFuelConsumptionUnit.KilogramPerJoule, 1, BrakeSpecificFuelConsumptionUnit.GramPerKiloWattHour, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, BrakeSpecificFuelConsumptionUnit unitA, double valueB, BrakeSpecificFuelConsumptionUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, BrakeSpecificFuelConsumptionUnit unitA, double valueB, BrakeSpecificFuelConsumptionUnit unitB, bool expectEqual)
         {
             var a = new BrakeSpecificFuelConsumption(valueA, unitA);
             var b = new BrakeSpecificFuelConsumption(valueB, unitB);

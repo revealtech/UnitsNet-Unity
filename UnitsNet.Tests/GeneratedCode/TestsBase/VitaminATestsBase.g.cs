@@ -308,7 +308,7 @@ namespace UnitsNet.Tests
         [InlineData(1, VitaminAUnit.InternationalUnit, 1, VitaminAUnit.InternationalUnit, true)]  // Same value and unit.
         [InlineData(1, VitaminAUnit.InternationalUnit, 2, VitaminAUnit.InternationalUnit, false)] // Different value.
         [InlineData(2, VitaminAUnit.InternationalUnit, 1, VitaminAUnit.InternationalUnit, false)] // Different value and unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, VitaminAUnit unitA, double valueB, VitaminAUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, VitaminAUnit unitA, double valueB, VitaminAUnit unitB, bool expectEqual)
         {
             var a = new VitaminA(valueA, unitA);
             var b = new VitaminA(valueB, unitB);

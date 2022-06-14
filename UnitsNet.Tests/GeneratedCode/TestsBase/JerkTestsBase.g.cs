@@ -923,7 +923,7 @@ namespace UnitsNet.Tests
         [InlineData(1, JerkUnit.MeterPerSecondCubed, 2, JerkUnit.MeterPerSecondCubed, false)] // Different value.
         [InlineData(2, JerkUnit.MeterPerSecondCubed, 1, JerkUnit.CentimeterPerSecondCubed, false)] // Different value and unit.
         [InlineData(1, JerkUnit.MeterPerSecondCubed, 1, JerkUnit.CentimeterPerSecondCubed, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, JerkUnit unitA, double valueB, JerkUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, JerkUnit unitA, double valueB, JerkUnit unitB, bool expectEqual)
         {
             var a = new Jerk(valueA, unitA);
             var b = new Jerk(valueB, unitB);

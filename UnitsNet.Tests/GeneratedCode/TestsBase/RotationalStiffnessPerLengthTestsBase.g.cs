@@ -641,7 +641,7 @@ namespace UnitsNet.Tests
         [InlineData(1, RotationalStiffnessPerLengthUnit.NewtonMeterPerRadianPerMeter, 2, RotationalStiffnessPerLengthUnit.NewtonMeterPerRadianPerMeter, false)] // Different value.
         [InlineData(2, RotationalStiffnessPerLengthUnit.NewtonMeterPerRadianPerMeter, 1, RotationalStiffnessPerLengthUnit.KilonewtonMeterPerRadianPerMeter, false)] // Different value and unit.
         [InlineData(1, RotationalStiffnessPerLengthUnit.NewtonMeterPerRadianPerMeter, 1, RotationalStiffnessPerLengthUnit.KilonewtonMeterPerRadianPerMeter, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, RotationalStiffnessPerLengthUnit unitA, double valueB, RotationalStiffnessPerLengthUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, RotationalStiffnessPerLengthUnit unitA, double valueB, RotationalStiffnessPerLengthUnit unitB, bool expectEqual)
         {
             var a = new RotationalStiffnessPerLength(valueA, unitA);
             var b = new RotationalStiffnessPerLength(valueB, unitB);

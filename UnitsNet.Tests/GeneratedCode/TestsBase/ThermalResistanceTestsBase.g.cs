@@ -484,7 +484,7 @@ namespace UnitsNet.Tests
         [InlineData(1, ThermalResistanceUnit.SquareMeterKelvinPerKilowatt, 2, ThermalResistanceUnit.SquareMeterKelvinPerKilowatt, false)] // Different value.
         [InlineData(2, ThermalResistanceUnit.SquareMeterKelvinPerKilowatt, 1, ThermalResistanceUnit.HourSquareFeetDegreeFahrenheitPerBtu, false)] // Different value and unit.
         [InlineData(1, ThermalResistanceUnit.SquareMeterKelvinPerKilowatt, 1, ThermalResistanceUnit.HourSquareFeetDegreeFahrenheitPerBtu, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, ThermalResistanceUnit unitA, double valueB, ThermalResistanceUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, ThermalResistanceUnit unitA, double valueB, ThermalResistanceUnit unitB, bool expectEqual)
         {
             var a = new ThermalResistance(valueA, unitA);
             var b = new ThermalResistance(valueB, unitB);

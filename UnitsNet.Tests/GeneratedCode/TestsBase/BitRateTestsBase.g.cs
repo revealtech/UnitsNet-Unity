@@ -1471,7 +1471,7 @@ namespace UnitsNet.Tests
         [InlineData(1, BitRateUnit.BitPerSecond, 2, BitRateUnit.BitPerSecond, false)] // Different value.
         [InlineData(2, BitRateUnit.BitPerSecond, 1, BitRateUnit.BytePerSecond, false)] // Different value and unit.
         [InlineData(1, BitRateUnit.BitPerSecond, 1, BitRateUnit.BytePerSecond, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(decimal valueA, BitRateUnit unitA, decimal valueB, BitRateUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(decimal valueA, BitRateUnit unitA, decimal valueB, BitRateUnit unitB, bool expectEqual)
         {
             var a = new BitRate(valueA, unitA);
             var b = new BitRate(valueB, unitB);

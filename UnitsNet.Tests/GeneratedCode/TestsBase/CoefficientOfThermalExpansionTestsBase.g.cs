@@ -451,7 +451,7 @@ namespace UnitsNet.Tests
         [InlineData(1, CoefficientOfThermalExpansionUnit.InverseKelvin, 2, CoefficientOfThermalExpansionUnit.InverseKelvin, false)] // Different value.
         [InlineData(2, CoefficientOfThermalExpansionUnit.InverseKelvin, 1, CoefficientOfThermalExpansionUnit.InverseDegreeCelsius, false)] // Different value and unit.
         [InlineData(1, CoefficientOfThermalExpansionUnit.InverseKelvin, 1, CoefficientOfThermalExpansionUnit.InverseDegreeCelsius, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, CoefficientOfThermalExpansionUnit unitA, double valueB, CoefficientOfThermalExpansionUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, CoefficientOfThermalExpansionUnit unitA, double valueB, CoefficientOfThermalExpansionUnit unitB, bool expectEqual)
         {
             var a = new CoefficientOfThermalExpansion(valueA, unitA);
             var b = new CoefficientOfThermalExpansion(valueB, unitB);

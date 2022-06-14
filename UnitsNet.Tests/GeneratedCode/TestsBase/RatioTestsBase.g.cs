@@ -484,7 +484,7 @@ namespace UnitsNet.Tests
         [InlineData(1, RatioUnit.DecimalFraction, 2, RatioUnit.DecimalFraction, false)] // Different value.
         [InlineData(2, RatioUnit.DecimalFraction, 1, RatioUnit.PartPerBillion, false)] // Different value and unit.
         [InlineData(1, RatioUnit.DecimalFraction, 1, RatioUnit.PartPerBillion, false)] // Different unit.
-        public void Equality_MatchesOnValueAndUnit(double valueA, RatioUnit unitA, double valueB, RatioUnit unitB, bool expectEqual)
+        public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, RatioUnit unitA, double valueB, RatioUnit unitB, bool expectEqual)
         {
             var a = new Ratio(valueA, unitA);
             var b = new Ratio(valueB, unitB);
