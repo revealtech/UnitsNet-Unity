@@ -1,4 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <!-- Unity will pull in bin/obj folders so must change the output paths -->
+  <PropertyGroup>
+    <OutputDirectory>$(MSBuildThisFileDirectory)\..\output\$(MSBuildProjectName)</OutputDirectory>
+    <BaseOutputPath>$(OutputDirectory)\bin</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(OutputDirectory)\obj</BaseIntermediateOutputPath>
+    <DefaultItemExcludes>$(DefaultItemExcludes);**\*.meta;obj\**;bin\**;</DefaultItemExcludes>
+  </PropertyGroup>
+
   <!-- NuGet properties -->
   <PropertyGroup>
     <PackageId>UnitsNet</PackageId>

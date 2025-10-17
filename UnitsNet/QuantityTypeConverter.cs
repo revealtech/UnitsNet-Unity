@@ -140,7 +140,7 @@ namespace UnitsNet
 
         private static TAttribute GetAttribute<TAttribute>(ITypeDescriptorContext? context) where TAttribute : UnitAttributeBase
         {
-            if (context?.PropertyDescriptor is null) return null;
+            if (context?.PropertyDescriptor is null) return default!;
 
             var attribute = (TAttribute)context.PropertyDescriptor.Attributes[typeof(TAttribute)];
 
@@ -155,7 +155,7 @@ namespace UnitsNet
                 }
             }
 
-            return attribute;
+            return attribute!;
         }
 
         /// <summary>
